@@ -140,9 +140,9 @@
                 {{-- Odontogram --}}
 
                 <a
-                    href="#"
+                    href="{{ route('dokter.odontogram.index') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-                    {{ request()->is('dokter/odontogram*')
+                    {{ request()->routeIs('dokter.odontogram*')
                         ? 'bg-blue-600 text-white shadow-md'
                         : 'text-slate-300 hover:bg-slate-800' }}"
                 >

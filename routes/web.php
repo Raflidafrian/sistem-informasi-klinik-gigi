@@ -4,11 +4,16 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ProfileController;
+
+// Dashboard
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Doctor\DashboardController as DoctorDashboardController;
 use App\Http\Controllers\Patient\DashboardController as PatientDashboardController;
+
+// Dokter
 use App\Http\Controllers\Doctor\DentalRecordController;
 use App\Http\Controllers\Doctor\AppointmentController;
+
 
 // ======================================================
 // HALAMAN UTAMA
@@ -67,10 +72,6 @@ Route::middleware('auth')->group(function () {
 // ADMIN
 // ======================================================
 
-// ======================================================
-// ADMIN
-// ======================================================
-
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->group(function () {
@@ -79,16 +80,16 @@ Route::middleware(['auth', 'role:admin'])
         // DASHBOARD ADMIN
         // ==================================================
 
-        Route::get('/dashboard',
-            [AdminDashboardController::class, 'index']
-        )->name('admin.dashboard');
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+            ->name('admin.dashboard');
 
 
         // ==================================================
         // DATA DOKTER
         // ==================================================
 
-        Route::resource('doctors',
+        Route::resource(
+            'doctors',
             \App\Http\Controllers\Admin\DoctorController::class
         )
         ->except(['show'])
@@ -99,7 +100,8 @@ Route::middleware(['auth', 'role:admin'])
         // DATA PASIEN
         // ==================================================
 
-        Route::resource('patients',
+        Route::resource(
+            'patients',
             \App\Http\Controllers\Admin\PatientController::class
         )
         ->except(['show'])
@@ -110,7 +112,8 @@ Route::middleware(['auth', 'role:admin'])
         // JADWAL PRAKTIK
         // ==================================================
 
-        Route::resource('schedules',
+        Route::resource(
+            'schedules',
             \App\Http\Controllers\Admin\DoctorScheduleController::class
         )
         ->except(['show'])
@@ -121,7 +124,8 @@ Route::middleware(['auth', 'role:admin'])
         // APPOINTMENT
         // ==================================================
 
-        Route::resource('appointments',
+        Route::resource(
+            'appointments',
             \App\Http\Controllers\Admin\AppointmentController::class
         )
         ->except(['show'])
@@ -132,7 +136,8 @@ Route::middleware(['auth', 'role:admin'])
         // REKAM MEDIS
         // ==================================================
 
-        Route::get('/dental-records',
+        Route::get(
+            '/dental-records',
             [\App\Http\Controllers\Admin\DentalRecordController::class, 'index']
         )->name('admin.dental-records.index');
 
@@ -141,7 +146,8 @@ Route::middleware(['auth', 'role:admin'])
         // TARIF TINDAKAN
         // ==================================================
 
-        Route::resource('treatments',
+        Route::resource(
+            'treatments',
             \App\Http\Controllers\Admin\TreatmentController::class
         )
         ->names('admin.treatments');
@@ -151,7 +157,8 @@ Route::middleware(['auth', 'role:admin'])
         // DATA OBAT
         // ==================================================
 
-        Route::resource('medicines',
+        Route::resource(
+            'medicines',
             \App\Http\Controllers\Admin\MedicineController::class
         )
         ->names('admin.medicines');
@@ -161,16 +168,23 @@ Route::middleware(['auth', 'role:admin'])
         // TAGIHAN
         // ==================================================
 
-        Route::resource('billings',
+        Route::resource(
+            'billings',
             \App\Http\Controllers\Admin\BillingController::class
         )
         ->names('admin.billings');
 
-        Route::resource('payments',
-        \App\Http\Controllers\Admin\PaymentController::class
-        )->except(['show'])
+
+        // ==================================================
+        // PEMBAYARAN
+        // ==================================================
+
+        Route::resource(
+            'payments',
+            \App\Http\Controllers\Admin\PaymentController::class
+        )
+        ->except(['show'])
         ->names('admin.payments');
-        
 
     });
 
@@ -183,28 +197,66 @@ Route::middleware(['auth', 'role:dokter'])
     ->prefix('dokter')
     ->group(function () {
 
-        // Dashboard Dokter
+        // ==================================================
+        // DASHBOARD DOKTER
+        // ==================================================
+
         Route::get('/dashboard', [DoctorDashboardController::class, 'index'])
             ->name('dokter.dashboard');
 
-        // Appoinment
-        Route::get('/appointments',[AppointmentController::class, 'index']
+
+        // ==================================================
+        // APPOINTMENT DOKTER
+        // ==================================================
+
+        Route::get(
+            '/appointments',
+            [AppointmentController::class, 'index']
         )->name('dokter.appointments.index');
 
-        // Antrian pasien
-        Route::get('/queue',[AppointmentController::class, 'queue']
+
+        // ==================================================
+        // ANTRIAN PASIEN
+        // ==================================================
+
+        Route::get(
+            '/queue',
+            [AppointmentController::class, 'queue']
         )->name('dokter.queue.index');
 
 
-        // Rekam Medis / Odontogram
-        Route::get('/dental-records', [DentalRecordController::class, 'index']
-            )->name('dokter.dental-records.index');
-            
-        Route::get('/dental-records/create', [DentalRecordController::class, 'create']
-            )->name('dokter.dental-records.create');
+        // ==================================================
+        // REKAM MEDIS
+        // ==================================================
 
-        Route::post('/dental-records', [DentalRecordController::class, 'store']
-            )->name('dokter.dental-records.store');
+        Route::get(
+            '/dental-records',
+            [DentalRecordController::class, 'index']
+        )->name('dokter.dental-records.index');
+
+
+        // Form tambah rekam medis
+        Route::get(
+            '/dental-records/create',
+            [DentalRecordController::class, 'create']
+        )->name('dokter.dental-records.create');
+
+
+        // Simpan rekam medis
+        Route::post(
+            '/dental-records',
+            [DentalRecordController::class, 'store']
+        )->name('dokter.dental-records.store');
+
+
+        // ==================================================
+        // ODONTOGRAM
+        // ==================================================
+
+        Route::get(
+        '/odontogram',
+        [DentalRecordController::class, 'odontogram']
+        )->name('dokter.odontogram.index');
 
     });
 
@@ -217,14 +269,41 @@ Route::middleware(['auth', 'role:pasien'])
     ->prefix('pasien')
     ->group(function () {
 
-        Route::get('/dashboard', [PatientDashboardController::class, 'index'])
-            ->name('pasien.dashboard');
+        // ==================================================
+        // DASHBOARD PASIEN
+        // ==================================================
+
+        Route::get(
+            '/dashboard',
+            [PatientDashboardController::class, 'index']
+        )->name('pasien.dashboard');
+
+
+        Route::get(
+            '/appointments',
+            [\App\Http\Controllers\Patient\AppointmentController::class, 'index']
+        )->name('pasien.appointments.index');
+
+        Route::get(
+            '/appointments/create',
+            [\App\Http\Controllers\Patient\AppointmentController::class, 'create']
+        )->name('pasien.appointments.create');
+
+        Route::post(
+            '/appointments',
+            [\App\Http\Controllers\Patient\AppointmentController::class, 'store']
+        )->name('pasien.appointments.store');
+
+        Route::get(
+            '/appointments/available-times',
+            [\App\Http\Controllers\Patient\AppointmentController::class, 'availableTimes']
+        )->name('pasien.appointments.available-times');
 
     });
 
 
 // ======================================================
-// AUTH
+// AUTHENTICATION
 // ======================================================
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

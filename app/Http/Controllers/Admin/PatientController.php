@@ -89,7 +89,7 @@ class PatientController extends Controller
         // ==========================================
 
         return redirect()
-            ->route('patients.index')
+            ->route('admin.patients.index')
             ->with('success', 'Data pasien berhasil ditambahkan.');
     }
 
@@ -115,26 +115,37 @@ class PatientController extends Controller
     {
         $patient->load('user');
 
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
 
-            'email' =>
-                'required|email|unique:users,email,' .
-                $patient->user_id,
+            'email' => 'required|email|unique:users,email',
 
             'phone' => 'nullable|string|max:20',
 
-            'nik' =>
-                'nullable|string|max:16|unique:patients,nik,' .
-                $patient->id,
+            'nik' => 'nullable|digits:16|unique:patients,nik',
 
-            'birth_date' => 'nullable|date',
+            'birth_date' => 'nullable|date|before_or_equal:today',
 
             'gender' => 'nullable|in:male,female',
 
             'address' => 'nullable|string',
-        ]);
+        ], [
+            'name.required' => 'Nama pasien wajib diisi.',
 
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar. Gunakan email lain.',
+
+            'nik.digits' => 'NIK harus terdiri dari 16 angka.',
+            'nik.unique' => 'NIK sudah terdaftar. Gunakan NIK lain.',
+
+            'birth_date.date' => 'Tanggal lahir tidak valid.',
+            'birth_date.before_or_equal' =>
+            'Tanggal lahir tidak boleh melebihi hari ini.',
+
+            'gender.in' => 'Jenis kelamin tidak valid.',
+        ]);
 
         // Update user
         $patient->user->update([
@@ -154,7 +165,7 @@ class PatientController extends Controller
 
 
         return redirect()
-            ->route('patients.index')
+            ->route('admin.patients.index')
             ->with('success', 'Data pasien berhasil diperbarui.');
     }
 
@@ -173,7 +184,7 @@ class PatientController extends Controller
         }
 
         return redirect()
-            ->route('patients.index')
+            ->route('admin.patients.index')
             ->with('success', 'Data pasien berhasil dihapus.');
     }
 }

@@ -40,7 +40,7 @@
 
             <form
                 method="POST"
-                action="{{ route('patients.store') }}"
+                action="{{ route('admin.patients.store') }}"
                 class="space-y-6"
             >
 
@@ -195,7 +195,7 @@
                 <div class="flex items-center gap-3 pt-4">
 
                     <a
-                        href="{{ route('patients.index') }}"
+                        href="{{ route('admin.patients.index') }}"
                         class="px-5 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold text-gray-700"
                     >
                         Kembali

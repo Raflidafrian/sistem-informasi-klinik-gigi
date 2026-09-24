@@ -93,7 +93,7 @@ class AppointmentController extends Controller
 
 
         return redirect()
-            ->route('appointments.index')
+            ->route('admin.appointments.index')
             ->with(
                 'success',
                 'Appointment berhasil dibuat.'
@@ -173,7 +173,7 @@ class AppointmentController extends Controller
 
 
         return redirect()
-            ->route('appointments.index')
+            ->route('admin.appointments.index')
             ->with(
                 'success',
                 'Appointment berhasil diperbarui.'
@@ -189,7 +189,7 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         return redirect()
-            ->route('appointments.index')
+            ->route('admin.appointments.index')
             ->with(
                 'success',
                 'Appointment berhasil dihapus.'

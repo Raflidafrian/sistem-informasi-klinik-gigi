@@ -185,4 +185,26 @@ class DentalRecordController extends Controller
                 'Rekam medis berhasil disimpan.'
             );
     }
+
+    public function odontogram()
+    {
+        $doctor = Auth::user()->doctor;
+
+        if (!$doctor) {
+            abort(403, 'Data dokter tidak ditemukan.');
+        }
+
+        $appointments = Appointment::with([
+            'patient.user',
+            'dentalRecord'
+        ])
+        ->where('doctor_id', $doctor->id)
+        ->latest()
+        ->get();
+
+        return view(
+            'doctor.odontogram.index',
+            compact('appointments')
+        );
+    }
 }

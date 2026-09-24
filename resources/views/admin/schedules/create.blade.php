@@ -25,7 +25,7 @@
 
 
         {{-- FORM --}}
-        <form method="POST" action="{{ route('schedules.store') }}" class="p-6">
+        <form method="POST" action="{{ route('admin.schedules.store') }}" class="p-6">
 
             @csrf
 
@@ -179,7 +179,7 @@
             <div class="flex gap-3">
 
                 <a
-                    href="{{ route('schedules.index') }}"
+                    href="{{ route('admin.schedules.index') }}"
                     class="px-5 py-3 rounded-lg bg-gray-200
                            text-gray-700 font-semibold
                            hover:bg-gray-300 transition">

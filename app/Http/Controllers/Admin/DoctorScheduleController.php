@@ -69,7 +69,7 @@ class DoctorScheduleController extends Controller
         ]);
 
         return redirect()
-            ->route('schedules.index')
+            ->route('admin.schedules.index')
             ->with('success', 'Jadwal praktik berhasil ditambahkan.');
     }
 
@@ -121,7 +121,7 @@ class DoctorScheduleController extends Controller
         ]);
 
         return redirect()
-            ->route('schedules.index')
+            ->route('admin.schedules.index')
             ->with('success', 'Jadwal praktik berhasil diperbarui.');
     }
 
@@ -133,7 +133,7 @@ class DoctorScheduleController extends Controller
         $schedule->delete();
 
         return redirect()
-            ->route('schedules.index')
+            ->route('admin.schedules.index')
             ->with('success', 'Jadwal praktik berhasil dihapus.');
     }
 }

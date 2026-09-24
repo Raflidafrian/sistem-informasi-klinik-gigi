@@ -58,7 +58,7 @@
             {{-- FORM --}}
             <form
                 method="POST"
-                action="{{ route('appointments.update', $appointment) }}"
+                action="{{ route('admin.appointments.update', $appointment) }}"
                 class="p-6">
 
                 @csrf
@@ -276,7 +276,7 @@
                 <div class="flex items-center gap-3">
 
                     <a
-                        href="{{ route('appointments.index') }}"
+                        href="{{ route('admin.appointments.index') }}"
                         class="px-5 py-3 rounded-lg
                                bg-gray-200 text-gray-700
                                hover:bg-gray-300
