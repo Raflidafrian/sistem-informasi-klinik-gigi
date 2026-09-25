@@ -786,24 +786,48 @@
     </p>
 
     @auth
+    @php
+        $dashboardRoute = match (Auth::user()->role) {
+            'admin' => 'admin.dashboard',
+            'dokter' => 'dokter.dashboard',
+            'pasien' => 'pasien.dashboard',
+            default => null,
+        };
+    @endphp
 
-        <a href="{{ url('/dashboard') }}" class="cta-button">
+    @if ($dashboardRoute && Route::has($dashboardRoute))
+        <a href="{{ route($dashboardRoute) }}"
+           class="cta-button">
             Masuk ke Dashboard
         </a>
+    @endif
 
-    @else
+    <form method="POST"
+          action="{{ route('logout') }}"
+          style="display: inline-block;">
 
-        @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="cta-button">
-                Daftar Sekarang
-            </a>
-        @else
-            <a href="{{ route('login') }}" class="cta-button">
-                Login
-            </a>
-        @endif
+        @csrf
 
-    @endauth
+        <button type="submit" class="cta-button">
+            Logout
+        </button>
+    </form>
+
+@else
+
+    <a href="{{ route('login') }}"
+       class="cta-button">
+        Login
+    </a>
+
+    @if (Route::has('register'))
+        <a href="{{ route('register') }}"
+           class="cta-button">
+            Daftar Sekarang
+        </a>
+    @endif
+
+@endauth
 
 </section>
 
