@@ -8,30 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('doctors', function (Blueprint $table) {
-
-            $table->string('specialization')->nullable()->after('user_id');
-
-            $table->string('license_number')->nullable()->after('specialization');
-
-            $table->text('bio')->nullable()->after('license_number');
-
-            $table->boolean('is_active')->default(true)->after('bio');
-
-        });
+        if (!Schema::hasColumn('doctors', 'bio')) {
+            Schema::table('doctors', function (Blueprint $table) {
+                $table->text('bio')->nullable();
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('doctors', function (Blueprint $table) {
-
-            $table->dropColumn([
-                'specialization',
-                'license_number',
-                'bio',
-                'is_active',
-            ]);
-
-        });
+        if (Schema::hasColumn('doctors', 'bio')) {
+            Schema::table('doctors', function (Blueprint $table) {
+                $table->dropColumn('bio');
+            });
+        }
     }
 };
