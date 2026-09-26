@@ -91,6 +91,14 @@ jobs:
           chmod 700 ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+                    # Pastikan port berupa angka yang valid
+          if ! [[ "$SSH_PORT" =~ ^[0-9]+$ ]] ||
+             (( SSH_PORT < 1 || SSH_PORT > 65535 )); then
+            echo "::error::SSH_PORT harus berupa angka 1–65535."
+            exit 1
+          fi
+
+          echo "SSH_PORT valid"
 
           ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" \
             >> ~/.ssh/known_hosts
