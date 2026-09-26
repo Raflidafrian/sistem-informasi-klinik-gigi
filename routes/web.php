@@ -204,15 +204,7 @@ Route::middleware(['auth', 'role:dokter'])
         Route::get('/dashboard', [DoctorDashboardController::class, 'index'])
             ->name('dokter.dashboard');
 
-        return match ($user->role) {
-            'admin' => redirect()->route('admin.dashboard'),
-            'dokter' => redirect()->route('doctor.dashboard'),
-            'pasien' => redirect()->route('patient.dashboard'),
-            default => abort(403),
-        };
-    })->name('dashboard');
-
-
+            
         // ==================================================
         // APPOINTMENT DOKTER
         // ==================================================
