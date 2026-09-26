@@ -113,6 +113,12 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
+          DEPLOY_SHA: ${{ github.sha }}
         run: |
+          set -euo pipefail
+
           ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
-            "cd ~/dentalcare-repo && bash deploy.sh"
+            "cd ~/dentalcare-repo && \
+             git fetch origin main && \
+             git checkout --detach '$DEPLOY_SHA' && \
+             DEPLOY_SHA='$DEPLOY_SHA' bash deploy.sh"

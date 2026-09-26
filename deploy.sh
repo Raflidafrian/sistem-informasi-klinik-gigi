@@ -10,10 +10,17 @@ echo "Starting DentalCare deployment..."
 
 cd "$REPO"
 
-# Perbarui repository
+# Gunakan commit yang sudah lulus pengujian GitHub Actions
+: "${DEPLOY_SHA:?DEPLOY_SHA belum diatur}"
+
+if [[ ! "$DEPLOY_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+    echo "DEPLOY_SHA tidak valid"
+    exit 1
+fi
+
 git fetch origin main
-git checkout main
-git pull --ff-only origin main
+git cat-file -e "${DEPLOY_SHA}^{commit}"
+git checkout --detach "$DEPLOY_SHA"
 
 # Periksa persyaratan deployment
 command -v rsync
