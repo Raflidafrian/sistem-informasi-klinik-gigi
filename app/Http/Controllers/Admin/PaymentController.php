@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Billing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -136,28 +137,51 @@ public function store(Request $request)
         );
     }
 
-    /**
-     * Update pembayaran
-     */
-    public function update(
-        Request $request,
-        Payment $payment
-    ) {
-        $validated = $request->validate([
-            'amount' => 'required|numeric|min:0',
-            'method' => 'required|in:cash,transfer,qris',
-            'paid_at' => 'required|date',
-        ]);
+    
+/**
+ * Update pembayaran
+ */
+public function update(Request $request, Payment $payment)
+{
+    $validated = $request->validate([
+        'amount' => 'required|numeric|min:0',
+        'method' => 'required|in:cash,transfer,qris',
+        'paid_at' => 'required|date',
+    ]);
 
+    $billing = $payment->billing;
+
+    if (!$billing) {
+        return back()->withErrors([
+            'amount' => 'Tagihan pembayaran tidak ditemukan.',
+        ]);
+    }
+
+    // Bandingkan nominal hingga dua angka desimal.
+    $amount = number_format((float) $validated['amount'], 2, '.', '');
+    $total = number_format((float) $billing->total_amount, 2, '.', '');
+
+    if ($amount !== $total) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'amount' => 'Jumlah pembayaran harus sama dengan total tagihan.',
+            ]);
+    }
+
+    DB::transaction(function () use ($payment, $billing, $validated) {
         $payment->update($validated);
 
-        return redirect()
-            ->route('admin.payments.index')
-            ->with(
-                'success',
-                'Pembayaran berhasil diperbarui.'
-            );
-    }
+        $billing->update([
+            'status' => 'paid',
+        ]);
+    });
+
+    return redirect()
+        ->route('admin.payments.index')
+        ->with('success', 'Pembayaran berhasil diperbarui.');
+}
+
 
     /**
      * Hapus pembayaran
