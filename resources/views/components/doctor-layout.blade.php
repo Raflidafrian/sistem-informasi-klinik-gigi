@@ -159,9 +159,9 @@
                 {{-- Resep Obat --}}
 
                 <a
-                    href="#"
+                    href="{{ route('dokter.prescriptions.index') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-                    {{ request()->is('dokter/prescriptions*')
+                    {{ request()->routeIs('dokter.prescriptions*')
                         ? 'bg-blue-600 text-white shadow-md'
                         : 'text-slate-300 hover:bg-slate-800' }}"
                 >

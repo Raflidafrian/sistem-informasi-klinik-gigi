@@ -13,6 +13,7 @@ use App\Http\Controllers\Patient\DashboardController as PatientDashboardControll
 // Dokter
 use App\Http\Controllers\Doctor\DentalRecordController;
 use App\Http\Controllers\Doctor\AppointmentController;
+use App\Http\Controllers\Doctor\PrescriptionController;
 
 
 // ======================================================
@@ -258,6 +259,25 @@ Route::middleware(['auth', 'role:dokter'])
         [DentalRecordController::class, 'odontogram']
         )->name('dokter.odontogram.index');
 
+        Route::get(
+        '/prescriptions',
+        [PrescriptionController::class, 'index']
+        )->name('dokter.prescriptions.index');
+
+        Route::get(
+        '/prescriptions/create',
+        [PrescriptionController::class, 'create']
+        )->name('dokter.prescriptions.create');
+
+        Route::post(
+        '/prescriptions',
+        [PrescriptionController::class, 'store']
+        )->name('dokter.prescriptions.store');
+
+        Route::get(
+        '/prescriptions/{prescription}',
+        [PrescriptionController::class, 'show']
+        )->name('dokter.prescriptions.show');
     });
 
 
