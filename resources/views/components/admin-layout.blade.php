@@ -169,7 +169,18 @@
 
         <span>💳</span>
         <span>Pembayaran</span>
+        
+    </a>
 
+    {{-- Riwayat Login --}}
+    <a href="{{ route('admin.login-histories.index') }}"
+        class="flex items-center gap-3 rounded-lg px-4 py-3 transition-colors
+        {{ request()->routeIs('admin.login-histories.*')
+            ? 'bg-blue-600 text-white'
+            : 'text-slate-300 hover:bg-slate-800 '}}">
+
+            <span>🔐</span>
+            <span>Riwayat Login</span>
     </a>
 
 </nav>

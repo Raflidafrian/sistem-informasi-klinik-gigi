@@ -15,6 +15,8 @@ use App\Http\Controllers\Doctor\DentalRecordController;
 use App\Http\Controllers\Doctor\AppointmentController;
 use App\Http\Controllers\Doctor\PrescriptionController;
 
+//Login
+use App\Http\Controllers\Admin\LoginHistoryController;
 
 // ======================================================
 // HALAMAN UTAMA
@@ -187,6 +189,9 @@ Route::middleware(['auth', 'role:admin'])
         ->except(['show'])
         ->names('admin.payments');
 
+        Route::get('/login-histories',
+        [LoginHistoryController::class, 'index']
+        )->name('admin.login-histories.index');
     });
 
 
