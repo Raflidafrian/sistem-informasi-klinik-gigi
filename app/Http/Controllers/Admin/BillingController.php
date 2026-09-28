@@ -9,6 +9,7 @@ use App\Models\Patient;
 use App\Models\DentalRecord;
 use App\Models\Treatment;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 class BillingController extends Controller
@@ -70,7 +71,7 @@ class BillingController extends Controller
 {
     $validated = $request->validate([
         'patient_id' => 'required|exists:patients,id',
-        'dental_record_id' => 'required|exists:dental_records,id',
+        'dental_record_id' => ['required', Rule::exists('dental_records', 'id')->where('patient_id', $request->input('patient_id')),],
         'treatment_id' => 'required|exists:treatments,id',
         'quantity' => 'required|integer|min:1',
     ]);
@@ -163,23 +164,36 @@ class BillingController extends Controller
     /**
      * Update tagihan
      */
-    public function update(
-        Request $request,
-        Billing $billing
-    ) {
-        $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-            'dental_record_id' => 'required|exists:dental_records,id',
-            'total_amount' => 'required|numeric|min:0',
-            'status' => 'required|in:unpaid,paid,cancelled',
-        ]);
+    
+/**
+ * Update tagihan
+ */
+public function update(Request $request, Billing $billing)
+{
+    $validated = $request->validate([
+        'patient_id' => 'required|exists:patients,id',
 
-        $billing->update($validated);
+        'dental_record_id' => [
+            'required',
+            Rule::exists('dental_records', 'id')
+                ->where(
+                    'patient_id',
+                    $request->input('patient_id')
+                ),
+        ],
 
-        return redirect()
-            ->route('admin.billings.index')
-            ->with('success', 'Tagihan berhasil diperbarui.');
-    }
+        'total_amount' => 'required|numeric|min:0',
+
+        'status' => 'required|in:unpaid,paid,cancelled',
+    ]);
+
+    $billing->update($validated);
+
+    return redirect()
+        ->route('admin.billings.index')
+        ->with('success', 'Tagihan berhasil diperbarui.');
+}
+
 
 
     /**
