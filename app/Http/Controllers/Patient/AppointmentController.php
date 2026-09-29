@@ -46,68 +46,63 @@ class AppointmentController extends Controller
         );
     }
 
-    public function availableTimes(Request $request)
-    {
-        $validated = $request->validate([
-            'doctor_id' => 'required|exists:doctors,id',
-            'date' => 'required|date|after_or_equal:today',
-        ]);
+    
+public function availableTimes(Request $request)
+{
+    $validated = $request->validate([
+        'doctor_id' => 'required|exists:doctors,id',
+        'date' => 'required|date|after_or_equal:today',
+    ]);
 
-        $doctor = Doctor::where('is_active', true)
-            ->findOrFail($validated['doctor_id']);
+    $doctor = Doctor::where('is_active', true)
+        ->findOrFail($validated['doctor_id']);
 
-        $date = Carbon::parse($validated['date']);
+    $date = Carbon::parse($validated['date']);
 
-        // Asumsi day_of_week memakai nilai
-        // monday, tuesday, dan seterusnya.
-        $day = strtolower($date->englishDayOfWeek);
+    // Senin = 1, Selasa = 2, ..., Minggu = 7
+    $day = $date->dayOfWeekIso;
 
-        $schedules = DoctorSchedule::where(
-            'doctor_id',
-            $doctor->id
-        )
+    $schedules = DoctorSchedule::where('doctor_id', $doctor->id)
         ->where('day_of_week', $day)
         ->where('is_active', true)
         ->get();
 
-        $bookedTimes = Appointment::where(
-            'doctor_id',
-            $doctor->id
-        )
-        ->whereDate(
-            'appointment_date',
-            $date->toDateString()
-        )
+    $bookedTimes = Appointment::where('doctor_id', $doctor->id)
+        ->whereDate('appointment_date', $date->toDateString())
         ->whereIn('status', ['pending', 'confirmed'])
         ->pluck('appointment_time')
-        ->map(fn ($time) => substr($time, 0, 5))
+        ->map(fn ($time) => substr((string) $time, 0, 5))
         ->all();
 
-        $available = [];
+    $available = [];
 
-        foreach ($schedules as $schedule) {
-            $start = Carbon::parse($schedule->start_time);
-            $end = Carbon::parse($schedule->end_time);
+    foreach ($schedules as $schedule) {
+        $start = Carbon::parse($schedule->start_time);
+        $end = Carbon::parse($schedule->end_time);
 
-            while ($start->copy()->addMinutes(30)->lte($end)) {
-                $time = $start->format('H:i');
+        while ($start->copy()->addMinutes(30)->lte($end)) {
+            $time = $start->format('H:i');
 
-                if (
-                    !in_array($time, $bookedTimes)
-                    && $date->copy()->setTimeFromTimeString($time)->isFuture()
-                ) {
-                    $available[] = $time;
-                }
+            $appointmentDateTime = $date->copy()
+                ->setTimeFromTimeString($time);
 
-                $start->addMinutes(30);
+            if (
+                !in_array($time, $bookedTimes, true)
+                && $appointmentDateTime->isFuture()
+            ) {
+                $available[] = $time;
             }
+
+            $start->addMinutes(30);
         }
-
-        $available = array_values(array_unique($available));
-        sort($available);
-
-        return response()->json($available);
     }
+
+    $available = array_values(array_unique($available));
+    sort($available);
+
+    return response()->json($available);
+}
+
 
     public function store(Request $request)
     {

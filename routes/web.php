@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\DB;
 
 // Dashboard
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -192,6 +193,15 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/login-histories',
         [LoginHistoryController::class, 'index']
         )->name('admin.login-histories.index');
+
+
+        Route::get('/debug-schedules', function () {
+            return response()->json([
+                'database'  => DB::connection()->getDatabaseName(),
+                'schedules' => \App\Models\DoctorSchedule::all(),
+                'count'     => \App\Models\DoctorSchedule::count(),
+            ]);
+        });
     });
 
 
