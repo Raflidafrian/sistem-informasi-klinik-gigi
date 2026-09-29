@@ -16,8 +16,8 @@ test('new users can register', function () {
     $response = $this->post('/register', [
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'phone' => '085842178793',
-        'nik' => '3301050202000007',
+        'phone' => '081234567890',
+        'nik' => '3201234567890001',
         'password' => 'password',
         'password_confirmation' => 'password',
     ]);
