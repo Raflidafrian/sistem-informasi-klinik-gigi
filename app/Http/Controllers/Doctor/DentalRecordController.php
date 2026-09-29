@@ -102,7 +102,7 @@ class DentalRecordController extends Controller
             
             'odontogram_data.*' => 'array',
 
-            'odontogram_data.*.*'   => 'in:sehat,karies,tambahan,hilang,mahkota,pulpitis',
+            'odontogram_data.*.*'   => 'in:sehat,karies,tambalan,hilang,mahkota,pulpitis',
         ]);
 
 
