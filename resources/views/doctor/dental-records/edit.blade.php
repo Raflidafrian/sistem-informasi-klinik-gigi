@@ -1,5 +1,11 @@
 <x-doctor-layout>
 
+    @php
+
+        $record = $appointment->dentalRecord;
+
+    @endphp
+
 
 
     <x-slot name="title">
@@ -156,19 +162,15 @@
 
 
 
-        <form
+        <form method="POST"
 
-            method="POST"
+            action="{{ route('dokter.dental-records.update', $record->id) }}"
 
-            action="{{ route('dokter.dental-records.store') }}"
-
-            id="medicalRecordForm"
-
-        >
-
-
+            id="medicalRecordForm">
 
             @csrf
+
+            @method('PUT')
 
 
 
@@ -242,7 +244,7 @@
 
                     placeholder="Contoh: Karies dentin pada gigi 16..."
 
-                >{{ old('diagnosis') }}</textarea>
+                >{{ old('diagnosis', $record->diagnosis) }}</textarea>
 
 
 
@@ -1166,7 +1168,7 @@
 
                     placeholder="Contoh: Restorasi gigi 16 menggunakan resin komposit..."
 
-                >{{ old('treatment') }}</textarea>
+                >{{ old('treatment', $record->treatment) }}</textarea>
 
 
 
@@ -1214,7 +1216,7 @@
 
                     placeholder="Masukkan catatan..."
 
-                >{{ old('notes') }}</textarea>
+                >{{ old('notes', $record->notes) }}</textarea>
 
 
 
@@ -1238,7 +1240,7 @@
 
                 <a
 
-                    href="{{ route('dokter.queue.index') }}"
+                    href="{{ route('dokter.dental-records.index') }}"
 
                     class="px-5 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium"
 
@@ -1260,7 +1262,7 @@
 
                 >
 
-                    💾 Simpan Rekam Medis
+                    💾 Simpan Perubahan
 
                 </button>
 
@@ -1464,7 +1466,7 @@
 
 
 
-            const odontogram = @json(old('odontogram_data', []));
+            const odontogram = @json(old('odontogram_data', $record->odontogram_data ?? []));
 
 
 
@@ -2259,18 +2261,76 @@
 
 
 
+            // Tampilkan kondisi odontogram yang tersimpan.
+            
             Object.entries(odontogram).forEach(([tooth, toothData]) => {
-                if (!toothData || typeof toothData !== 'object') return;
+            
+                if (!toothData || typeof toothData !== 'object') {
+            
+                    return;
+            
+                }
+            
+            
+            
                 Object.entries(toothData).forEach(([surfaceName, condition]) => {
-                    if (!conditions[condition]) return;
-                    const wrapper = Array.from(wrappers).find(el => el.dataset.tooth === tooth);
-                    const surface = wrapper && Array.from(wrapper.querySelectorAll('.tooth-surface'))
-                        .find(el => el.dataset.surface === surfaceName);
-                    if (!surface) return;
+            
+                    if (!conditions[condition]) {
+            
+                        return;
+            
+                    }
+            
+            
+            
+                    const wrapper = Array.from(wrappers).find(
+            
+                        element => element.dataset.tooth === tooth
+            
+                    );
+            
+            
+            
+                    if (!wrapper) {
+            
+                        return;
+            
+                    }
+            
+            
+            
+                    const surface = Array.from(
+            
+                        wrapper.querySelectorAll('.tooth-surface')
+            
+                    ).find(
+            
+                        element => element.dataset.surface === surfaceName
+            
+                    );
+            
+            
+            
+                    if (!surface) {
+            
+                        return;
+            
+                    }
+            
+            
+            
                     surface.classList.add(conditions[condition].className);
+            
+            
+            
                     createInput(tooth, surfaceName, condition);
+            
                 });
+            
             });
+            
+            
+            
             updateSummary();
 
         });

@@ -99,7 +99,10 @@ class DentalRecordController extends Controller
             'notes' => 'nullable|string|max:5000',
 
             'odontogram_data' => 'nullable|array',
+            
+            'odontogram_data.*' => 'array',
 
+            'odontogram_data.*.*'   => 'in:sehat,karies,tambahan,hilang,mahkota,pulpitis',
         ]);
 
 
@@ -207,4 +210,35 @@ class DentalRecordController extends Controller
             compact('appointments')
         );
     }
+
+    public function update(Request $request, DentalRecord $dentalRecord)
+{
+    $doctor = Auth::user()->doctor;
+
+    if (!$doctor || $dentalRecord->doctor_id !== $doctor->id) {
+        abort(403);
+    }
+
+    $validated = $request->validate([
+        'diagnosis' => 'nullable|string|max:5000',
+        'treatment' => 'nullable|string|max:5000',
+        'notes' => 'nullable|string|max:5000',
+        'odontogram_data' => 'nullable|array',
+        'odontogram_data.*' => 'array',
+        'odontogram_data.*.*' => 'in:sehat,karies,tambalan,hilang,mahkota,pulpitis',
+    ]);
+
+    $dentalRecord->update([
+        'diagnosis' => $validated['diagnosis'] ?? null,
+        'treatment' => $validated['treatment'] ?? null,
+        'notes' => $validated['notes'] ?? null,
+        'odontogram_data' => $validated['odontogram_data']
+            ?? $dentalRecord->odontogram_data
+            ?? [],
+    ]);
+
+    return redirect()
+        ->route('dokter.dental-records.index')
+        ->with('success', 'Rekam medis berhasil diperbarui.');
+}
 }
