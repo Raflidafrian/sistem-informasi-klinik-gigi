@@ -169,238 +169,307 @@
         </form>
     </div>
 
-    <script>
-        const medicines = @json(
-            $medicines->map(fn ($medicine) => [
+    
+{{-- Siapkan data PHP sebelum masuk ke JavaScript --}}
+@php
+    $medicineOptions = $medicines
+        ->map(function ($medicine) {
+            return [
                 'id' => $medicine->id,
                 'name' => $medicine->name,
-            ])->values()
-        );
+            ];
+        })
+        ->values()
+        ->all();
 
-        const previousItems = @json(
-            old('items', [
-                [
-                    'medicine_id' => '',
-                    'dosage' => '',
-                    'frequency' => '',
-                    'duration' => '',
-                    'quantity' => 1,
-                    'usage_instruction' => '',
-                ]
-            ])
-        );
+    $previousMedicineItems = old('items', [
+        [
+            'medicine_id' => '',
+            'dosage' => '',
+            'frequency' => '',
+            'duration' => '',
+            'quantity' => 1,
+            'usage_instruction' => '',
+        ],
+    ]);
+@endphp
 
-        let rowIndex = 0;
+<script>
+    // Data obat dari Laravel
+    const medicines = {{ Illuminate\Support\Js::from($medicineOptions) }};
 
-        function escapeHtml(value) {
-            return String(value ?? '')
-                .replaceAll('&', '&amp;')
-                .replaceAll('"', '&quot;')
-                .replaceAll("'", '&#039;')
-                .replaceAll('<', '&lt;')
-                .replaceAll('>', '&gt;');
-        }
+    // Kembalikan data sebelumnya jika validasi gagal
+    const previousItems = {{ Illuminate\Support\Js::from($previousMedicineItems) }};
 
-        function addMedicine(item = {}) {
-            const index = rowIndex++;
+    // Indeks unik untuk setiap baris obat
+    let rowIndex = 0;
 
-            const options = medicines.map(medicine => {
-                const selected =
-                    String(item.medicine_id ?? '') ===
-                    String(medicine.id)
-                        ? 'selected'
-                        : '';
+    /**
+     * Mengamankan teks sebelum dimasukkan
+     * ke dalam HTML dinamis.
+     */
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replaceAll('&', '&amp;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;');
+    }
 
-                return `
-                    <option
-                        value="${escapeHtml(medicine.id)}"
-                        ${selected}
-                    >
-                        ${escapeHtml(medicine.name)}
-                    </option>
-                `;
-            }).join('');
+    /**
+     * Menambahkan satu baris obat.
+     */
+    function addMedicine(item = {}) {
+        const index = rowIndex++;
 
-            const row = document.createElement('div');
+        // Buat daftar pilihan obat
+        const options = medicines.map(medicine => {
+            const selected =
+                String(item.medicine_id ?? '') ===
+                String(medicine.id)
+                    ? 'selected'
+                    : '';
 
-            row.className =
-                'medicine-row rounded-xl border border-slate-200 p-4 space-y-4';
-
-            row.innerHTML = `
-                <div class="flex items-center justify-between gap-3">
-
-                    <h3 class="font-semibold text-slate-800">
-                        Obat
-                    </h3>
-
-                    <button
-                        type="button"
-                        class="remove-medicine text-sm font-medium
-                               text-red-600 hover:underline"
-                    >
-                        Hapus
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-
-                    <label class="block">
-                        <span class="mb-1 block text-sm font-medium">
-                            Nama Obat
-                        </span>
-
-                        <select
-                            name="items[${index}][medicine_id]"
-                            required
-                            class="w-full rounded-lg border
-                                   border-slate-300 p-3"
-                        >
-                            <option value="">Pilih obat</option>
-                            ${options}
-                        </select>
-                    </label>
-
-                    <label class="block">
-                        <span class="mb-1 block text-sm font-medium">
-                            Dosis
-                        </span>
-
-                        <input
-                            type="text"
-                            name="items[${index}][dosage]"
-                            value="${escapeHtml(item.dosage)}"
-                            placeholder="Dosis sesuai resep"
-                            maxlength="255"
-                            required
-                            class="w-full rounded-lg border
-                                   border-slate-300 p-3"
-                        >
-                    </label>
-
-                    <label class="block">
-                        <span class="mb-1 block text-sm font-medium">
-                            Frekuensi
-                        </span>
-
-                        <input
-                            type="text"
-                            name="items[${index}][frequency]"
-                            value="${escapeHtml(item.frequency)}"
-                            placeholder="Frekuensi sesuai resep"
-                            maxlength="255"
-                            required
-                            class="w-full rounded-lg border
-                                   border-slate-300 p-3"
-                        >
-                    </label>
-
-                    <label class="block">
-                        <span class="mb-1 block text-sm font-medium">
-                            Durasi
-                        </span>
-
-                        <input
-                            type="text"
-                            name="items[${index}][duration]"
-                            value="${escapeHtml(item.duration)}"
-                            placeholder="Durasi sesuai resep"
-                            maxlength="255"
-                            required
-                            class="w-full rounded-lg border
-                                   border-slate-300 p-3"
-                        >
-                    </label>
-
-                    <label class="block">
-                        <span class="mb-1 block text-sm font-medium">
-                            Jumlah
-                        </span>
-
-                        <input
-                            type="number"
-                            min="1"
-                            step="1"
-                            name="items[${index}][quantity]"
-                            value="${escapeHtml(item.quantity ?? 1)}"
-                            required
-                            class="w-full rounded-lg border
-                                   border-slate-300 p-3"
-                        >
-                    </label>
-
-                    <label class="block">
-                        <span class="mb-1 block text-sm font-medium">
-                            Aturan Pakai
-                        </span>
-
-                        <input
-                            type="text"
-                            name="items[${index}][usage_instruction]"
-                            value="${escapeHtml(
-                                item.usage_instruction ?? item.instructions ?? ''
-                            )}"
-                            placeholder="Aturan pakai sesuai resep"
-                            maxlength="255"
-                            required
-                            class="w-full rounded-lg border
-                                   border-slate-300 p-3"
-                        >
-                    </label>
-
-                </div>
+            return `
+                <option
+                    value="${escapeHtml(medicine.id)}"
+                    ${selected}
+                >
+                    ${escapeHtml(medicine.name)}
+                </option>
             `;
+        }).join('');
 
-            row.querySelector('.remove-medicine')
-                .addEventListener('click', () => {
-                    row.remove();
-                    updateMedicineNumbers();
-                });
+        // Buat elemen baris obat
+        const row = document.createElement('div');
 
-            document.getElementById('medicineRows')
-                .appendChild(row);
+        row.className =
+            'medicine-row rounded-xl border border-slate-200 p-4 space-y-4';
 
-            document.getElementById('medicineError')
-                .classList.add('hidden');
+        row.innerHTML = `
+            <div class="flex items-center justify-between gap-3">
 
-            updateMedicineNumbers();
-        }
+                <h3 class="font-semibold text-slate-800">
+                    Obat
+                </h3>
 
-        function updateMedicineNumbers() {
-            const rows = document.querySelectorAll('.medicine-row');
+                <button
+                    type="button"
+                    class="remove-medicine text-sm font-medium
+                           text-red-600 hover:underline"
+                >
+                    Hapus
+                </button>
+            </div>
 
-            rows.forEach((row, index) => {
-                row.querySelector('h3').textContent =
-                    `Obat ${index + 1}`;
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+                <!-- NAMA OBAT -->
+                <label class="block">
+                    <span class="mb-1 block text-sm font-medium">
+                        Nama Obat
+                    </span>
+
+                    <select
+                        name="items[${index}][medicine_id]"
+                        required
+                        class="w-full rounded-lg border
+                               border-slate-300 p-3"
+                    >
+                        <option value="">Pilih obat</option>
+                        ${options}
+                    </select>
+                </label>
+
+                <!-- DOSIS -->
+                <label class="block">
+                    <span class="mb-1 block text-sm font-medium">
+                        Dosis
+                    </span>
+
+                    <input
+                        type="text"
+                        name="items[${index}][dosage]"
+                        value="${escapeHtml(item.dosage)}"
+                        placeholder="Dosis sesuai resep"
+                        maxlength="255"
+                        required
+                        class="w-full rounded-lg border
+                               border-slate-300 p-3"
+                    >
+                </label>
+
+                <!-- FREKUENSI -->
+                <label class="block">
+                    <span class="mb-1 block text-sm font-medium">
+                        Frekuensi
+                    </span>
+
+                    <input
+                        type="text"
+                        name="items[${index}][frequency]"
+                        value="${escapeHtml(item.frequency)}"
+                        placeholder="Frekuensi sesuai resep"
+                        maxlength="255"
+                        required
+                        class="w-full rounded-lg border
+                               border-slate-300 p-3"
+                    >
+                </label>
+
+                <!-- DURASI -->
+                <label class="block">
+                    <span class="mb-1 block text-sm font-medium">
+                        Durasi
+                    </span>
+
+                    <input
+                        type="text"
+                        name="items[${index}][duration]"
+                        value="${escapeHtml(item.duration)}"
+                        placeholder="Durasi sesuai resep"
+                        maxlength="255"
+                        required
+                        class="w-full rounded-lg border
+                               border-slate-300 p-3"
+                    >
+                </label>
+
+                <!-- JUMLAH -->
+                <label class="block">
+                    <span class="mb-1 block text-sm font-medium">
+                        Jumlah
+                    </span>
+
+                    <input
+                        type="number"
+                        min="1"
+                        step="1"
+                        name="items[${index}][quantity]"
+                        value="${escapeHtml(item.quantity ?? 1)}"
+                        required
+                        class="w-full rounded-lg border
+                               border-slate-300 p-3"
+                    >
+                </label>
+
+                <!-- ATURAN PAKAI -->
+                <label class="block">
+                    <span class="mb-1 block text-sm font-medium">
+                        Aturan Pakai
+                    </span>
+
+                    <input
+                        type="text"
+                        name="items[${index}][usage_instruction]"
+                        value="${escapeHtml(
+                            item.usage_instruction ??
+                            item.instructions ??
+                            ''
+                        )}"
+                        placeholder="Aturan pakai sesuai resep"
+                        maxlength="255"
+                        required
+                        class="w-full rounded-lg border
+                               border-slate-300 p-3"
+                    >
+                </label>
+
+            </div>
+        `;
+
+        // Tombol Hapus
+        row.querySelector('.remove-medicine')
+            .addEventListener('click', function () {
+                row.remove();
+                updateMedicineNumbers();
             });
+
+        // Masukkan baris ke formulir
+        document.getElementById('medicineRows')
+            .appendChild(row);
+
+        // Sembunyikan pesan kesalahan jumlah obat
+        document.getElementById('medicineError')
+            .classList.add('hidden');
+
+        // Perbarui nomor urut obat
+        updateMedicineNumbers();
+    }
+
+    /**
+     * Memperbarui nomor urut yang ditampilkan.
+     * Indeks name input tidak diubah agar tetap unik.
+     */
+    function updateMedicineNumbers() {
+        const rows = document.querySelectorAll('.medicine-row');
+
+        rows.forEach((row, index) => {
+            row.querySelector('h3').textContent =
+                `Obat ${index + 1}`;
+        });
+    }
+
+    /**
+     * Periksa formulir sebelum dikirim.
+     */
+    document.getElementById('prescriptionForm')
+        .addEventListener('submit', function (event) {
+
+            const rows =
+                document.querySelectorAll('.medicine-row');
+
+            const medicineError =
+                document.getElementById('medicineError');
+
+            // Minimal satu obat harus tersedia
+            if (rows.length === 0) {
+                event.preventDefault();
+
+                medicineError.classList.remove('hidden');
+
+                return;
+            }
+
+            medicineError.classList.add('hidden');
+
+            // Cegah pengiriman formulir berulang
+            const submitButton =
+                document.getElementById('submitButton');
+
+            if (this.checkValidity()) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Menyimpan...';
+            }
+        });
+
+    /**
+     * Tampilkan kembali obat sebelumnya
+     * atau buat satu baris obat baru.
+     */
+    if (
+        Array.isArray(previousItems) &&
+        previousItems.length > 0
+    ) {
+        previousItems.forEach(item => addMedicine(item));
+    } else {
+        addMedicine();
+    }
+
+    /**
+     * Pulihkan tombol ketika pengguna kembali
+     * ke halaman melalui tombol Back browser.
+     */
+    window.addEventListener('pageshow', function () {
+        const submitButton =
+            document.getElementById('submitButton');
+
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Simpan Resep';
         }
+    });
+</script>
 
-        document.getElementById('prescriptionForm')
-            .addEventListener('submit', function (event) {
-
-                const rows = document.querySelectorAll('.medicine-row');
-
-                if (rows.length === 0) {
-                    event.preventDefault();
-
-                    document.getElementById('medicineError')
-                        .classList.remove('hidden');
-
-                    return;
-                }
-
-                const submitButton =
-                    document.getElementById('submitButton');
-
-                if (this.checkValidity()) {
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'Menyimpan...';
-                }
-            });
-
-        if (Array.isArray(previousItems) && previousItems.length > 0) {
-            previousItems.forEach(item => addMedicine(item));
-        } else {
-            addMedicine();
-        }
-    </script>
 </x-doctor-layout>
