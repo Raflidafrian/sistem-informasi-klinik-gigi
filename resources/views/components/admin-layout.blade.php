@@ -4,274 +4,228 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? 'DentalCare' }}</title>
+    <title>{{ $title ?? 'DentalCare - Dokter' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-green-50 text-gray-800 antialiased">
 
-    <div class="min-h-screen flex">
+<div x-data="{ sidebarOpen: false }" class="min-h-screen">
 
-        {{-- SIDEBAR --}}
-        <aside class="w-64 bg-slate-900 text-white fixed inset-y-0 left-0">
+    {{-- OVERLAY MOBILE --}}
+    <div x-show="sidebarOpen"
+         x-cloak
+         @click="sidebarOpen = false"
+         class="fixed inset-0 z-40 bg-black/50 lg:hidden">
+    </div>
 
-            {{-- LOGO --}}
-            <div class="h-20 flex items-center px-6 border-b border-slate-700">
+    {{-- SIDEBAR --}}
+    <aside
+        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+        class="fixed inset-y-0 left-0 z-50 flex w-64
+               flex-col bg-green-800 text-white
+               transition-transform duration-200
+               lg:translate-x-0">
 
-                <div class="flex items-center gap-3">
+        {{-- LOGO --}}
+        <div class="flex h-20 shrink-0 items-center gap-3
+                    border-b border-green-700 px-5">
 
-                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-xl">
-                        🦷
-                    </div>
-
-                    <div>
-                        <h1 class="font-bold text-lg">
-                            DentalCare
-                        </h1>
-
-                        <p class="text-xs text-slate-400">
-                            Klinik Gigi
-                        </p>
-                    </div>
-
-                </div>
-
+            <div class="flex h-11 w-11 items-center
+                        justify-center rounded-xl
+                        bg-green-500 text-2xl shadow-md">
+                🦷
             </div>
 
-
-           {{-- MENU --}}
-<nav class="p-4 space-y-2">
-
-    {{-- Dashboard --}}
-    <a href="{{ route('admin.dashboard') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-       {{ request()->routeIs('admin.dashboard')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>📊</span>
-        <span>Dashboard</span>
-
-    </a>
-
-
-    {{-- Data Dokter --}}
-    <a href="{{ route('admin.doctors.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 
-       {{ request()->routeIs('admin.doctors.*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>👨‍⚕️</span>
-        <span>Data Dokter</span>
-
-    </a>
-
-
-    {{-- Data Pasien --}}
-    <a href="{{ route('admin.patients.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-       {{ request()->routeIs('admin.patients.*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-            <span>👥</span>
-            <span>Data Pasien</span>
-    </a>
-
-
-    {{-- Jadwal Praktik --}}
-    <a href="{{ route('admin.schedules.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 
-       {{ request()->routeIs('admin.schedules*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>🗓️</span>
-        <span>Jadwal Praktik</span>
-
-    </a>
-
-
-    {{-- Appointment --}}
-    <a href="{{ route('admin.appointments.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-       {{ request()->routeIs('admin.appointments*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>📅</span>
-        <span>Appointment</span>
-
-    </a>
-
-
-    {{-- Rekam Medis --}}
-    <a href="{{ route('admin.dental-records.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-       {{ request()->routeIs('admin.dental-records*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>📋</span>
-        <span>Rekam Medis</span>
-
-    </a>
-
-
-    {{-- Tarif Tindakan --}}
-    <a href="{{ route('admin.treatments.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-       {{ request()->routeIs('admin.treatments*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>💰</span>
-        <span>Tarif Tindakan</span>
-
-    </a>
-
-
-    {{-- Data Obat --}}
-    <a href="{{ route('admin.medicines.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-       {{ request()->routeIs('admin.medicines*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>💊</span>
-        <span>Data Obat</span>
-
-    </a>
-
-
-    {{-- Tagihan --}}
-    <a href="{{ route('admin.billings.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-       {{ request()->routeIs('admin.billings*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>🧾</span>
-        <span>Tagihan</span>
-
-    </a>
-
-
-    {{-- Pembayaran --}}
-    <a href="{{ route('admin.payments.index') }}"
-       class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-       {{ request()->routeIs('admin.payments*')
-            ? 'bg-blue-600 text-white shadow-md'
-            : 'text-slate-300 hover:bg-slate-800' }}">
-
-        <span>💳</span>
-        <span>Pembayaran</span>
-        
-    </a>
-
-    {{-- Riwayat Login --}}
-    <a href="{{ route('admin.login-histories.index') }}"
-        class="flex items-center gap-3 rounded-lg px-4 py-3 transition-colors
-        {{ request()->routeIs('admin.login-histories.*')
-            ? 'bg-blue-600 text-white'
-            : 'text-slate-300 hover:bg-slate-800 '}}">
-
-            <span>🔐</span>
-            <span>Riwayat Login</span>
-    </a>
-
-</nav>
-
-
-            {{-- USER --}}
-            <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700">
-
-                <div class="flex items-center gap-3 mb-3">
-
-                    <div class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                    </div>
-
-                    <div class="overflow-hidden">
-
-                        <p class="font-semibold truncate">
-                            {{ auth()->user()->name }}
-                        </p>
-
-                        <p class="text-xs text-slate-400">
-                            Administrator
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                {{-- Logout --}}
-                <form method="POST" action="{{ route('logout') }}">
-
-                    @csrf
-
-                    <button
-                        type="submit"
-                        class="w-full text-left px-4 py-2 rounded-lg text-slate-300 hover:bg-red-600 hover:text-white">
-
-                        🚪 Logout
-
-                    </button>
-
-                </form>
-
+            <div>
+                <h1 class="text-xl font-bold">
+                    DentalCare
+                </h1>
+                <p class="text-xs text-green-200">
+                    Klinik Gigi
+                </p>
             </div>
 
-        </aside>
+            <button type="button"
+                    @click="sidebarOpen = false"
+                    class="ml-auto text-xl lg:hidden"
+                    aria-label="Tutup menu">
+                &times;
+            </button>
+        </div>
 
+        {{-- MENU DOKTER --}}
+        @php
+            $menus = [
+                [
+                    'label' => 'Dashboard',
+                    'icon' => '📊',
+                    'route' => 'dokter.dashboard',
+                    'active' => 'dokter.dashboard',
+                ],
+                [
+                    'label' => 'Appointment',
+                    'icon' => '📅',
+                    'route' => 'dokter.appointments.index',
+                    'active' => 'dokter.appointments.*',
+                ],
+                [
+                    'label' => 'Antrian Pasien',
+                    'icon' => '👥',
+                    'route' => 'dokter.queue.index',
+                    'active' => 'dokter.queue.*',
+                ],
+                [
+                    'label' => 'Rekam Medis',
+                    'icon' => '📋',
+                    'route' => 'dokter.dental-records.index',
+                    'active' => 'dokter.dental-records.*',
+                ],
+                [
+                    'label' => 'Odontogram',
+                    'icon' => '🦷',
+                    'route' => 'dokter.odontogram.index',
+                    'active' => 'dokter.odontogram.*',
+                ],
+                [
+                    'label' => 'Resep Obat',
+                    'icon' => '💊',
+                    'route' => 'dokter.prescriptions.index',
+                    'active' => 'dokter.prescriptions.*',
+                ],
+            ];
+        @endphp
 
-        {{-- CONTENT --}}
-        <main class="ml-64 flex-1 min-h-screen">
+        <nav class="min-h-0 flex-1 space-y-1
+                    overflow-y-auto px-3 py-5">
 
-            {{-- TOPBAR --}}
-            <header class="bg-white border-b border-gray-200 h-20 flex items-center justify-between px-8">
+            <p class="mb-3 px-4 text-xs font-semibold
+                      uppercase tracking-wider text-green-200">
+                Menu Dokter
+            </p>
+
+            @foreach ($menus as $menu)
+                <a href="{{ route($menu['route']) }}"
+                   @if (request()->routeIs($menu['active']))
+                       aria-current="page"
+                   @endif
+                   class="flex items-center gap-3 rounded-xl
+                          px-4 py-3 text-sm font-medium
+                          transition duration-200
+                          {{ request()->routeIs($menu['active'])
+                              ? 'bg-green-500 text-white shadow-md'
+                              : 'text-green-100 hover:bg-green-700 hover:text-white' }}">
+
+                    <span class="w-6 text-center text-lg">
+                        {{ $menu['icon'] }}
+                    </span>
+
+                    <span>{{ $menu['label'] }}</span>
+                </a>
+            @endforeach
+
+        </nav>
+
+        {{-- PROFIL DOKTER --}}
+        <div class="shrink-0 border-t border-green-700
+                    bg-green-900/40 p-4">
+
+            <div class="mb-4 flex items-center gap-3">
+                <div class="flex h-11 w-11 shrink-0
+                            items-center justify-center
+                            rounded-full bg-green-500
+                            font-bold text-white">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
+
+                <div class="min-w-0">
+                    <p class="truncate text-sm font-semibold">
+                        {{ auth()->user()->name }}
+                    </p>
+                    <p class="text-xs text-green-200">
+                        Dokter Gigi
+                    </p>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+
+                <button type="submit"
+                        class="w-full rounded-xl
+                               border border-green-600
+                               px-4 py-2.5 text-left text-sm
+                               font-medium text-green-100
+                               transition hover:border-red-500
+                               hover:bg-red-600 hover:text-white">
+                    🚪 &nbsp; Logout
+                </button>
+            </form>
+        </div>
+
+    </aside>
+
+    {{-- AREA KONTEN --}}
+    <div class="min-h-screen lg:ml-64">
+
+        {{-- TOPBAR --}}
+        <header class="sticky top-0 z-30 flex min-h-20
+                       items-center justify-between
+                       border-b border-green-100
+                       bg-white px-4 shadow-sm
+                       sm:px-6 lg:px-8">
+
+            <div class="flex items-center gap-3">
+
+                <button type="button"
+                        @click="sidebarOpen = true"
+                        class="rounded-lg p-2 text-green-800
+                               hover:bg-green-50 lg:hidden"
+                        aria-label="Buka menu">
+                    ☰
+                </button>
 
                 <div>
-                    <h2 class="text-xl font-bold">
-                        {{ $header ?? 'Dashboard' }}
+                    <h2 class="text-lg font-bold text-green-900
+                               sm:text-xl">
+                        {{ $header ?? 'Dashboard Dokter' }}
                     </h2>
 
-                    <p class="text-sm text-gray-500">
+                    <p class="hidden text-sm text-gray-500 sm:block">
                         Sistem Manajemen Praktik Dokter Gigi
                     </p>
                 </div>
+            </div>
 
-
-                <div class="text-right">
-
-                    <p class="font-semibold">
+            <div class="flex items-center gap-3">
+                <div class="hidden text-right sm:block">
+                    <p class="text-sm font-semibold text-gray-800">
                         {{ auth()->user()->name }}
                     </p>
-
-                    <p class="text-xs text-gray-500">
-                        Admin
+                    <p class="text-xs text-green-700">
+                        Dokter Gigi
                     </p>
-
                 </div>
 
-            </header>
+                <div class="flex h-10 w-10 items-center
+                            justify-center rounded-full
+                            bg-green-100 font-bold text-green-800">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
+            </div>
+        </header>
 
-
-            {{-- PAGE CONTENT --}}
-            <section class="p-8">
-
-                {{ $slot }}
-
-            </section>
-
+        {{-- KONTEN HALAMAN --}}
+        <main class="min-w-0 p-4 sm:p-6 lg:p-8">
+            {{ $slot }}
         </main>
 
     </div>
+
+</div>
 
 </body>
 </html>
