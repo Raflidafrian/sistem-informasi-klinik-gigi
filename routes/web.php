@@ -283,6 +283,12 @@ Route::middleware(['auth', 'role:dokter'])
         '/prescriptions/{prescription}',
         [PrescriptionController::class, 'show']
         )->name('dokter.prescriptions.show');
+
+
+        Route::put(
+            '/dental-records/{dentalRecord}',
+            [DentalRecordController::class, 'update']
+        )->name('dokter.dental-records.update');
     });
 
 
