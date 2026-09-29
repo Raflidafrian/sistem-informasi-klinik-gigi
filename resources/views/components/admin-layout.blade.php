@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? 'DentalCare - Dokter' }}</title>
+    <title>{{ $title ?? 'DentalCare - Admin' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -15,38 +14,32 @@
 
 <div x-data="{ sidebarOpen: false }" class="min-h-screen">
 
-    {{-- OVERLAY MOBILE --}}
+    {{-- Overlay pada layar HP --}}
     <div x-show="sidebarOpen"
          x-cloak
          @click="sidebarOpen = false"
          class="fixed inset-0 z-40 bg-black/50 lg:hidden">
     </div>
 
-    {{-- SIDEBAR --}}
+    {{-- SIDEBAR ADMIN --}}
     <aside
         :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-        class="fixed inset-y-0 left-0 z-50 flex w-64
-               flex-col bg-green-800 text-white
-               transition-transform duration-200
-               lg:translate-x-0">
+        class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col
+               bg-green-800 text-white
+               transition-transform duration-200 lg:translate-x-0">
 
-        {{-- LOGO --}}
+        {{-- Logo --}}
         <div class="flex h-20 shrink-0 items-center gap-3
                     border-b border-green-700 px-5">
 
-            <div class="flex h-11 w-11 items-center
-                        justify-center rounded-xl
-                        bg-green-500 text-2xl shadow-md">
+            <div class="flex h-11 w-11 items-center justify-center
+                        rounded-xl bg-green-500 text-2xl shadow-md">
                 🦷
             </div>
 
             <div>
-                <h1 class="text-xl font-bold">
-                    DentalCare
-                </h1>
-                <p class="text-xs text-green-200">
-                    Klinik Gigi
-                </p>
+                <h1 class="text-xl font-bold">DentalCare</h1>
+                <p class="text-xs text-green-200">Klinik Gigi</p>
             </div>
 
             <button type="button"
@@ -57,44 +50,74 @@
             </button>
         </div>
 
-        {{-- MENU DOKTER --}}
+        {{-- MENU ADMIN --}}
         @php
             $menus = [
                 [
                     'label' => 'Dashboard',
                     'icon' => '📊',
-                    'route' => 'dokter.dashboard',
-                    'active' => 'dokter.dashboard',
+                    'route' => 'admin.dashboard',
+                    'active' => 'admin.dashboard',
+                ],
+                [
+                    'label' => 'Data Dokter',
+                    'icon' => '👨‍⚕️',
+                    'route' => 'admin.doctors.index',
+                    'active' => 'admin.doctors.*',
+                ],
+                [
+                    'label' => 'Data Pasien',
+                    'icon' => '👥',
+                    'route' => 'admin.patients.index',
+                    'active' => 'admin.patients.*',
+                ],
+                [
+                    'label' => 'Jadwal Praktik',
+                    'icon' => '🗓️',
+                    'route' => 'admin.schedules.index',
+                    'active' => 'admin.schedules.*',
                 ],
                 [
                     'label' => 'Appointment',
                     'icon' => '📅',
-                    'route' => 'dokter.appointments.index',
-                    'active' => 'dokter.appointments.*',
-                ],
-                [
-                    'label' => 'Antrian Pasien',
-                    'icon' => '👥',
-                    'route' => 'dokter.queue.index',
-                    'active' => 'dokter.queue.*',
+                    'route' => 'admin.appointments.index',
+                    'active' => 'admin.appointments.*',
                 ],
                 [
                     'label' => 'Rekam Medis',
                     'icon' => '📋',
-                    'route' => 'dokter.dental-records.index',
-                    'active' => 'dokter.dental-records.*',
+                    'route' => 'admin.dental-records.index',
+                    'active' => 'admin.dental-records.*',
                 ],
                 [
-                    'label' => 'Odontogram',
-                    'icon' => '🦷',
-                    'route' => 'dokter.odontogram.index',
-                    'active' => 'dokter.odontogram.*',
+                    'label' => 'Tarif Tindakan',
+                    'icon' => '💰',
+                    'route' => 'admin.treatments.index',
+                    'active' => 'admin.treatments.*',
                 ],
                 [
-                    'label' => 'Resep Obat',
+                    'label' => 'Data Obat',
                     'icon' => '💊',
-                    'route' => 'dokter.prescriptions.index',
-                    'active' => 'dokter.prescriptions.*',
+                    'route' => 'admin.medicines.index',
+                    'active' => 'admin.medicines.*',
+                ],
+                [
+                    'label' => 'Tagihan',
+                    'icon' => '🧾',
+                    'route' => 'admin.billings.index',
+                    'active' => 'admin.billings.*',
+                ],
+                [
+                    'label' => 'Pembayaran',
+                    'icon' => '💳',
+                    'route' => 'admin.payments.index',
+                    'active' => 'admin.payments.*',
+                ],
+                [
+                    'label' => 'Riwayat Login',
+                    'icon' => '🔐',
+                    'route' => 'admin.login-histories.index',
+                    'active' => 'admin.login-histories.*',
                 ],
             ];
         @endphp
@@ -104,7 +127,7 @@
 
             <p class="mb-3 px-4 text-xs font-semibold
                       uppercase tracking-wider text-green-200">
-                Menu Dokter
+                Menu Admin
             </p>
 
             @foreach ($menus as $menu)
@@ -129,11 +152,12 @@
 
         </nav>
 
-        {{-- PROFIL DOKTER --}}
+        {{-- Profil administrator --}}
         <div class="shrink-0 border-t border-green-700
                     bg-green-900/40 p-4">
 
             <div class="mb-4 flex items-center gap-3">
+
                 <div class="flex h-11 w-11 shrink-0
                             items-center justify-center
                             rounded-full bg-green-500
@@ -146,7 +170,7 @@
                         {{ auth()->user()->name }}
                     </p>
                     <p class="text-xs text-green-200">
-                        Dokter Gigi
+                        Administrator
                     </p>
                 </div>
             </div>
@@ -159,8 +183,10 @@
                                border border-green-600
                                px-4 py-2.5 text-left text-sm
                                font-medium text-green-100
-                               transition hover:border-red-500
-                               hover:bg-red-600 hover:text-white">
+                               transition
+                               hover:border-red-500
+                               hover:bg-red-600
+                               hover:text-white">
                     🚪 &nbsp; Logout
                 </button>
             </form>
@@ -168,12 +194,12 @@
 
     </aside>
 
-    {{-- AREA KONTEN --}}
+    {{-- KONTEN UTAMA --}}
     <div class="min-h-screen lg:ml-64">
 
         {{-- TOPBAR --}}
-        <header class="sticky top-0 z-30 flex min-h-20
-                       items-center justify-between
+        <header class="sticky top-0 z-30
+                       flex min-h-20 items-center justify-between
                        border-b border-green-100
                        bg-white px-4 shadow-sm
                        sm:px-6 lg:px-8">
@@ -191,7 +217,7 @@
                 <div>
                     <h2 class="text-lg font-bold text-green-900
                                sm:text-xl">
-                        {{ $header ?? 'Dashboard Dokter' }}
+                        {{ $header ?? 'Dashboard Admin' }}
                     </h2>
 
                     <p class="hidden text-sm text-gray-500 sm:block">
@@ -201,24 +227,28 @@
             </div>
 
             <div class="flex items-center gap-3">
+
                 <div class="hidden text-right sm:block">
                     <p class="text-sm font-semibold text-gray-800">
                         {{ auth()->user()->name }}
                     </p>
+
                     <p class="text-xs text-green-700">
-                        Dokter Gigi
+                        Administrator
                     </p>
                 </div>
 
-                <div class="flex h-10 w-10 items-center
-                            justify-center rounded-full
-                            bg-green-100 font-bold text-green-800">
+                <div class="flex h-10 w-10
+                            items-center justify-center
+                            rounded-full bg-green-100
+                            font-bold text-green-800">
                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                 </div>
             </div>
+
         </header>
 
-        {{-- KONTEN HALAMAN --}}
+        {{-- ISI HALAMAN --}}
         <main class="min-w-0 p-4 sm:p-6 lg:p-8">
             {{ $slot }}
         </main>
