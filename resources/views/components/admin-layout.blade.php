@@ -115,7 +115,7 @@
                 ],
                 [
                     'label' => 'Riwayat Login',
-                    'icon' => '🔐',
+                    'icon' => '',
                     'route' => 'admin.login-histories.index',
                     'active' => 'admin.login-histories.*',
                 ],
