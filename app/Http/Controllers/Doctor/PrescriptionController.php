@@ -13,11 +13,18 @@ use Illuminate\Validation\ValidationException;
 
 class PrescriptionController extends Controller
 {
+    /**
+     * Daftar resep milik dokter yang sedang login.
+     */
     public function index()
     {
         $doctor = Auth::user()->doctor;
 
-        abort_unless($doctor, 403);
+        abort_unless(
+            $doctor,
+            403,
+            'Data dokter tidak ditemukan.'
+        );
 
         $prescriptions = Prescription::with([
             'dentalRecord.patient.user',
@@ -35,12 +42,21 @@ class PrescriptionController extends Controller
         );
     }
 
+    /**
+     * Form pembuatan resep obat.
+     */
     public function create()
     {
         $doctor = Auth::user()->doctor;
 
-        abort_unless($doctor, 403);
+        abort_unless(
+            $doctor,
+            403,
+            'Data dokter tidak ditemukan.'
+        );
 
+        // Hanya rekam medis milik dokter ini
+        // yang belum memiliki resep.
         $records = DentalRecord::with('patient.user')
             ->where('doctor_id', $doctor->id)
             ->whereDoesntHave('prescription')
@@ -55,44 +71,113 @@ class PrescriptionController extends Controller
         );
     }
 
+    /**
+     * Simpan resep beserta seluruh item obat.
+     */
     public function store(Request $request)
     {
         $doctor = Auth::user()->doctor;
 
-        abort_unless($doctor, 403);
+        abort_unless(
+            $doctor,
+            403,
+            'Data dokter tidak ditemukan.'
+        );
 
-        $validated = $request->validate([
-            'dental_record_id' => [
-                'required',
-                'exists:dental_records,id',
-            ],
-            'notes' => ['nullable', 'string', 'max:5000'],
-            'items' => ['required', 'array', 'min:1'],
-            'items.*.medicine_id' => [
-                'required',
-                'exists:medicines,id',
-            ],
-            'items.*.quantity' => [
-                'required',
-                'integer',
-                'min:1',
-            ],
-            'items.*.dosage' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-            'items.*.usage_instruction' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-        ]);
+        $validated = $request->validate(
+            [
+                'dental_record_id' => [
+                    'required',
+                    'integer',
+                    'exists:dental_records,id',
+                ],
 
-        $record = DentalRecord::where(
-            'doctor_id',
-            $doctor->id
-        )->findOrFail($validated['dental_record_id']);
+                'notes' => [
+                    'nullable',
+                    'string',
+                    'max:5000',
+                ],
+
+                'items' => [
+                    'required',
+                    'array',
+                    'min:1',
+                ],
+
+                'items.*.medicine_id' => [
+                    'required',
+                    'integer',
+                    'exists:medicines,id',
+                ],
+
+                'items.*.quantity' => [
+                    'required',
+                    'integer',
+                    'min:1',
+                ],
+
+                'items.*.dosage' => [
+                    'required',
+                    'string',
+                    'max:255',
+                ],
+
+                'items.*.frequency' => [
+                    'required',
+                    'string',
+                    'max:255',
+                ],
+
+                'items.*.duration' => [
+                    'required',
+                    'string',
+                    'max:255',
+                ],
+
+                'items.*.usage_instruction' => [
+                    'required',
+                    'string',
+                    'max:255',
+                ],
+            ],
+            [
+                'dental_record_id.required' =>
+                    'Silakan pilih rekam medis pasien.',
+
+                'items.required' =>
+                    'Tambahkan minimal satu obat.',
+
+                'items.min' =>
+                    'Tambahkan minimal satu obat.',
+
+                'items.*.medicine_id.required' =>
+                    'Nama obat wajib dipilih.',
+
+                'items.*.quantity.required' =>
+                    'Jumlah obat wajib diisi.',
+
+                'items.*.quantity.min' =>
+                    'Jumlah obat minimal 1.',
+
+                'items.*.dosage.required' =>
+                    'Dosis obat wajib diisi.',
+
+                'items.*.frequency.required' =>
+                    'Frekuensi obat wajib diisi.',
+
+                'items.*.duration.required' =>
+                    'Durasi obat wajib diisi.',
+
+                'items.*.usage_instruction.required' =>
+                    'Aturan pakai obat wajib diisi.',
+            ]
+        );
+
+        // Pemeriksaan awal agar pesan kesalahan
+        // lebih mudah dipahami pengguna.
+        $record = DentalRecord::query()
+            ->where('doctor_id', $doctor->id)
+            ->findOrFail($validated['dental_record_id']);
 
         if ($record->prescription()->exists()) {
             throw ValidationException::withMessages([
@@ -101,31 +186,81 @@ class PrescriptionController extends Controller
             ]);
         }
 
-        DB::transaction(function () use ($validated, $record) {
+        // Transaksi menjaga agar resep dan seluruh
+        // item obat disimpan secara bersamaan.
+        DB::transaction(function () use ($validated, $doctor) {
+
+            // Kunci rekam medis selama penyimpanan
+            // untuk mengurangi risiko resep ganda.
+            $record = DentalRecord::query()
+                ->where('doctor_id', $doctor->id)
+                ->lockForUpdate()
+                ->findOrFail($validated['dental_record_id']);
+
+            if ($record->prescription()->exists()) {
+                throw ValidationException::withMessages([
+                    'dental_record_id' =>
+                        'Rekam medis ini sudah memiliki resep obat.',
+                ]);
+            }
+
             $prescription = Prescription::create([
                 'dental_record_id' => $record->id,
                 'notes' => $validated['notes'] ?? null,
             ]);
 
-            $prescription->items()->createMany(
-                $validated['items']
-            );
+            $items = [];
+
+            foreach ($validated['items'] as $item) {
+
+                // Struktur prescription_items yang
+                // digunakan controller sebelumnya
+                // tidak memiliki kolom frequency
+                // dan duration secara terpisah.
+                // Keduanya disertakan dalam aturan pakai.
+                $usageInstruction = implode('; ', [
+                    'Frekuensi: ' . trim($item['frequency']),
+                    'Durasi: ' . trim($item['duration']),
+                    'Aturan pakai: ' .
+                        trim($item['usage_instruction']),
+                ]);
+
+                $items[] = [
+                    'medicine_id' => $item['medicine_id'],
+                    'quantity' => $item['quantity'],
+                    'dosage' => $item['dosage'],
+                    'usage_instruction' => $usageInstruction,
+                ];
+            }
+
+            $prescription->items()->createMany($items);
         });
 
         return redirect()
             ->route('dokter.prescriptions.index')
-            ->with('success', 'Resep obat berhasil disimpan.');
+            ->with(
+                'success',
+                'Resep obat berhasil disimpan.'
+            );
     }
 
+    /**
+     * Detail resep obat.
+     */
     public function show(Prescription $prescription)
     {
         $doctor = Auth::user()->doctor;
 
-        abort_unless($doctor, 403);
+        abort_unless(
+            $doctor,
+            403,
+            'Data dokter tidak ditemukan.'
+        );
 
         abort_unless(
             $prescription->dentalRecord?->doctor_id === $doctor->id,
-            403
+            403,
+            'Anda tidak memiliki akses ke resep ini.'
         );
 
         $prescription->load([
