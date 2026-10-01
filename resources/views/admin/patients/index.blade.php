@@ -15,6 +15,7 @@
                 </p>
             </div>
 
+            @if (auth()->user()->role !== 'demo')
             <a href="{{ route('admin.patients.create') }}"
                 class="inline-flex items-center gap-2 px-5 py-3
                        bg-blue-600 text-white rounded-lg
@@ -22,8 +23,8 @@
 
                 <span>+</span>
                 <span>Tambah Pasien</span>
-
             </a>
+        @endif
 
         </div>
 
@@ -199,6 +200,9 @@
                                                 justify-center gap-2">
 
                                         {{-- Edit --}}
+                                        @if (auth()->user()->role !== 'demo')
+                                            
+                                        @endif
                                         <a href="{{ route('admin.patients.edit', $patient->id) }}"
                                             class="px-3 py-2 rounded-lg
                                                    bg-yellow-100 text-yellow-700
@@ -207,9 +211,11 @@
                                             Edit
 
                                         </a>
+                                    @endif
 
 
                                         {{-- Hapus --}}
+                                        @if (auth()->user()->role !== 'demo')
                                         <form method="POST"
                                             action="{{ route('admin.patients.destroy', $patient->id) }}"
                                             onsubmit="return confirm('Yakin ingin menghapus pasien ini?')">
@@ -227,6 +233,7 @@
                                             </button>
 
                                         </form>
+                                    @endif
 
                                     </div>
 

@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\DB;
 
 // Dashboard
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -19,6 +18,9 @@ use App\Http\Controllers\Doctor\PrescriptionController;
 //Login
 use App\Http\Controllers\Admin\LoginHistoryController;
 
+
+// Demo
+use App\Http\Middleware\DemoReadOnlyMiddleware;
 // ======================================================
 // HALAMAN UTAMA
 // ======================================================
@@ -35,6 +37,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
 
     $user = Auth::user();
+
     $role = $user?->role;
 
     if ($role === 'admin') {
@@ -47,6 +50,10 @@ Route::get('/dashboard', function () {
 
     if ($role === 'pasien') {
         return redirect()->route('pasien.dashboard');
+    }
+    
+    if ($role === 'demo') {
+        return redirect()->route('demo.dashboard');
     }
 
     return view('dashboard');
@@ -76,7 +83,7 @@ Route::middleware('auth')->group(function () {
 // ADMIN
 // ======================================================
 
-Route::middleware(['auth', 'role:admin'])
+Route::middleware(['auth', 'role:admin,demo', DemoReadOnlyMiddleware::class,])
     ->prefix('admin')
     ->group(function () {
 
@@ -193,15 +200,6 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/login-histories',
         [LoginHistoryController::class, 'index']
         )->name('admin.login-histories.index');
-
-
-        Route::get('/debug-schedules', function () {
-            return response()->json([
-                'database'  => DB::connection()->getDatabaseName(),
-                'schedules' => \App\Models\DoctorSchedule::all(),
-                'count'     => \App\Models\DoctorSchedule::count(),
-            ]);
-        });
     });
 
 

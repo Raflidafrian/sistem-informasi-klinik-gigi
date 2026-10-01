@@ -87,6 +87,8 @@
 
         {{-- MENU --}}
         @php
+            $isDemo = auth()->user()->role === 'demo';
+            
             $menus = [
                 [
                     'label' => 'Dashboard',
@@ -484,7 +486,7 @@
                     </p>
 
                     <p class="text-xs text-green-200">
-                        Administrator
+                        {{ auth()->user()->role === 'demo' ? 'Demo - Read Only' : 'Administrator' }}
                     </p>
 
                 </div>
