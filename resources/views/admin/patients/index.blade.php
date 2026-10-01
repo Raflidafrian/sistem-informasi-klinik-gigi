@@ -201,8 +201,6 @@
 
                                         {{-- Edit --}}
                                         @if (auth()->user()->role !== 'demo')
-                                            
-                                        @endif
                                         <a href="{{ route('admin.patients.edit', $patient->id) }}"
                                             class="px-3 py-2 rounded-lg
                                                    bg-yellow-100 text-yellow-700
