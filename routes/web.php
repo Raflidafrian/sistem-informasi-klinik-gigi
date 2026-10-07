@@ -53,7 +53,7 @@ Route::get('/dashboard', function () {
     }
     
     if ($role === 'demo') {
-        return redirect()->route('demo.dashboard');
+        return redirect()->route('admin.dashboard');
     }
 
     return view('dashboard');
