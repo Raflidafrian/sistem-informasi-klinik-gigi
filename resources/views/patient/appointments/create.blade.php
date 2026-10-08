@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
+
     <title>Booking Appointment - DentalCare</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -13,29 +14,48 @@
 
     <main class="max-w-2xl mx-auto p-6">
 
+        {{-- KOTAK BOOKING --}}
         <div class="bg-white rounded-xl shadow p-8">
 
             <h1 class="text-2xl font-bold mb-6">
                 Booking Appointment
             </h1>
 
+
+            {{-- ERROR VALIDASI --}}
             @if ($errors->any())
+
                 <div class="bg-red-50 text-red-700 p-4 mb-5 rounded-lg">
+
                     <ul class="list-disc pl-5">
+
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+
+                            <li>
+                                {{ $error }}
+                            </li>
+
                         @endforeach
+
                     </ul>
+
                 </div>
+
             @endif
 
+
+            {{-- FORM BOOKING --}}
             <form
                 action="{{ route('pasien.appointments.store') }}"
                 method="POST"
                 class="space-y-5">
+
                 @csrf
 
+
+                {{-- PILIH DOKTER --}}
                 <div>
+
                     <label class="block font-medium mb-2">
                         Pilih Dokter
                     </label>
@@ -44,20 +64,35 @@
                         name="doctor_id"
                         id="doctor_id"
                         required
-                        class="w-full border rounded-lg p-3">
-                        <option value="">Pilih dokter</option>
+                        class="w-full border border-slate-200
+                               rounded-lg p-3
+                               focus:border-cyan-600
+                               focus:ring-cyan-600">
+
+                        <option value="">
+                            Pilih dokter
+                        </option>
 
                         @foreach ($doctors as $doctor)
+
                             <option
                                 value="{{ $doctor->id }}"
                                 @selected(old('doctor_id') == $doctor->id)>
+
                                 {{ $doctor->user->name ?? 'Dokter' }}
+
                             </option>
+
                         @endforeach
+
                     </select>
+
                 </div>
 
+
+                {{-- TANGGAL PEMERIKSAAN --}}
                 <div>
+
                     <label class="block font-medium mb-2">
                         Tanggal Pemeriksaan
                     </label>
@@ -69,29 +104,46 @@
                         min="{{ now()->toDateString() }}"
                         value="{{ old('appointment_date') }}"
                         required
-                        class="w-full border rounded-lg p-3">
+                        class="w-full border border-slate-200
+                               rounded-lg p-3
+                               focus:border-cyan-600
+                               focus:ring-cyan-600">
+
                 </div>
 
+
+                {{-- JAM PEMERIKSAAN --}}
                 <div>
-                    <label for="appointment_time"
-                            class="block font-medium mb-2">
+
+                    <label
+                        for="appointment_time"
+                        class="block font-medium mb-2">
+
                         Jam Pemeriksaan
+
                     </label>
 
                     <select
                         name="appointment_time"
                         id="appointment_time"
-                        value="{{ old('appointment_time') }}"
                         required
-                        class="w-full border rounded-lg p-3">
+                        class="w-full border border-slate-200
+                               rounded-lg p-3
+                               focus:border-cyan-600
+                               focus:ring-cyan-600">
 
                         <option value="">
                             Pilih dokter dan tanggal dahulu
                         </option>
+
                     </select>
+
                 </div>
 
+
+                {{-- KELUHAN --}}
                 <div>
+
                     <label class="block font-medium mb-2">
                         Keluhan
                     </label>
@@ -100,150 +152,270 @@
                         name="complaint"
                         rows="4"
                         required
-                        class="w-full border rounded-lg p-3"
+                        class="w-full border border-slate-200
+                               rounded-lg p-3
+                               focus:border-cyan-600
+                               focus:ring-cyan-600"
                         placeholder="Tuliskan keluhan Anda..."
                     >{{ old('complaint') }}</textarea>
+
                 </div>
 
+
+                {{-- TOMBOL BOOKING --}}
                 <button
                     type="submit"
                     class="w-full bg-cyan-700 text-white
-                           rounded-lg p-3 font-semibold">
+                           rounded-lg p-3 font-semibold
+                           transition hover:bg-cyan-800">
+
                     Booking Sekarang
+
                 </button>
+
             </form>
+
+        </div>
+
+
+        {{-- TOMBOL KEMBALI DI LUAR CARD --}}
+        <div class="mt-4 flex justify-end">
+
+            <a
+                href="{{ route('pasien.appointments.index') }}"
+                class="inline-flex items-center gap-2
+                       rounded-lg px-4 py-2.5
+                       text-sm font-medium
+                       text-slate-600
+                       transition
+                       hover:bg-slate-200
+                       hover:text-slate-900">
+
+                {{-- ICON BACK --}}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="h-5 w-5">
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+
+                </svg>
+
+                <span>
+                    Kembali
+                </span>
+
+            </a>
 
         </div>
 
     </main>
 
 
+    {{-- JAVASCRIPT LOAD JAM TERSEDIA --}}
+    <script>
+
+        const doctorInput =
+            document.getElementById('doctor_id');
+
+        const dateInput =
+            document.getElementById('appointment_date');
+
+        const timeInput =
+            document.getElementById('appointment_time');
+
+        const oldTime =
+            @json(old('appointment_time'));
+
+        let requestController = null;
 
 
-<script>
-    const doctorInput =
-        document.getElementById('doctor_id');
+        async function loadAvailableTimes() {
 
-    const dateInput =
-        document.getElementById('appointment_date');
-
-    const timeInput =
-        document.getElementById('appointment_time');
-
-    const oldTime = @json(old('appointment_time'));
-
-    let requestController = null;
-
-    async function loadAvailableTimes() {
-
-        // Batalkan permintaan sebelumnya
-        if (requestController) {
-            requestController.abort();
-        }
-
-        timeInput.disabled = true;
-        timeInput.innerHTML =
-            '<option value="">Pilih dokter dan tanggal dahulu</option>';
-
-        if (!doctorInput.value || !dateInput.value) {
-            return;
-        }
-
-        requestController = new AbortController();
-        const currentRequest = requestController;
-
-        timeInput.innerHTML =
-            '<option value="">Memuat jadwal...</option>';
-
-        const url = new URL(
-            "{{ route('pasien.appointments.available-times') }}"
-        );
-
-        url.searchParams.set(
-            'doctor_id',
-            doctorInput.value
-        );
-
-        url.searchParams.set(
-            'date',
-            dateInput.value
-        );
-
-        try {
-            const response = await fetch(url, {
-                headers: {
-                    'Accept': 'application/json'
-                },
-                signal: currentRequest.signal
-            });
-
-            if (!response.ok) {
-                throw new Error(
-                    'HTTP ' + response.status
-                );
+            // Batalkan permintaan sebelumnya
+            if (requestController) {
+                requestController.abort();
             }
 
-            const times = await response.json();
 
-            if (currentRequest !== requestController) {
-                return;
-            }
-
-            timeInput.innerHTML = '';
-
-            if (times.length === 0) {
-                timeInput.add(
-                    new Option('Tidak ada jam tersedia', '')
-                );
-                return;
-            }
-
-            timeInput.add(
-                new Option('Pilih jam pemeriksaan', '')
-            );
-
-            times.forEach(time => {
-                timeInput.add(
-                    new Option(time, time)
-                );
-            });
-
-            if (times.includes(oldTime)) {
-                timeInput.value = oldTime;
-            }
-
-            timeInput.disabled = false;
-
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                return;
-            }
-
-            console.error(
-                'Gagal memuat jadwal:',
-                error
-            );
+            timeInput.disabled = true;
 
             timeInput.innerHTML =
-                '<option value="">Gagal memuat jadwal</option>';
+                '<option value="">Pilih dokter dan tanggal dahulu</option>';
+
+
+            if (!doctorInput.value || !dateInput.value) {
+                return;
+            }
+
+
+            requestController = new AbortController();
+
+            const currentRequest =
+                requestController;
+
+
+            timeInput.innerHTML =
+                '<option value="">Memuat jadwal...</option>';
+
+
+            const url = new URL(
+                "{{ route('pasien.appointments.available-times') }}"
+            );
+
+
+            url.searchParams.set(
+                'doctor_id',
+                doctorInput.value
+            );
+
+
+            url.searchParams.set(
+                'date',
+                dateInput.value
+            );
+
+
+            try {
+
+                const response =
+                    await fetch(url, {
+
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+
+                        signal:
+                            currentRequest.signal
+
+                    });
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        'HTTP ' + response.status
+                    );
+
+                }
+
+
+                const times =
+                    await response.json();
+
+
+                if (
+                    currentRequest !==
+                    requestController
+                ) {
+
+                    return;
+
+                }
+
+
+                timeInput.innerHTML = '';
+
+
+                if (times.length === 0) {
+
+                    timeInput.add(
+                        new Option(
+                            'Tidak ada jam tersedia',
+                            ''
+                        )
+                    );
+
+                    return;
+
+                }
+
+
+                timeInput.add(
+                    new Option(
+                        'Pilih jam pemeriksaan',
+                        ''
+                    )
+                );
+
+
+                times.forEach(time => {
+
+                    timeInput.add(
+                        new Option(
+                            time,
+                            time
+                        )
+                    );
+
+                });
+
+
+                if (times.includes(oldTime)) {
+
+                    timeInput.value =
+                        oldTime;
+
+                }
+
+
+                timeInput.disabled = false;
+
+
+            } catch (error) {
+
+                if (
+                    error.name ===
+                    'AbortError'
+                ) {
+
+                    return;
+
+                }
+
+
+                console.error(
+                    'Gagal memuat jadwal:',
+                    error
+                );
+
+
+                timeInput.innerHTML =
+                    '<option value="">Gagal memuat jadwal</option>';
+
+            }
 
         }
-    }
 
-    doctorInput.addEventListener(
-        'change',
-        loadAvailableTimes
-    );
 
-    dateInput.addEventListener(
-        'change',
-        loadAvailableTimes
-    );
+        doctorInput.addEventListener(
+            'change',
+            loadAvailableTimes
+        );
 
-    if (doctorInput.value && dateInput.value) {
-        loadAvailableTimes();
-    }
-</script>
+
+        dateInput.addEventListener(
+            'change',
+            loadAvailableTimes
+        );
+
+
+        if (
+            doctorInput.value &&
+            dateInput.value
+        ) {
+
+            loadAvailableTimes();
+
+        }
+
+    </script>
 
 </body>
 </html>
