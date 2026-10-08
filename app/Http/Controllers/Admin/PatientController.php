@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class PatientController extends Controller
 {
@@ -38,19 +39,21 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name'          => 'required|string|max:255',
 
-            'email' => 'required|email|unique:users,email',
+            'email'         => 'required|email|unique:users,email',
 
-            'phone' => 'nullable|string|max:20',
+            'phone'         => 'nullable|string|max:20',
 
-            'nik' => 'nullable|string|max:16|unique:patients,nik',
+            'nik'           => 'nullable|string|max:16|unique:patients,nik',
 
-            'birth_date' => 'nullable|date',
+            'birth_place'   => 'nullable|string|max:100',
 
-            'gender' => 'nullable|in:male,female',
+            'birth_date'    => 'nullable|date',
 
-            'address' => 'nullable|string',
+            'gender'        => 'nullable|in:male,female',
+
+            'address'       => 'nullable|string',
         ]);
 
 
@@ -59,7 +62,7 @@ class PatientController extends Controller
         // ==========================================
 
         $user = User::create([
-            'name' => $validated['name'],
+            'name'  => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
 
@@ -76,11 +79,12 @@ class PatientController extends Controller
         // ==========================================
 
         Patient::create([
-            'user_id' => $user->id,
-            'nik' => $validated['nik'] ?? null,
-            'birth_date' => $validated['birth_date'] ?? null,
-            'gender' => $validated['gender'] ?? null,
-            'address' => $validated['address'] ?? null,
+            'user_id'           => $user->id,
+            'nik'               => $validated['nik'] ?? null,
+            'birth_place'       => $validated['birth_place'] ?? null,
+            'birth_date'        => $validated['birth_date'] ?? null,
+            'gender'            => $validated['gender'] ?? null,
+            'address'           => $validated['address'] ?? null,
         ]);
 
 
@@ -117,39 +121,41 @@ class PatientController extends Controller
 
         
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name'              => 'required|string|max:255',
 
-            'email' => 'required|email|unique:users,email',
+            'email'             => ['required', 'email', Rule::unique('users', 'email')->ignore($patient->user_id),
+            ],
 
-            'phone' => 'nullable|string|max:20',
+            'phone'             => 'nullable|string|max:20',
 
-            'nik' => 'nullable|digits:16|unique:patients,nik',
+            'nik'               => ['nullable', 'digits:16', Rule::unique('paatients', 'nik')->ignore($patient->id),
+            ],
 
-            'birth_date' => 'nullable|date|before_or_equal:today',
+            'birth_place'       => 'nullable|string|max:100',
 
-            'gender' => 'nullable|in:male,female',
+            'birth_date'        => 'nullable|date|before_or_equal:today',
 
-            'address' => 'nullable|string',
+            'gender'            => 'nullable|in:male,female',
+
+            'address'           => 'nullable|string',
         ], [
-            'name.required' => 'Nama pasien wajib diisi.',
+            'name.required'             => 'Nama pasien wajib diisi.',
+            'email.required'            => 'Email wajib diisi.',
+            'email.email'               => 'Format email tidak valid.',
+            'email.unique'              => 'Email sudah terdaftar. Gunakan email lain.',
 
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah terdaftar. Gunakan email lain.',
+            'nik.digits'                => 'NIK harus terdiri dari 16 angka.',
+            'nik.unique'                => 'NIK sudah terdaftar. Gunakan NIK lain.',
 
-            'nik.digits' => 'NIK harus terdiri dari 16 angka.',
-            'nik.unique' => 'NIK sudah terdaftar. Gunakan NIK lain.',
+            'birth_date.date'           => 'Tanggal lahir tidak valid.',
+            'birth_date.before_or_equal'=> 'Tanggal lahir tidak boleh melebihi hari ini.',
 
-            'birth_date.date' => 'Tanggal lahir tidak valid.',
-            'birth_date.before_or_equal' =>
-            'Tanggal lahir tidak boleh melebihi hari ini.',
-
-            'gender.in' => 'Jenis kelamin tidak valid.',
+            'gender.in'                 => 'Jenis kelamin tidak valid.',
         ]);
 
         // Update user
         $patient->user->update([
-            'name' => $validated['name'],
+            'name'  => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
         ]);
@@ -157,10 +163,11 @@ class PatientController extends Controller
 
         // Update patient
         $patient->update([
-            'nik' => $validated['nik'] ?? null,
-            'birth_date' => $validated['birth_date'] ?? null,
-            'gender' => $validated['gender'] ?? null,
-            'address' => $validated['address'] ?? null,
+            'nik'           => $validated['nik'] ?? null,
+            'birth_place'   => $validated['birth_place'] ?? null,
+            'birth_date'    => $validated['birth_date'] ?? null,
+            'gender'        => $validated['gender'] ?? null,
+            'address'       => $validated['address'] ?? null,
         ]);
 
 

@@ -116,10 +116,28 @@
                         value="{{ old('nik') }}"
                         maxlength="16"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                        placeholder="Masukkan NIK 16 digit"
-                    >
+                        placeholder="Masukkan NIK 16 digit">
 
                 </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Tempat Lahir
+                    </label>
+                    
+                    <input
+                    type="text"
+                    name="birth_place"
+                    value="{{ old('birth_place') }}"
+                    placeholder="Contoh: Jakarta"
+                    class="w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500">
+                    
+                    @error('birth_place')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
 
 
                 {{-- TANGGAL LAHIR --}}
