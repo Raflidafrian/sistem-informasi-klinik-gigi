@@ -123,13 +123,11 @@ class PatientController extends Controller
         $validated = $request->validate([
             'name'              => 'required|string|max:255',
 
-            'email'             => ['required', 'email', Rule::unique('users', 'email')->ignore($patient->user_id),
-            ],
+            'email'             => 'required|email|unique:users,email,' .$patient->user->id,
 
             'phone'             => 'nullable|string|max:20',
 
-            'nik'               => ['nullable', 'digits:16', Rule::unique('paatients', 'nik')->ignore($patient->id),
-            ],
+            'nik'               => 'nullable|digits:16|unique:patients,nik,' .$patient->id,
 
             'birth_place'       => 'nullable|string|max:100',
 
