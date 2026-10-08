@@ -18,8 +18,7 @@
         <div>
             <x-input-label
                 for="name"
-                value="Nama Lengkap"
-            />
+                value="Nama Lengkap"/>
 
             <x-text-input
                 id="name"
@@ -30,21 +29,18 @@
                 placeholder="Masukkan nama lengkap"
                 required
                 autofocus
-                autocomplete="name"
-            />
+                autocomplete="name"/>
 
             <x-input-error
                 :messages="$errors->get('name')"
-                class="mt-2"
-            />
+                class="mt-2"/>
         </div>
 
         <!-- Email -->
         <div class="mt-4">
             <x-input-label
                 for="email"
-                value="Alamat Email"
-            />
+                value="Alamat Email"/>
 
             <x-text-input
                 id="email"
@@ -54,21 +50,18 @@
                 :value="old('email')"
                 placeholder="contoh@gmail.com"
                 required
-                autocomplete="email"
-            />
+                autocomplete="email"/>
 
             <x-input-error
                 :messages="$errors->get('email')"
-                class="mt-2"
-            />
+                class="mt-2"/>
         </div>
 
         <!-- Nomor HP -->
         <div class="mt-4">
             <x-input-label
                 for="phone"
-                value="Nomor HP"
-            />
+                value="Nomor HP"/>
 
             <x-text-input
                 id="phone"
@@ -82,8 +75,7 @@
                 pattern="08[0-9]{8,11}"
                 inputmode="numeric"
                 required
-                autocomplete="tel"
-            />
+                autocomplete="tel"/>
 
             <p class="mt-1 text-xs text-gray-500">
                 Gunakan nomor HP aktif yang diawali 08.
@@ -91,16 +83,14 @@
 
             <x-input-error
                 :messages="$errors->get('phone')"
-                class="mt-2"
-            />
+                class="mt-2"/>
         </div>
 
-        <!-- NIK -->
+                <!-- NIK -->
         <div class="mt-4">
             <x-input-label
                 for="nik"
-                value="Nomor Induk Kependudukan (NIK)"
-            />
+                value="Nomor Induk Kependudukan (NIK)"/>
 
             <x-text-input
                 id="nik"
@@ -113,8 +103,7 @@
                 maxlength="16"
                 pattern="[0-9]{16}"
                 inputmode="numeric"
-                required
-            />
+                required/>
 
             <p class="mt-1 text-xs text-gray-500">
                 Masukkan 16 digit NIK sesuai KTP.
@@ -122,16 +111,132 @@
 
             <x-input-error
                 :messages="$errors->get('nik')"
-                class="mt-2"
-            />
+                class="mt-2"/>
+        </div>
+
+
+        <!-- TEMPAT LAHIR -->
+        <div class="mt-4">
+
+            <x-input-label
+                for="birth_place"
+                value="Tempat Lahir"/>
+
+            <x-text-input
+                id="birth_place"
+                class="block mt-1 w-full"
+                type="text"
+                name="birth_place"
+                :value="old('birth_place')"
+                placeholder="Contoh: Jakarta"
+                required
+                autocomplete="address-level2"/>
+
+            <x-input-error
+                :messages="$errors->get('birth_place')"
+                class="mt-2"/>
+
+        </div>
+
+
+        <!-- TANGGAL LAHIR -->
+        <div class="mt-4">
+
+            <x-input-label
+                for="birth_date"
+                value="Tanggal Lahir"/>
+
+            <x-text-input
+                id="birth_date"
+                class="block mt-1 w-full"
+                type="date"
+                name="birth_date"
+                :value="old('birth_date')"
+                max="{{ date('Y-m-d') }}"
+                required/>
+
+            <x-input-error
+                :messages="$errors->get('birth_date')"
+                class="mt-2"/>
+
+        </div>
+
+
+        <!-- JENIS KELAMIN -->
+        <div class="mt-4">
+
+            <x-input-label
+                for="gender"
+                value="Jenis Kelamin"/>
+
+            <select
+                id="gender"
+                name="gender"
+                required
+                class="block mt-1 w-full rounded-md
+                       border-gray-300
+                       dark:border-gray-700
+                       dark:bg-gray-900
+                       dark:text-gray-300
+                       focus:border-indigo-500
+                       focus:ring-indigo-500">
+
+                <option value="">
+                    Pilih jenis kelamin
+                </option>
+
+                <option
+                    value="male"
+                    {{ old('gender') === 'male' ? 'selected' : '' }}>
+                    Laki-laki
+                </option>
+
+                <option
+                    value="female"
+                    {{ old('gender') === 'female' ? 'selected' : '' }}>
+                    Perempuan
+                </option>
+
+            </select>
+
+            <x-input-error
+                :messages="$errors->get('gender')"
+                class="mt-2"/>
+
+        </div>
+
+
+        <!-- ALAMAT -->
+        <div class="mt-4">
+
+            <x-input-label
+                for="address"
+                value="Alamat"/>
+
+            <textarea
+                id="address"
+                name="address"
+                rows="3"
+                required
+                placeholder="Masukkan alamat lengkap"
+                class="block mt-1 w-full rounded-md
+                       border-gray-300
+                       dark:border-gray-700
+                       dark:bg-gray-900
+                       dark:text-gray-300
+                       focus:border-indigo-500
+                       focus:ring-indigo-500">{{ old('address') }}</textarea>
+
+            <x-input-error
+                :messages="$errors->get('address')"
+                class="mt-2"/>
         </div>
 
         <!-- Password -->
         <div class="mt-4">
             <x-input-label
                 for="password"
-                value="Password"
-            />
+                value="Password"/>
 
             <x-text-input
                 id="password"
@@ -140,21 +245,18 @@
                 name="password"
                 placeholder="Masukkan password"
                 required
-                autocomplete="new-password"
-            />
+                autocomplete="new-password"/>
 
             <x-input-error
                 :messages="$errors->get('password')"
-                class="mt-2"
-            />
+                class="mt-2"/>
         </div>
 
         <!-- Konfirmasi Password -->
         <div class="mt-4">
             <x-input-label
                 for="password_confirmation"
-                value="Konfirmasi Password"
-            />
+                value="Konfirmasi Password"/>
 
             <x-text-input
                 id="password_confirmation"
@@ -163,20 +265,17 @@
                 name="password_confirmation"
                 placeholder="Ulangi password"
                 required
-                autocomplete="new-password"
-            />
+                autocomplete="new-password"/>
 
             <x-input-error
                 :messages="$errors->get('password_confirmation')"
-                class="mt-2"
-            />
+                class="mt-2"/>
         </div>
 
         <!-- Tombol Daftar -->
         <div class="mt-6">
             <x-primary-button
-                class="w-full justify-center py-3"
-            >
+                class="w-full justify-center py-3">
                 Daftar Sekarang
             </x-primary-button>
         </div>
@@ -190,8 +289,7 @@
                     href="{{ route('login') }}"
                     class="font-semibold text-blue-600
                            hover:text-blue-800
-                           dark:text-blue-400"
-                >
+                           dark:text-blue-400">
                     Masuk di sini
                 </a>
             </p>
