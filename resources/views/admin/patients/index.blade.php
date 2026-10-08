@@ -100,9 +100,21 @@
                                 NIK
                             </th>
 
+                            <th class="px-6 py-4 text-left">
+                                Tempat Lahir
+                            </th>
+
+                            <th class="px-6 py-4 text-left">
+                                Tanggal Lahir
+                            </th>
+
                             <th class="px-6 py-4 text-left text-sm
                                        font-semibold text-slate-700">
                                 Jenis Kelamin
+                            </th>
+
+                            <th class="px-6 py-4 text-left">
+                                Alamat
                             </th>
 
                             <th class="px-6 py-4 text-center text-sm
@@ -159,38 +171,41 @@
 
                                 {{-- NIK --}}
                                 <td class="px-6 py-4 text-sm text-slate-600">
-
                                     {{ $patient->nik ?? '-' }}
-
                                 </td>
-
-
-                                {{-- Jenis kelamin --}}
+                                
+                                {{-- Tempat Lahir --}}
+                                <td class="px-6 py-4 text-sm text-slate-600">
+                                    {{ $patient->birth_place ?? '-' }}
+                                </td>
+                                
+                                {{-- Tanggal Lahir --}}
+                                <td class="px-6 py-4 text-sm text-slate-600">
+                                    {{ $patient->birth_date ? \Carbon\Carbon::parse($patient->birth_date)->format('d-m-Y') : '-'}}
+                                </td>
+                                
+                                {{-- Jenis Kelamin --}}
                                 <td class="px-6 py-4 text-sm">
-
                                     @if ($patient->gender === 'male')
-
-                                        <span class="px-3 py-1 rounded-full
-                                                     bg-blue-100 text-blue-700">
+                                        <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700">
                                             Laki-laki
                                         </span>
-
+                                        
                                     @elseif ($patient->gender === 'female')
-
-                                        <span class="px-3 py-1 rounded-full
-                                                     bg-pink-100 text-pink-700">
+                                        <span class="px-3 py-1 rounded-full bg-pink-100 text-pink-700">
                                             Perempuan
                                         </span>
-
                                     @else
-
                                         <span class="text-slate-400">
                                             -
                                         </span>
-
-                                    @endif
-
-                                </td>
+                                @endif
+                            </td>
+                            
+                            {{-- Alamat --}}
+                            <td class="px-6 py-4 text-sm text-slate-600">
+                                {{ $patient->address ?? '-' }}
+                            </td>
 
 
                                 {{-- Aksi --}}
@@ -201,6 +216,8 @@
 
                                         {{-- Edit --}}
                                         @if (auth()->user()->role !== 'demo')
+                                            
+
                                         <a href="{{ route('admin.patients.edit', $patient->id) }}"
                                             class="px-3 py-2 rounded-lg
                                                    bg-yellow-100 text-yellow-700
@@ -243,7 +260,7 @@
 
                             <tr>
 
-                                <td colspan="7"
+                                <td colspan="10"
                                     class="px-6 py-12 text-center">
 
                                     <div class="text-4xl mb-3">
