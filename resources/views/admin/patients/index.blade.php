@@ -100,11 +100,13 @@
                                 NIK
                             </th>
 
-                            <th class="px-6 py-4 text-left">
+                            <th class="px-6 py-4 text-left text-sm
+                                        font-semibold text-slate-700">
                                 Tempat Lahir
                             </th>
 
-                            <th class="px-6 py-4 text-left">
+                            <th class="px-6 py-4 text-lefttext-sm
+                                        font-semibold text-slate-700">
                                 Tanggal Lahir
                             </th>
 
@@ -113,7 +115,8 @@
                                 Jenis Kelamin
                             </th>
 
-                            <th class="px-6 py-4 text-left">
+                            <th class="px-6 py-4 text-lefttext-sm
+                                        font-semibold text-slate-700">
                                 Alamat
                             </th>
 
