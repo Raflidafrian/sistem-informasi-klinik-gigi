@@ -164,13 +164,7 @@
                                 )>
                                 Transfer Bank
                             </option>
-
-                            <option value="qris"
-                                @selected(
-                                    old('method', $payment->method) === 'qris'
-                                )>
-                                QRIS
-                            </option>
+                            
                         </select>
 
                         @error('method')

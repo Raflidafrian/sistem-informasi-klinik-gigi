@@ -123,8 +123,6 @@
                                     Tunai
                                 @elseif($payment->method === 'transfer')
                                     Transfer
-                                @else
-                                    QRIS
                                 @endif
 
                             </td>

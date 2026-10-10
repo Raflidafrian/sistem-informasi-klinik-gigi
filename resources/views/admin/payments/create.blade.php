@@ -208,11 +208,6 @@
                             Transfer Bank
                         </option>
 
-                        <option value="qris"
-                            {{ old('method') === 'qris' ? 'selected' : '' }}>
-                            QRIS
-                        </option>
-
                     </select>
 
                 </div>
