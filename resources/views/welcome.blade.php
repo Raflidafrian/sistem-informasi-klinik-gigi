@@ -862,7 +862,7 @@
             <p>
                 📍 Jakarta, Indonesia
                 <br>
-                📞 0812-3456-7890
+                📞 0856-7551-120
                 <br>
                 ✉️ dentalcare@gmail.com
             </p>
