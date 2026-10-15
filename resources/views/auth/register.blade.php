@@ -232,45 +232,65 @@
                 class="mt-2"/>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label
-                for="password"
-                value="Password"/>
+        
+{{-- Password --}}
+<div class="mt-4">
+    <x-input-label for="password" value="Password" />
 
-            <x-text-input
-                id="password"
-                class="block mt-1 w-full"
-                type="password"
-                name="password"
-                placeholder="Masukkan password"
-                required
-                autocomplete="new-password"/>
+    <div class="relative mt-1">
+        <x-text-input
+            id="password"
+            name="password"
+            type="password"
+            class="block w-full pr-20"
+            required
+            autocomplete="new-password"
+        />
 
-            <x-input-error
-                :messages="$errors->get('password')"
-                class="mt-2"/>
-        </div>
+        <button
+            type="button"
+            onclick="togglePassword('password', this)"
+            class="absolute inset-y-0 right-3 text-gray-600"
+            aria-label="Tampilkan password"
+        >👁</button>
+    </div>
 
-        <!-- Konfirmasi Password -->
-        <div class="mt-4">
-            <x-input-label
-                for="password_confirmation"
-                value="Konfirmasi Password"/>
+    <p id="password-strength" class="mt-1 text-sm"></p>
 
-            <x-text-input
-                id="password_confirmation"
-                class="block mt-1 w-full"
-                type="password"
-                name="password_confirmation"
-                placeholder="Ulangi password"
-                required
-                autocomplete="new-password"/>
+    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+</div>
 
-            <x-input-error
-                :messages="$errors->get('password_confirmation')"
-                class="mt-2"/>
-        </div>
+{{-- Konfirmasi Password --}}
+<div class="mt-4">
+    <x-input-label for="password_confirmation"
+                   value="Ulangi Password" />
+
+    <div class="relative mt-1">
+        <x-text-input
+            id="password_confirmation"
+            name="password_confirmation"
+            type="password"
+            class="block w-full pr-20"
+            required
+            autocomplete="new-password"
+        />
+
+        <button
+            type="button"
+            onclick="togglePassword('password_confirmation', this)"
+            class="absolute inset-y-0 right-3 text-gray-600"
+            aria-label="Tampilkan konfirmasi password"
+        >👁</button>
+    </div>
+
+    <p id="password-match" class="mt-1 text-sm"></p>
+
+    <x-input-error
+        :messages="$errors->get('password_confirmation')"
+        class="mt-2"
+    />
+</div>
+
 
         <!-- Tombol Daftar -->
         <div class="mt-6">
@@ -296,5 +316,84 @@
         </div>
 
     </form>
+
+    
+<script>
+    function togglePassword(id, button) {
+        const input = document.getElementById(id);
+
+        if (!input) return;
+
+        const isHidden = input.type === 'password';
+
+        input.type = isHidden ? 'text' : 'password';
+        button.textContent = isHidden ? '🙈' : '👁';
+        button.setAttribute(
+            'aria-label',
+            isHidden ? 'Sembunyikan password' : 'Tampilkan password'
+        );
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const password = document.getElementById('password');
+        const confirmation =
+            document.getElementById('password_confirmation');
+
+        const strengthMessage =
+            document.getElementById('password-strength');
+        const matchMessage =
+            document.getElementById('password-match');
+
+        function checkPasswords() {
+            const value = password.value;
+            const confirmValue = confirmation.value;
+
+            // Indikator panjang password
+            if (value.length === 0) {
+                strengthMessage.textContent = '';
+            } else if (value.length < 8) {
+                strengthMessage.textContent =
+                    'Password minimal 8 karakter.';
+                strengthMessage.className = 'mt-1 text-sm text-red-600';
+            } else {
+                strengthMessage.textContent =
+                    '✓ Panjang password memenuhi syarat.';
+                strengthMessage.className = 'mt-1 text-sm text-green-600';
+            }
+
+            // Indikator kecocokan password
+            if (confirmValue.length === 0) {
+                matchMessage.textContent = '';
+                confirmation.classList.remove(
+                    'border-green-500',
+                    'border-red-500'
+                );
+                return;
+            }
+
+            if (value === confirmValue) {
+                matchMessage.textContent =
+                    '✓ Password cocok!';
+                matchMessage.className =
+                    'mt-1 text-sm font-medium text-green-600';
+
+                confirmation.classList.remove('border-red-500');
+                confirmation.classList.add('border-green-500');
+            } else {
+                matchMessage.textContent =
+                    '✗ Password belum cocok.';
+                matchMessage.className =
+                    'mt-1 text-sm text-red-600';
+
+                confirmation.classList.remove('border-green-500');
+                confirmation.classList.add('border-red-500');
+            }
+        }
+
+        password.addEventListener('input', checkPasswords);
+        confirmation.addEventListener('input', checkPasswords);
+    });
+</script>
+
 
 </x-guest-layout>
