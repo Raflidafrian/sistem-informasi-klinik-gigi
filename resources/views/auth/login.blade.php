@@ -415,11 +415,45 @@
                 align-items: flex-start;
                 gap: 10px;
             }
+
+            
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper .password-input {
+    padding-right: 50px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+    color: #0f766e;
+}
+
+.toggle-password:focus-visible {
+    outline: 2px solid #0f766e;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
         }
     </style>
 </head>
-
-<body>
 
     <div class="login-wrapper">
 
@@ -575,33 +609,38 @@
                 </div>
 
 
-                <!-- PASSWORD -->
+                
+{{-- PASSWORD --}}
+<div class="form-group">
 
-                <div class="form-group">
+    <label for="password">
+        Password
+    </label>
 
-                    <label for="password">
-                        Password
-                    </label>
+    <div class="password-wrapper">
+        <input
+            id="password"
+            class="input password-input"
+            type="password"
+            name="password"
+            required
+            autocomplete="current-password"
+            placeholder="Masukkan password"
+        >
+                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+        </button>
+    </div>
 
-                    <input
-                        id="password"
-                        class="input"
-                        type="password"
-                        name="password"
-                        required
-                        autocomplete="current-password"
-                        placeholder="Masukkan password"
-                    >
+    @error('password')
+        <div class="error">
+            {{ $message }}
+        </div>
+    @enderror
 
-                    @error('password')
+</div>
 
-                        <div class="error">
-                            {{ $message }}
-                        </div>
-
-                    @enderror
-
-                </div>
 
 
                 <!-- OPTIONS -->
@@ -675,6 +714,46 @@
         </div>
 
     </div>
+
+    
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-icon');
+        const toggleButton = document.querySelector('.toggle-password');
+
+        const showPassword = passwordInput.type === 'password';
+
+        passwordInput.type = showPassword ? 'text' : 'password';
+
+        toggleButton.setAttribute(
+            'aria-label',
+            showPassword ? 'Sembunyikan password' : 'Tampilkan password'
+        );
+
+        toggleButton.setAttribute(
+            'aria-pressed',
+            String(showPassword)
+        );
+
+        if (showPassword) {
+            eyeIcon.innerHTML = `
+                <path d="M3 3l18 18"/>
+                <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+                <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5
+                    c6.4 0 10 7 10 7a16 16 0 0 1-4 4.8"/>
+                <path d="M6.2 6.2C3.5 8 2 12 2 12
+                    s3.6 7 10 7a10.5 10.5 0 0 0 4-.8"/>
+            `;
+        } else {
+            eyeIcon.innerHTML = `
+                <path d="M2 12s3.6-7 10-7
+                    10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+            `;
+        }
+    }
+</script>
 
 </body>
 

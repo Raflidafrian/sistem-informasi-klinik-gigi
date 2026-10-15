@@ -248,11 +248,26 @@
         />
 
         <button
-            type="button"
-            onclick="togglePassword('password', this)"
-            class="absolute inset-y-0 right-3 text-gray-600"
-            aria-label="Tampilkan password"
-        >👁</button>
+    type="button"
+    onclick="togglePassword('password', this)"
+    class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-600 hover:text-teal-700"
+    aria-label="Tampilkan password"
+    aria-pressed="false"
+>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="20"
+         height="20"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         aria-hidden="true">
+        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+        <circle cx="12" cy="12" r="3"/>
+    </svg>
+</button>
     </div>
 
     <p id="password-strength" class="mt-1 text-sm"></p>
@@ -276,11 +291,26 @@
         />
 
         <button
-            type="button"
-            onclick="togglePassword('password_confirmation', this)"
-            class="absolute inset-y-0 right-3 text-gray-600"
-            aria-label="Tampilkan konfirmasi password"
-        >👁</button>
+    type="button"
+    onclick="togglePassword('password_confirmation', this)"
+    class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-600 hover:text-teal-700"
+    aria-label="Tampilkan konfirmasi password"
+    aria-pressed="false"
+>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="20"
+         height="20"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         aria-hidden="true">
+        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+        <circle cx="12" cy="12" r="3"/>
+    </svg>
+</button>
     </div>
 
     <p id="password-match" class="mt-1 text-sm"></p>
@@ -320,19 +350,61 @@
     
 <script>
     function togglePassword(id, button) {
-        const input = document.getElementById(id);
+    const input = document.getElementById(id);
 
-        if (!input) return;
+    if (!input) return;
 
-        const isHidden = input.type === 'password';
+    const showPassword = input.type === 'password';
 
-        input.type = isHidden ? 'text' : 'password';
-        button.textContent = isHidden ? '🙈' : '👁';
-        button.setAttribute(
-            'aria-label',
-            isHidden ? 'Sembunyikan password' : 'Tampilkan password'
-        );
+    input.type = showPassword ? 'text' : 'password';
+
+    button.setAttribute(
+        'aria-label',
+        showPassword
+            ? 'Sembunyikan password'
+            : 'Tampilkan password'
+    );
+
+    button.setAttribute('aria-pressed', String(showPassword));
+
+    if (showPassword) {
+        // Ikon mata tercoret: password sedang ditampilkan.
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="20" height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+                <path d="M3 3l18 18"/>
+                <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+                <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5
+                         c6.4 0 10 7 10 7a16 16 0 0 1-4 4.8"/>
+                <path d="M6.2 6.2C3.5 8 2 12 2 12
+                         s3.6 7 10 7a10.5 10.5 0 0 0 4-.8"/>
+            </svg>
+        `;
+    } else {
+        // Ikon mata normal: password disembunyikan.
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="20" height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+        `;
     }
+}
 
     document.addEventListener('DOMContentLoaded', function () {
         const password = document.getElementById('password');
