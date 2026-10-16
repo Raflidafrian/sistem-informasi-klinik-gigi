@@ -219,203 +219,123 @@
 
 
     {{-- JAVASCRIPT LOAD JAM TERSEDIA --}}
-    <script>
+    
+<script>
+    const doctorInput = document.getElementById('doctor_id');
+    const dateInput = document.getElementById('appointment_date');
+    const timeInput = document.getElementById('appointment_time');
 
-        const doctorInput =
-            document.getElementById('doctor_id');
+    const oldTime = @json(old('appointment_time'));
 
-        const dateInput =
-            document.getElementById('appointment_date');
+    let requestController = null;
+    let isInitialLoad = true;
 
-        const timeInput =
-            document.getElementById('appointment_time');
+    async function loadAvailableTimes() {
+        // Batalkan permintaan lama jika dokter atau tanggal berubah.
+        if (requestController) {
+            requestController.abort();
+        }
 
-        const oldTime =
-            @json(old('appointment_time'));
+        timeInput.disabled = true;
+        timeInput.innerHTML =
+            '<option value="">Memuat jadwal...</option>';
 
-        let requestController = null;
-
-
-        async function loadAvailableTimes() {
-
-            // Batalkan permintaan sebelumnya
-            if (requestController) {
-                requestController.abort();
-            }
-
-
-            timeInput.disabled = true;
-
+        if (!doctorInput.value || !dateInput.value) {
             timeInput.innerHTML =
                 '<option value="">Pilih dokter dan tanggal dahulu</option>';
+            return;
+        }
 
+        const controller = new AbortController();
+        requestController = controller;
 
-            if (!doctorInput.value || !dateInput.value) {
+        const url = new URL(
+            @json(route('pasien.appointments.available-times')),
+            window.location.origin
+        );
+
+        url.searchParams.set('doctor_id', doctorInput.value);
+        url.searchParams.set('date', dateInput.value);
+
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    'Accept': 'application/json'
+                },
+                signal: controller.signal
+            });
+
+            if (!response.ok) {
+                throw new Error('Gagal mengambil jadwal.');
+            }
+
+            const times = await response.json();
+
+            // Abaikan hasil permintaan yang sudah kedaluwarsa.
+            if (controller !== requestController) {
                 return;
             }
 
+            timeInput.innerHTML = '';
 
-            requestController = new AbortController();
-
-            const currentRequest =
-                requestController;
-
-
-            timeInput.innerHTML =
-                '<option value="">Memuat jadwal...</option>';
-
-
-            const url = new URL(
-                "{{ route('pasien.appointments.available-times') }}"
-            );
-
-
-            url.searchParams.set(
-                'doctor_id',
-                doctorInput.value
-            );
-
-
-            url.searchParams.set(
-                'date',
-                dateInput.value
-            );
-
-
-            try {
-
-                const response =
-                    await fetch(url, {
-
-                        headers: {
-                            'Accept': 'application/json'
-                        },
-
-                        signal:
-                            currentRequest.signal
-
-                    });
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        'HTTP ' + response.status
-                    );
-
-                }
-
-
-                const times =
-                    await response.json();
-
-
-                if (
-                    currentRequest !==
-                    requestController
-                ) {
-
-                    return;
-
-                }
-
-
-                timeInput.innerHTML = '';
-
-
-                if (times.length === 0) {
-
-                    timeInput.add(
-                        new Option(
-                            'Tidak ada jam tersedia',
-                            ''
-                        )
-                    );
-
-                    return;
-
-                }
-
-
+            if (!Array.isArray(times) || times.length === 0) {
                 timeInput.add(
-                    new Option(
-                        'Pilih jam pemeriksaan',
-                        ''
-                    )
+                    new Option('Tidak ada jam tersedia', '')
                 );
-
-
-                times.forEach(time => {
-
-                    timeInput.add(
-                        new Option(
-                            time,
-                            time
-                        )
-                    );
-
-                });
-
-
-                if (times.includes(oldTime)) {
-
-                    timeInput.value =
-                        oldTime;
-
-                }
-
-
-                timeInput.disabled = false;
-
-
-            } catch (error) {
-
-                if (
-                    error.name ===
-                    'AbortError'
-                ) {
-
-                    return;
-
-                }
-
-
-                console.error(
-                    'Gagal memuat jadwal:',
-                    error
-                );
-
-
-                timeInput.innerHTML =
-                    '<option value="">Gagal memuat jadwal</option>';
-
+                return;
             }
 
+            timeInput.add(
+                new Option('Pilih jam pemeriksaan', '')
+            );
+
+            times.forEach(time => {
+                timeInput.add(new Option(time, time));
+            });
+
+            // Pulihkan jam lama hanya ketika form pertama kali dibuka,
+            // misalnya setelah validasi form gagal.
+            if (isInitialLoad && times.includes(oldTime)) {
+                timeInput.value = oldTime;
+            }
+
+            timeInput.disabled = false;
+            isInitialLoad = false;
+
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                return;
+            }
+
+            console.error('Gagal memuat jadwal:', error);
+
+            if (controller !== requestController) {
+                return;
+            }
+
+            timeInput.innerHTML =
+                '<option value="">Jadwal gagal dimuat. Silakan coba lagi.</option>';
+
+            // Tetap nonaktif agar pasien tidak mengirim pilihan jam lama.
+            timeInput.disabled = true;
         }
+    }
 
+    doctorInput.addEventListener('change', () => {
+        isInitialLoad = false;
+        loadAvailableTimes();
+    });
 
-        doctorInput.addEventListener(
-            'change',
-            loadAvailableTimes
-        );
+    dateInput.addEventListener('change', () => {
+        isInitialLoad = false;
+        loadAvailableTimes();
+    });
 
+    if (doctorInput.value && dateInput.value) {
+        loadAvailableTimes();
+    }
+</script>
 
-        dateInput.addEventListener(
-            'change',
-            loadAvailableTimes
-        );
-
-
-        if (
-            doctorInput.value &&
-            dateInput.value
-        ) {
-
-            loadAvailableTimes();
-
-        }
-
-    </script>
 
 </body>
 </html>
