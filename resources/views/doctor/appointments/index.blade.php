@@ -29,7 +29,7 @@
         <form
             method="GET"
             action="{{ route('dokter.appointments.index') }}"
-            class="flex items-end gap-4"
+            class="flex flex-col sm:flex-row sm:items-end gap-4"
         >
 
             <div>
@@ -42,15 +42,12 @@
                     type="date"
                     name="date"
                     value="{{ $date }}"
-                    class="border border-slate-300 rounded-lg px-4 py-2"
-                >
-
+                    class="w-full sm:w-auto border border-slate-300 rounded-lg px-4 py-2">
             </div>
 
             <button
                 type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg"
-            >
+                class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg"
                 Tampilkan
             </button>
 
@@ -61,9 +58,11 @@
 
     {{-- TABLE --}}
 
-    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <div class="w-full max-w-full bg-white rounded-xl border border-slate-200">
+    <div class="w-full overflow-x-auto"
+         style="-webkit-overflow-scrolling: touch;">
 
-        <table class="w-full">
+        <table class="w-full min-w-[850px]">
 
             <thead class="bg-slate-50 border-b">
 
@@ -221,7 +220,7 @@
             </tbody>
 
         </table>
-
+        </div>
     </div>
 
 </x-doctor-layout>
