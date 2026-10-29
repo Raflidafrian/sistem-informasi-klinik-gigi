@@ -18,6 +18,7 @@ class Doctor extends Model
         'license_number',
         'bio',
         'is_active',
+        'practice_address',
     ];
 
     protected $casts = [

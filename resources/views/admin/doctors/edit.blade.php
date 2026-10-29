@@ -97,6 +97,25 @@
 
                 </div>
 
+                {{-- ALAMAT PRAKTIK --}}
+                <div class="mb-5">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Alamat Praktik
+                    </label>
+
+                    <textarea
+                        name="practice_address"
+                        rows="3"
+                        placeholder="Masukkan alamat tempat praktik dokter"
+                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    >{{ old('practice_address', $doctor->practice_address) }}</textarea>
+
+                    @error('practice_address')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+
 
                 {{-- SPESIALISASI --}}
                 <div class="mb-5">

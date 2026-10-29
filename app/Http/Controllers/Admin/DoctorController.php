@@ -41,6 +41,7 @@ class DoctorController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable|string|max:20',
+            'practice_address' => 'nullable|string|max:1000',
             'specialization' => 'nullable|string|max:255',
             'license_number' => 'nullable|string|max:255',
             'bio' => 'nullable|string',
@@ -60,6 +61,7 @@ class DoctorController extends Controller
         // Buat data dokter
         Doctor::create([
             'user_id' => $user->id,
+            'practice_address' => $validated['practice_address'] ?? null,
             'specialization' => $validated['specialization'] ?? null,
             'license_number' => $validated['license_number'] ?? null,
             'bio' => $validated['bio'] ?? null,
@@ -93,6 +95,7 @@ class DoctorController extends Controller
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email,' . $doctor->user_id,
         'phone' => 'nullable|string|max:20',
+        'practice_address' => 'nullable|string|max:1000',
         'specialization' => 'nullable|string|max:255',
         'license_number' => 'nullable|string|max:255',
         'bio' => 'nullable|string',
@@ -113,6 +116,7 @@ class DoctorController extends Controller
 
     // Update data dokter
     $doctor->update([
+        'practice_address' => $validated['practice_address'] ?? null,
         'specialization' => $validated['specialization'] ?? null,
         'license_number' => $validated['license_number'] ?? null,
         'bio' => $validated['bio'] ?? null,

@@ -11,17 +11,51 @@ use Illuminate\Validation\Rule;
 
 class PatientController extends Controller
 {
-    /**
-     * Menampilkan daftar pasien
-     */
-    public function index()
-    {
-        $patients = Patient::with('user')
-            ->latest()
-            ->get();
 
-        return view('admin.patients.index', compact('patients'));
+public function index(Request $request)
+{
+    $search = trim((string) $request->query('search', ''));
+
+    $patients = Patient::with('user')
+        ->when($search !== '', function ($query) use ($search) {
+            $query->whereHas('user', function ($userQuery) use ($search) {
+                $userQuery->where('name', 'like', '%' . $search . '%');
+            });
+        })
+        ->latest()
+        ->get();
+
+    return view(
+        'admin.patients.index',
+        compact('patients', 'search')
+    );
+}
+
+
+/**
+ * Menampilkan detail pasien beserta riwayatnya
+ */
+
+/**
+ * Menampilkan detail pasien beserta riwayatnya
+ */
+    public function show(Patient $patient)
+    {
+        $patient->load([
+            'user',
+            'appointments.doctor.user',
+            'appointments.dentalRecord',
+            'dentalRecords.doctor.user',
+            'dentalRecords.appointment',
+            'billings.dentalRecord',
+            'billings.items',
+            'billings.payments',
+        ]);
+
+        return view('admin.patients.show', compact('patient'));
     }
+
+
 
 
     /**

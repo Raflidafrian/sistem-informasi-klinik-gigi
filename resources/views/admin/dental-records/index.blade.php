@@ -38,27 +38,27 @@
 
                     <tr>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             No
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Pasien
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Dokter
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Tanggal
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Diagnosis
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Tindakan
                         </th>
 

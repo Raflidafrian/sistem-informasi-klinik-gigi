@@ -59,27 +59,27 @@
 
                     <tr>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm fontibold text-slate-700">
                             No
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Pasien
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Tagihan
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Jumlah
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Metode
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Tanggal
                         </th>
 

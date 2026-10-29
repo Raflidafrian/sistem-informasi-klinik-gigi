@@ -63,35 +63,43 @@
 
                     <tr>
 
-                        <th class="px-6 py-4 text-left">
+                        <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                             No
                         </th>
 
-                        <th class="px-6 py-4 text-left">
+                        <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                             Pasien
                         </th>
 
-                        <th class="px-6 py-4 text-left">
+                        <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                             Dokter
                         </th>
 
-                        <th class="px-6 py-4 text-left">
+                        <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                             Tanggal
                         </th>
 
-                        <th class="px-6 py-4 text-left">
+                        <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                             Jam
                         </th>
 
-                        <th class="px-6 py-4 text-left">
+                        <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                             Keluhan
                         </th>
 
-                        <th class="px-6 py-4 text-left">
+                        <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                             Status
                         </th>
 
-                        <th class="px-6 py-4 text-left">
+                        <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                             Aksi
                         </th>
 

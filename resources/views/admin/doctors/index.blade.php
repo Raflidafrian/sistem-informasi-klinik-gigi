@@ -50,27 +50,30 @@
 
                     <tr>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             No
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Dokter
                         </th>
-
-                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Email
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Spesialisasi
                         </th>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Status
                         </th>
 
-                        <th class="px-6 py-4 text-center text-sm font-semibold text-gray-600">
+                        <th class="px-6 py-4 text-left text-sm font-bold text-gray-700">
+                            Alamat Praktik
+                        </th>
+
+                        <th class="px-6 py-4 text-center text-sm font-bold text-slate-700">
                             Aksi
                         </th>
 
@@ -120,6 +123,9 @@
                                     <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
                                         Aktif
                                     </span>
+                            <td class="px-6 py-4 text-sm text-gray-600">
+                                {{ $doctor->practice_address ?: '-' }}
+                            </td>
 
                                 @else
 

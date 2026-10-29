@@ -28,6 +28,38 @@
 
         </div>
 
+{{-- Pencarian pasien --}}
+<form method="GET" action="{{ route('admin.patients.index') }}"
+    class="flex flex-col sm:flex-row gap-3">
+
+    <input
+        type="text"
+        name="search"
+        value="{{ $search ?? request('search') }}"
+        placeholder="Cari nama pasien, contoh: Juh..."
+        class="w-full sm:max-w-md rounded-lg border border-slate-300
+               px-4 py-3 text-sm focus:border-blue-500
+               focus:ring-blue-500"
+    >
+
+    <button
+        type="submit"
+        class="px-5 py-3 rounded-lg bg-blue-600 text-white
+               hover:bg-blue-700 transition">
+        Cari Pasien
+    </button>
+
+    @if (request('search'))
+        <a
+            href="{{ route('admin.patients.index') }}"
+            class="px-5 py-3 rounded-lg bg-slate-100 text-slate-700
+                   hover:bg-slate-200 transition text-center">
+            Reset
+        </a>
+    @endif
+</form>
+
+
 
         {{-- Pesan sukses --}}
         @if (session('success'))
@@ -76,52 +108,52 @@
                         <tr>
 
                             <th class="px-6 py-4 text-left text-sm
-                                       font-semibold text-slate-700">
+                                       font-bold text-slate-700">
                                 No
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                       font-semibold text-slate-700">
+                                       font-bold text-slate-700">
                                 Pasien
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                       font-semibold text-slate-700">
+                                       font-bold text-slate-700">
                                 Email
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                       font-semibold text-slate-700">
+                                       font-bold text-slate-700">
                                 No. HP
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                       font-semibold text-slate-700">
+                                       font-bold text-slate-700">
                                 NIK
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                        font-semibold text-slate-700">
+                                        font-bold text-slate-700">
                                 Tempat Lahir
                             </th>
 
-                            <th class="px-6 py-4 text-lefttext-sm
-                                        font-semibold text-slate-700">
+                            <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                                 Tanggal Lahir
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                       font-semibold text-slate-700">
+                                       font-bold text-slate-700">
                                 Jenis Kelamin
                             </th>
 
-                            <th class="px-6 py-4 text-lefttext-sm
-                                        font-semibold text-slate-700">
+                            <th class="px-6 py-4 text-left text-sm
+                                        font-bold text-slate-700">
                                 Alamat
                             </th>
 
                             <th class="px-6 py-4 text-center text-sm
-                                       font-semibold text-slate-700">
+                                       font-bold text-slate-700">
                                 Aksi
                             </th>
 
@@ -143,17 +175,17 @@
 
                                 </td>
 
-
-                                {{-- Nama --}}
+                                {{-- Nama pasien menuju halaman detail --}}
                                 <td class="px-6 py-4">
-
-                                    <div class="font-semibold text-slate-900">
-
+                                    <a
+                                        href="{{ route('admin.patients.show', $patient->id) }}"
+                                        class="font-semibold text-blue-600 hover:text-blue-800
+                                            hover:underline transition"
+                                    >
                                         {{ $patient->user->name ?? '-' }}
-
-                                    </div>
-
+                                 </a>
                                 </td>
+
 
 
                                 {{-- Email --}}

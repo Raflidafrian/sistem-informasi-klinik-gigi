@@ -115,8 +115,15 @@ Route::middleware(['auth', 'role:admin,demo', DemoReadOnlyMiddleware::class,])
             'patients',
             \App\Http\Controllers\Admin\PatientController::class
         )
-        ->except(['show'])
-        ->names('admin.patients');
+         ->except(['show'])
+            ->names('admin.patients');
+
+        // Detail pasien beserta riwayatnya
+        Route::get(
+            '/patients/{patient}',
+            [\App\Http\Controllers\Admin\PatientController::class, 'show']
+        )->name('admin.patients.show');
+
 
 
         // ==================================================
