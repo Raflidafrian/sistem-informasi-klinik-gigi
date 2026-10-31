@@ -50,7 +50,7 @@ class TreatmentController extends Controller
 
         return redirect()
             ->route('admin.treatments.index')
-            ->with('success', 'Tarif tindakan berhasil ditambahkan.');
+            ->with('success', 'Tindakan layanan berhasil ditambahkan.');
     }
 
     public function edit(Treatment $treatment)
@@ -87,7 +87,7 @@ class TreatmentController extends Controller
 
         return redirect()
             ->route('admin.treatments.index')
-            ->with('success', 'Tarif tindakan berhasil diperbarui.');
+            ->with('success', 'Tindakan layanan berhasil diperbarui.');
     }
 
     public function destroy(Treatment $treatment)
@@ -96,6 +96,6 @@ class TreatmentController extends Controller
 
         return redirect()
             ->route('admin.treatments.index')
-            ->with('success', 'Tarif tindakan berhasil dihapus.');
+            ->with('success', 'Tindakan layanan berhasil dihapus.');
     }
 }

@@ -127,7 +127,7 @@
                     'active' => 'admin.dental-records.*',
                 ],
                 [
-                    'label' => 'Tarif Tindakan',
+                    'label' => 'Tindakan Layanan',
                     'icon' => 'treatment',
                     'route' => 'admin.treatments.index',
                     'active' => 'admin.treatments.*',
@@ -336,7 +336,7 @@
                             </svg>
 
 
-                        {{-- TARIF TINDAKAN --}}
+                        {{-- TINDAKAN LAYANAN --}}
                         @elseif ($menu['icon'] === 'treatment')
 
                             <svg xmlns="http://www.w3.org/2000/svg"

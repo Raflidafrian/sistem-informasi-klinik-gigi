@@ -14,9 +14,10 @@ class DoctorScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = DoctorSchedule::with('doctor')
+        $schedules = DoctorSchedule::with('doctor.user')
             ->orderBy('day_of_week')
             ->orderBy('start_time')
+            ->latest()
             ->get();
 
         return view('admin.schedules.index', compact('schedules'));

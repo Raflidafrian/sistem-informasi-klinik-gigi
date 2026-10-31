@@ -77,6 +77,10 @@
                         </th>
 
                         <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
+                            Tempat Praktik
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                             Aksi
                         </th>
 
@@ -95,7 +99,6 @@
                                 {{ $loop->iteration }}
                             </td>
 
-
                             <td class="px-6 py-4">
 
                                 <div class="font-semibold">
@@ -107,7 +110,6 @@
                                 </div>
 
                             </td>
-
 
                             <td class="px-6 py-4">
 
@@ -163,6 +165,12 @@
 
                             </td>
 
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-gray-500">
+                                    {{ $schedule->doctor->practice_address ?? 'Alamat praktik belum diisi' }}
+                                </div>
+                            </td>
+
 
                             <td class="px-6 py-4">
 
@@ -206,7 +214,7 @@
 
                         <tr>
 
-                            <td colspan="6"
+                            <td colspan="7"
                                 class="px-6 py-12 text-center text-gray-500">
 
                                 <div class="text-4xl mb-3">

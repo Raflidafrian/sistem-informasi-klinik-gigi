@@ -1,17 +1,17 @@
 
 <x-admin-layout>
     <x-slot name="title">
-        Edit Tarif Tindakan
+        Edit Tindakan Layanan
     </x-slot>
 
     <x-slot name="header">
-        Edit Tarif Tindakan
+        Edit Tindakan Layanan
     </x-slot>
 
     <div class="max-w-4xl">
         <div class="mb-6">
             <h1 class="text-2xl font-bold text-slate-900">
-                Edit Tarif Tindakan
+                Edit Tindakan Layanan
             </h1>
             <p class="text-sm text-slate-500 mt-1">
                 Perbarui kategori, informasi, dan rentang tarif tindakan.

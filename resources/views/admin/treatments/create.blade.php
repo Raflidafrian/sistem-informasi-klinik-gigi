@@ -1,11 +1,11 @@
 
 <x-admin-layout>
     <x-slot name="title">
-        Tambah Tarif Tindakan
+        Tambah Tindakan Layanan
     </x-slot>
 
     <x-slot name="header">
-        Tambah Tarif Tindakan
+        Tambah Tindakan Layanan
     </x-slot>
 
     @php
@@ -23,7 +23,7 @@
     <div class="max-w-4xl">
         <div class="mb-6">
             <h1 class="text-2xl font-bold text-slate-900">
-                Tambah Tarif Tindakan
+                Tambah Tindakan Layanan
             </h1>
             <p class="text-sm text-slate-500 mt-1">
                 Tambahkan kategori, nama tindakan, deskripsi, dan rentang tarif

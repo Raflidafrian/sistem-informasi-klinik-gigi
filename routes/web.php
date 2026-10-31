@@ -161,7 +161,7 @@ Route::middleware(['auth', 'role:admin,demo', DemoReadOnlyMiddleware::class,])
 
 
         // ==================================================
-        // TARIF TINDAKAN
+        // TINDAKAN LAYANAN
         // ==================================================
 
         Route::resource(

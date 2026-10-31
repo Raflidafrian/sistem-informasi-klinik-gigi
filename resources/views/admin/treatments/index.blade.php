@@ -1,7 +1,7 @@
 
 <x-admin-layout>
-    <x-slot name="title">Tarif Tindakan</x-slot>
-    <x-slot name="header">Tarif Tindakan</x-slot>
+    <x-slot name="title">Tindakan Layanan</x-slot>
+    <x-slot name="header">Tindakan Layanan</x-slot>
 
     @php
         $groupedTreatments = $treatments->groupBy(function ($treatment) {
@@ -14,7 +14,7 @@
         {{-- HEADER --}}
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-bold text-slate-900">Tarif Tindakan</h1>
+                <h1 class="text-2xl font-bold text-slate-900">Tindakan Layanan</h1>
                 <p class="text-sm text-slate-500 mt-1">
                     Pilih kategori untuk melihat daftar tindakan dan tarifnya.
                 </p>
@@ -40,7 +40,7 @@
                 <a href="{{ route('admin.treatments.create') }}"
                    class="inline-flex items-center justify-center gap-2 px-5 py-3
                           bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    <span>＋</span> Tambah Tindakan
+                    <span>＋</span> Tambah Tindakan Layanan
                 </a>
             </div>
         </div>
@@ -221,7 +221,7 @@
                     </section>
                 @empty
                     <div class="px-5 py-12 text-center">
-                        <p class="text-slate-500">Belum ada data tarif tindakan.</p>
+                        <p class="text-slate-500">Belum ada data tindakan layanan.</p>
                         <a href="{{ route('admin.treatments.create') }}"
                            class="inline-block mt-3 text-blue-600 font-semibold hover:text-blue-700">
                             + Tambah Tindakan
