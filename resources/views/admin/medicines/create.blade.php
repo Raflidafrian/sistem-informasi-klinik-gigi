@@ -1,11 +1,11 @@
 <x-admin-layout>
 
     <x-slot name="title">
-        Tambah Obat
+        Tambah Resep Obat
     </x-slot>
 
     <x-slot name="header">
-        Tambah Obat
+        Tambah Resep Obat
     </x-slot>
 
     <div class="max-w-4xl mx-auto">
@@ -17,11 +17,11 @@
             <div class="px-8 py-6 border-b border-slate-200">
 
                 <h1 class="text-2xl font-bold text-slate-900">
-                    Tambah Obat Baru
+                    Tambah Resep Obat Baru
                 </h1>
 
                 <p class="mt-1 text-sm text-slate-500">
-                    Masukkan data obat dengan lengkap.
+                    Masukkan data resep obat dengan lengkap.
                 </p>
 
             </div>
@@ -59,7 +59,7 @@
                 <div class="space-y-6">
 
 
-                    {{-- NAMA OBAT --}}
+                    {{-- NAMA RESEP OBAT --}}
                     <div>
 
                         <label for="name"
@@ -194,7 +194,7 @@
                                font-semibold
                                hover:bg-blue-700 transition">
 
-                        💾 Simpan Obat
+                        Simpan Obat
 
                     </button>
 

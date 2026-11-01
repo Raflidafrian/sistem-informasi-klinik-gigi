@@ -46,7 +46,7 @@ class MedicineController extends Controller
 
         return redirect()
             ->route('admin.medicines.index')
-            ->with('success', 'Data obat berhasil ditambahkan.');
+            ->with('success', 'Data resep obat berhasil ditambahkan.');
     }
 
     /**
@@ -81,7 +81,7 @@ class MedicineController extends Controller
 
     return redirect()
         ->route('admin.medicines.index')
-        ->with('success', 'Data obat berhasil diperbarui.');
+        ->with('success', 'Data resep obat berhasil diperbarui.');
 }
 
     /**
@@ -93,6 +93,6 @@ class MedicineController extends Controller
 
         return redirect()
             ->route('admin.medicines.index')
-            ->with('success', 'Data obat berhasil dihapus.');
+            ->with('success', 'Data resep obat berhasil dihapus.');
     }
 }

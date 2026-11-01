@@ -1,11 +1,11 @@
 <x-admin-layout>
 
     <x-slot name="title">
-        Data Obat
+        Resep Obat
     </x-slot>
 
     <x-slot name="header">
-        Data Obat
+        Resep Obat
     </x-slot>
 
     <div class="space-y-6">
@@ -15,11 +15,11 @@
 
             <div>
                 <h1 class="text-2xl font-bold text-slate-900">
-                    Data Obat
+                    Resep Obat
                 </h1>
 
                 <p class="text-sm text-slate-500 mt-1">
-                    Kelola data obat dan stok obat klinik.
+                    Kelola data resep obat dan stok obat klinik.
                 </p>
             </div>
 
@@ -196,7 +196,7 @@
                                     </div>
 
                                     <p class="text-slate-500 mb-4">
-                                        Belum ada data obat.
+                                        Belum ada data resep obat.
                                     </p>
 
                                     <a href="{{ route('admin.medicines.create') }}"

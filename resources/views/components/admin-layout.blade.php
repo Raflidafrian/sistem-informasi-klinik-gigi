@@ -133,7 +133,7 @@
                     'active' => 'admin.treatments.*',
                 ],
                 [
-                    'label' => 'Data Obat',
+                    'label' => 'Resep Obat',
                     'icon' => 'medicine',
                     'route' => 'admin.medicines.index',
                     'active' => 'admin.medicines.*',
@@ -360,7 +360,7 @@
                             </svg>
 
 
-                        {{-- OBAT --}}
+                        {{-- RESEP OBAT --}}
                         @elseif ($menu['icon'] === 'medicine')
 
                             <svg xmlns="http://www.w3.org/2000/svg"

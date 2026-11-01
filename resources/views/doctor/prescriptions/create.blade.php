@@ -108,7 +108,7 @@
 
                 @if($medicines->isEmpty())
                     <div class="mb-4 rounded-lg bg-amber-50 p-4 text-sm text-amber-800">
-                        Data obat belum tersedia. Hubungi admin untuk
+                        Data resep obat belum tersedia. Hubungi admin untuk
                         menambahkan obat terlebih dahulu.
                     </div>
                 @endif
@@ -195,7 +195,7 @@
 @endphp
 
 <script>
-    // Data obat dari Laravel
+    // Data resep obat dari Laravel
     const medicines = {{ Illuminate\Support\Js::from($medicineOptions) }};
 
     // Kembalikan data sebelumnya jika validasi gagal

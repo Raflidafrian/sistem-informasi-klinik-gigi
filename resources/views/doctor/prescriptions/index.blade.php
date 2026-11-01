@@ -47,8 +47,7 @@
                             </td>
 
                             <td class="p-4 font-medium">
-                                {{ $prescription->patient?->user?->name
-                                    ?? '-' }}
+                                {{ $prescription->dentalRecord?->patient?->user?->name ?? '-' }}
                             </td>
 
                             <td class="p-4">

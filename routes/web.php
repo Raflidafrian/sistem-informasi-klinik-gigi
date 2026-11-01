@@ -172,7 +172,7 @@ Route::middleware(['auth', 'role:admin,demo', DemoReadOnlyMiddleware::class,])
 
 
         // ==================================================
-        // DATA OBAT
+        // RESEP OBAT
         // ==================================================
 
         Route::resource(
@@ -180,6 +180,15 @@ Route::middleware(['auth', 'role:admin,demo', DemoReadOnlyMiddleware::class,])
             \App\Http\Controllers\Admin\MedicineController::class
         )
         ->names('admin.medicines');
+
+        Route::get(
+            '/prescriptions',
+            [\App\Http\Controllers\Admin\PrescriptionController::class, 'index']
+        )->name('admin.prescriptions.index');
+        Route::get(
+            '/prescriptions/{prescription}',
+            [\App\Http\Controllers\Admin\PrescriptionController::class, 'show']
+        )->name('admin.prescriptions.show');
 
 
         // ==================================================
