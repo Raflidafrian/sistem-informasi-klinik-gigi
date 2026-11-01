@@ -13,19 +13,22 @@
                 </p>
             </div>
 
-            <div class="flex gap-3">
+            <div class="flex flex-wrap gap-3">
                 <a href="{{ route('admin.billings.index') }}"
-                   class="rounded-lg border bg-white px-4 py-2 text-slate-700">
-                    ← Kembali
-                </a>
-
-                <a href="{{ route('admin.billings.edit', $billing->id) }}"
-                   class="rounded-lg bg-blue-600 px-4 py-2
-                          font-semibold text-white hover:bg-blue-700">
-                    Edit Tagihan
-                </a>
-            </div>
+                class="rounded-lg border bg-white px-4 py-2 text-slate-700 hover:bg-slate-50">
+                ← Kembali
+            </a>
+            <a href="{{ route('admin.billings.invoice', $billing->id) }}"
+                target="_blank" class="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700">
+                <i class="fa-solid fa-file-pdf mr-2"></i>
+                Cetak Invoice
+            </a>
+            <a href="{{ route('admin.billings.edit', $billing->id) }}"
+                class="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700">
+                Edit Tagihan
+            </a>
         </div>
+    </div>
 
         {{-- INFORMASI PASIEN DAN TAGIHAN --}}
         <div class="grid gap-6 md:grid-cols-2">

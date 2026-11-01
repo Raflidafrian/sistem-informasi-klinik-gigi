@@ -195,11 +195,17 @@ Route::middleware(['auth', 'role:admin,demo', DemoReadOnlyMiddleware::class,])
         // TAGIHAN
         // ==================================================
 
+        // Cetak invoice
+        Route::get(
+            '/billings/{billing}/invoice',
+            [\App\Http\Controllers\Admin\BillingController::class, 'invoice']
+        )->name('admin.billings.invoice');
+
+        // CRUD tagihan
         Route::resource(
             'billings',
             \App\Http\Controllers\Admin\BillingController::class
-        )
-        ->names('admin.billings');
+        )->names('admin.billings');
 
 
         // ==================================================

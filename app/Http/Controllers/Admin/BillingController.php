@@ -132,8 +132,21 @@ class BillingController extends Controller
             compact('billing')
         );
     }
-
-
+    /**
+    * Halaman invoice yang siap dicetak
+    */
+    public function invoice(Billing $billing)
+    {
+        $billing->load([
+            'patient.user',
+            'dentalRecord.doctor.user',
+            'items.treatment',
+        ]);
+        return view(
+            'admin.billings.invoice',
+            compact('billing')
+        );
+    }
     /**
      * Form edit tagihan
      */
