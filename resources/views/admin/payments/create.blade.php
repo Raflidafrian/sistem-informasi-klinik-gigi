@@ -177,40 +177,182 @@
                 </div>
 
 
-                {{-- METODE PEMBAYARAN --}}
-                <div class="mb-6">
+                
+{{-- METODE PEMBAYARAN --}}
+<div class="mb-6">
 
-                    <label for="method"
-                           class="block text-sm font-medium text-slate-700 mb-2">
+    <label class="mb-3 block text-sm font-semibold text-slate-700">
+        Metode Pembayaran
+    </label>
 
-                        Metode Pembayaran
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
-                    </label>
+        {{-- TUNAI --}}
+        <label class="flex cursor-pointer items-center gap-3 rounded-xl
+                      border border-slate-200 p-4 transition
+                      hover:border-blue-400 has-[:checked]:border-blue-500
+                      has-[:checked]:bg-blue-50">
 
-                    <select
-                        name="method"
-                        id="method"
-                        required
-                        class="w-full rounded-lg border-slate-300
-                               focus:border-blue-500 focus:ring-blue-500">
+            <input
+                type="radio"
+                name="method"
+                value="cash"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                {{ old('method', 'cash') === 'cash' ? 'checked' : '' }}
+            >
 
-                        <option value="">
-                            -- Pilih Metode Pembayaran --
-                        </option>
+            <span class="flex h-11 w-11 items-center justify-center
+                         rounded-lg bg-green-100 text-green-700">
+                <i class="fa-solid fa-money-bill-wave text-xl"></i>
+            </span>
 
-                        <option value="cash"
-                            {{ old('method') === 'cash' ? 'selected' : '' }}>
-                            Tunai
-                        </option>
+            <span>
+                <span class="block font-semibold text-slate-800">
+                    Tunai
+                </span>
+                <span class="text-xs text-slate-500">
+                    Pembayaran secara langsung
+                </span>
+            </span>
 
-                        <option value="transfer"
-                            {{ old('method') === 'transfer' ? 'selected' : '' }}>
-                            Transfer Bank
-                        </option>
+        </label>
 
-                    </select>
 
-                </div>
+        {{-- TRANSFER BANK --}}
+        <label class="flex cursor-pointer items-center gap-3 rounded-xl
+                      border border-slate-200 p-4 transition
+                      hover:border-blue-400 has-[:checked]:border-blue-500
+                      has-[:checked]:bg-blue-50">
+
+            <input
+                type="radio"
+                name="method"
+                value="transfer"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                {{ old('method') === 'transfer' ? 'checked' : '' }}
+            >
+
+            <span class="flex h-11 w-11 items-center justify-center
+                         rounded-lg bg-blue-100 text-blue-700">
+                <i class="fa-solid fa-building-columns text-xl"></i>
+            </span>
+
+            <span>
+                <span class="block font-semibold text-slate-800">
+                    Transfer Bank
+                </span>
+                <span class="text-xs text-slate-500">
+                    Pembayaran melalui rekening bank
+                </span>
+            </span>
+
+        </label>
+
+    </div>
+
+</div>
+
+
+{{-- PILIHAN CASH --}}
+<div id="cash-option"
+     class="mb-6 hidden rounded-xl border border-green-200
+            bg-green-50 p-4">
+
+    <p class="mb-3 text-sm font-semibold text-green-800">
+        Pilihan Pembayaran Tunai
+    </p>
+
+    <label class="flex cursor-pointer items-center gap-3 rounded-lg
+                  border border-green-200 bg-white p-4">
+
+        <input
+            type="checkbox"
+            id="cash-checkbox"
+            checked
+            disabled
+            class="h-4 w-4 rounded text-green-600"
+        >
+
+        <span class="flex h-10 w-10 items-center justify-center
+                     rounded-lg bg-green-100 text-green-700">
+            <i class="fa-solid fa-wallet"></i>
+        </span>
+
+        <span>
+            <span class="block font-semibold text-slate-800">
+                Cash (Uang Tunai)
+            </span>
+            <span class="text-xs text-slate-500">
+                Pembayaran dilakukan secara tunai.
+            </span>
+        </span>
+
+    </label>
+
+</div>
+
+
+{{-- PILIHAN BANK --}}
+<div id="bank-option"
+     class="mb-6 hidden rounded-xl border border-blue-200
+            bg-blue-50 p-4">
+
+    <label for="bank_name"
+           class="mb-2 block text-sm font-semibold text-blue-900">
+
+        Pilih Bank Tujuan
+
+    </label>
+
+    <select
+        name="bank_name"
+        id="bank_name"
+        class="w-full rounded-lg border-slate-300 bg-white
+               focus:border-blue-500 focus:ring-blue-500">
+
+        <option value="">
+            -- Pilih Bank --
+        </option>
+
+        @php
+            $banks = [
+                'BCA Syariah',
+                'Bank Central Asia (BCA)',
+                'Bank Mandiri',
+                'Bank Rakyat Indonesia (BRI)',
+                'Bank Negara Indonesia (BNI)',
+                'Bank Syariah Indonesia (BSI)',
+                'Bank Tabungan Negara (BTN)',
+                'CIMB Niaga',
+                'Bank Danamon',
+                'Bank Permata',
+                'OCBC',
+                'Maybank',
+                'Bank Mega',
+            ];
+        @endphp
+
+        @foreach($banks as $bank)
+            <option
+                value="{{ $bank }}"
+                {{ old('bank_name') === $bank ? 'selected' : '' }}
+            >
+                {{ $bank }}
+            </option>
+        @endforeach
+
+    </select>
+
+    <p class="mt-2 text-xs text-blue-700">
+        Silakan pilih bank yang digunakan pasien untuk melakukan transfer.
+    </p>
+
+    @error('bank_name')
+        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+
+</div>
+
 
 
                 {{-- TANGGAL PEMBAYARAN --}}
@@ -271,72 +413,96 @@
     {{-- JAVASCRIPT --}}
     <script>
 
-        document.addEventListener('DOMContentLoaded', function () {
+        
+document.addEventListener('DOMContentLoaded', function () {
 
-            const billingSelect = document.getElementById('billing_id');
+    const billingSelect = document.getElementById('billing_id');
+    const billingInfo = document.getElementById('billing-info');
+    const patientName = document.getElementById('patient-name');
+    const billingTotal = document.getElementById('billing-total');
+    const amountInput = document.getElementById('amount');
 
-            const billingInfo = document.getElementById('billing-info');
+    const methodInputs = document.querySelectorAll(
+        'input[name="method"]'
+    );
 
-            const patientName = document.getElementById('patient-name');
+    const cashOption = document.getElementById('cash-option');
+    const bankOption = document.getElementById('bank-option');
+    const bankSelect = document.getElementById('bank_name');
 
-            const billingTotal = document.getElementById('billing-total');
+    // Informasi tagihan
+    billingSelect.addEventListener('change', function () {
 
-            const amountInput = document.getElementById('amount');
+        const selected =
+            billingSelect.options[billingSelect.selectedIndex];
 
+        if (!billingSelect.value) {
+            billingInfo.classList.add('hidden');
+            patientName.textContent = '-';
+            billingTotal.textContent = 'Rp 0';
+            amountInput.value = '';
+            return;
+        }
 
-            billingSelect.addEventListener('change', function () {
+        const total = parseFloat(selected.dataset.total || 0);
+        const patient = selected.dataset.patient || '-';
 
-                const selected =
-                    billingSelect.options[billingSelect.selectedIndex];
+        patientName.textContent = patient;
 
+        billingTotal.textContent =
+            'Rp ' + total.toLocaleString('id-ID');
 
-                if (!billingSelect.value) {
+        amountInput.value = total;
 
-                    billingInfo.classList.add('hidden');
-
-                    patientName.textContent = '-';
-
-                    billingTotal.textContent = 'Rp 0';
-
-                    amountInput.value = '';
-
-                    return;
-
-                }
-
-
-                const total =
-                    parseFloat(selected.dataset.total || 0);
-
-                const patient =
-                    selected.dataset.patient || '-';
-
-
-                patientName.textContent = patient;
-
-
-                billingTotal.textContent =
-                    'Rp ' + total.toLocaleString('id-ID');
+        billingInfo.classList.remove('hidden');
+    });
 
 
-                amountInput.value = total;
+    // Pilihan metode pembayaran
+    function updatePaymentMethod() {
 
+        const selectedMethod = document.querySelector(
+            'input[name="method"]:checked'
+        )?.value;
 
-                billingInfo.classList.remove('hidden');
+        if (selectedMethod === 'cash') {
 
-            });
+            cashOption.classList.remove('hidden');
+            bankOption.classList.add('hidden');
 
+            bankSelect.required = false;
+            bankSelect.value = '';
 
-            // Tampilkan kembali informasi jika old billing tersedia
-            if (billingSelect.value) {
+        } else if (selectedMethod === 'transfer') {
 
-                billingSelect.dispatchEvent(
-                    new Event('change')
-                );
+            cashOption.classList.add('hidden');
+            bankOption.classList.remove('hidden');
 
-            }
+            bankSelect.required = true;
 
-        });
+        } else {
+
+            cashOption.classList.add('hidden');
+            bankOption.classList.add('hidden');
+
+            bankSelect.required = false;
+        }
+    }
+
+    methodInputs.forEach(function (input) {
+        input.addEventListener('change', updatePaymentMethod);
+    });
+
+    // Pulihkan pilihan setelah validasi gagal
+    updatePaymentMethod();
+
+    // Tampilkan informasi tagihan jika sebelumnya sudah dipilih
+    if (billingSelect.value) {
+        billingSelect.dispatchEvent(new Event('change'));
+    }
+
+});
+
 
     </script>
 
