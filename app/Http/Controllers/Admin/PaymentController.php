@@ -8,6 +8,7 @@ use App\Models\Billing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class PaymentController extends Controller
 {
@@ -18,15 +19,12 @@ class PaymentController extends Controller
     {
         $payments = Payment::with([
             'billing.patient.user',
-            'processor'
+            'processor',
         ])
-        ->latest()
-        ->get();
+            ->latest()
+            ->get();
 
-        return view(
-            'admin.payments.index',
-            compact('payments')
-        );
+        return view('admin.payments.index', compact('payments'));
     }
 
     /**
@@ -36,102 +34,143 @@ class PaymentController extends Controller
     {
         $billings = Billing::with([
             'patient.user',
-            'dentalRecord'
+            'dentalRecord',
         ])
-        ->where('status', 'unpaid')
-        ->latest()
-        ->get();
+            ->where('status', 'unpaid')
+            ->latest()
+            ->get();
 
-        return view(
-            'admin.payments.create',
-            compact('billings')
-        );
+        return view('admin.payments.create', compact('billings'));
     }
 
     /**
-     * Simpan pembayaran
+     * Simpan pembayaran baru
      */
-    /**
- * Simpan pembayaran
- */
+    public function store(Request $request)
+    {
+        $bankNames = [
+            'BCA Syariah',
+            'Bank Central Asia (BCA)',
+            'Bank Mandiri',
+            'Bank Rakyat Indonesia (BRI)',
+            'Bank Negara Indonesia (BNI)',
+            'Bank Syariah Indonesia (BSI)',
+            'Bank Tabungan Negara (BTN)',
+            'CIMB Niaga',
+            'Bank Danamon',
+            'Bank Permata',
+            'OCBC',
+            'Maybank',
+            'Bank Mega',
+        ];
 
-/**
- * Simpan pembayaran
- */
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'billing_id' => 'required|exists:billings,id',
+        $validated = $request->validate([
+            'billing_id' => [
+                'required',
+                'integer',
+                'exists:billings,id',
+            ],
 
-        'amount' => 'required|numeric|min:0',
+            'amount' => [
+                'required',
+                'numeric',
+                'gt:0',
+            ],
 
-        'method' => 'required|in:cash,transfer',
+            'method' => [
+                'required',
+                Rule::in(['cash', 'transfer']),
+            ],
 
-        'bank_name' => [
-            'nullable',
-            'required_if:method,transfer',
-            'in:BCA Syariah,Bank Central Asia (BCA),Bank Mandiri,Bank Rakyat Indonesia (BRI),Bank Negara Indonesia (BNI),Bank Syariah Indonesia (BSI),Bank Tabungan Negara (BTN),CIMB Niaga,Bank Danamon,Bank Permata,OCBC,Maybank,Bank Mega',
-        ],
+            'bank_name' => [
+                'nullable',
+                'required_if:method,transfer',
+                Rule::in($bankNames),
+            ],
 
-        'paid_at' => 'required|date',
-    ], [
-        'bank_name.required_if' => 'Silakan pilih bank untuk pembayaran transfer.',
-        'bank_name.in' => 'Pilihan bank tidak valid.',
-    ]);
-
-    // Ambil data tagihan
-    $billing = Billing::findOrFail($validated['billing_id']);
-
-    // Pastikan tagihan belum dibayar
-    if ($billing->status === 'paid') {
-        return back()
-            ->withInput()
-            ->withErrors([
-                'billing_id' => 'Tagihan ini sudah dibayar.',
-            ]);
-    }
-
-    // Pastikan jumlah pembayaran sama dengan total tagihan
-    $totalAmount = (float) $billing->total_amount;
-    $paymentAmount = (float) $validated['amount'];
-
-    if (number_format($paymentAmount, 2, '.', '') !==
-        number_format($totalAmount, 2, '.', '')) {
-
-        return back()
-            ->withInput()
-            ->withErrors([
-                'amount' =>
-                    'Jumlah pembayaran harus sama dengan total tagihan yaitu Rp ' .
-                    number_format($totalAmount, 0, ',', '.'),
-            ]);
-    }
-
-    // Simpan pembayaran dan perbarui status tagihan
-    DB::transaction(function () use ($billing, $validated, $paymentAmount) {
-
-        Payment::create([
-            'billing_id' => $billing->id,
-            'amount' => $paymentAmount,
-            'method' => $validated['method'],
-            'bank_name' => $validated['method'] === 'transfer'
-                ? $validated['bank_name']
-                : null,
-            'paid_at' => $validated['paid_at'],
-            'processed_by' => Auth::id(),
+            'paid_at' => [
+                'required',
+                'date',
+            ],
+        ], [
+            'billing_id.required' => 'Silakan pilih tagihan terlebih dahulu.',
+            'billing_id.exists' => 'Tagihan yang dipilih tidak ditemukan.',
+            'amount.required' => 'Jumlah pembayaran wajib diisi.',
+            'amount.numeric' => 'Jumlah pembayaran harus berupa angka.',
+            'amount.gt' => 'Jumlah pembayaran harus lebih dari nol.',
+            'method.required' => 'Silakan pilih metode pembayaran.',
+            'method.in' => 'Metode pembayaran tidak valid.',
+            'bank_name.required_if' => 'Silakan pilih bank untuk pembayaran transfer.',
+            'bank_name.in' => 'Pilihan bank tidak valid.',
+            'paid_at.required' => 'Tanggal pembayaran wajib diisi.',
+            'paid_at.date' => 'Format tanggal pembayaran tidak valid.',
         ]);
 
-        $billing->update([
-            'status' => 'paid',
-        ]);
+        try {
+            DB::transaction(function () use ($validated) {
 
-    });
+                // Ambil dan kunci tagihan agar tidak diproses bersamaan.
+                $billing = Billing::whereKey($validated['billing_id'])
+                    ->lockForUpdate()
+                    ->firstOrFail();
 
-    return redirect()
-        ->route('admin.payments.index')
-        ->with('success', 'Pembayaran berhasil diproses.');
-}
+                // Pastikan tagihan belum dibayar.
+                if ($billing->status === 'paid') {
+                    throw new \RuntimeException(
+                        'Tagihan ini sudah dibayar.'
+                    );
+                }
 
+                // Pastikan nominal pembayaran sesuai total tagihan.
+                $paymentAmount = round((float) $validated['amount'], 2);
+                $totalAmount = round((float) $billing->total_amount, 2);
+
+                if ($paymentAmount !== $totalAmount) {
+                    throw new \RuntimeException(
+                        'Jumlah pembayaran harus sama dengan total tagihan yaitu Rp ' .
+                        number_format($totalAmount, 0, ',', '.')
+                    );
+                }
+
+                // Simpan pembayaran.
+                Payment::create([
+                    'billing_id' => $billing->id,
+                    'amount' => $paymentAmount,
+                    'method' => $validated['method'],
+
+                    'bank_name' => $validated['method'] === 'transfer'
+                        ? ($validated['bank_name'] ?? null)
+                        : null,
+
+                    'paid_at' => $validated['paid_at'],
+                    'processed_by' => Auth::id(),
+                ]);
+
+                // Perbarui status tagihan.
+                $billing->update([
+                    'status' => 'paid',
+                ]);
+            });
+
+        } catch (\RuntimeException $e) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'billing_id' => $e->getMessage(),
+                ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'billing_id' => 'Tagihan tidak ditemukan.',
+                ]);
+        }
+
+        return redirect()
+            ->route('admin.payments.index')
+            ->with('success', 'Pembayaran berhasil diproses.');
+    }
 
     /**
      * Form edit pembayaran
@@ -139,119 +178,136 @@ public function store(Request $request)
     public function edit(Payment $payment)
     {
         $payment->load([
-            'billing.patient.user'
+            'billing.patient.user',
         ]);
 
-        return view(
-            'admin.payments.edit',
-            compact('payment')
-        );
+        return view('admin.payments.edit', compact('payment'));
     }
 
-    
+    /**
+     * Update pembayaran
+     */
+    public function update(Request $request, Payment $payment)
+    {
+        $bankNames = [
+            'BCA Syariah',
+            'Bank Central Asia (BCA)',
+            'Bank Mandiri',
+            'Bank Rakyat Indonesia (BRI)',
+            'Bank Negara Indonesia (BNI)',
+            'Bank Syariah Indonesia (BSI)',
+            'Bank Tabungan Negara (BTN)',
+            'CIMB Niaga',
+            'Bank Danamon',
+            'Bank Permata',
+            'OCBC',
+            'Maybank',
+            'Bank Mega',
+        ];
 
-/**
- * Update pembayaran
- */
-public function update(Request $request, Payment $payment)
-{
-    $validated = $request->validate([
-        'amount' => 'required|numeric|min:0',
+        $validated = $request->validate([
+            'amount' => [
+                'required',
+                'numeric',
+                'gt:0',
+            ],
 
-        'method' => 'required|in:cash,transfer,qris',
+            'method' => [
+                'required',
+                Rule::in(['cash', 'transfer', 'qris']),
+            ],
 
-        'bank_name' => [
-            'nullable',
-            'required_if:method,transfer',
-            'in:BCA Syariah,Bank Central Asia (BCA),Bank Mandiri,Bank Rakyat Indonesia (BRI),Bank Negara Indonesia (BNI),Bank Syariah Indonesia (BSI),Bank Tabungan Negara (BTN),CIMB Niaga,Bank Danamon,Bank Permata,OCBC,Maybank,Bank Mega',
-        ],
+            'bank_name' => [
+                'nullable',
+                'required_if:method,transfer',
+                Rule::in($bankNames),
+            ],
 
-        'paid_at' => 'required|date',
-    ], [
-        'bank_name.required_if' => 'Silakan pilih bank untuk pembayaran transfer.',
-        'bank_name.in' => 'Pilihan bank tidak valid.',
-    ]);
+            'paid_at' => [
+                'required',
+                'date',
+            ],
+        ], [
+            'amount.required' => 'Jumlah pembayaran wajib diisi.',
+            'amount.numeric' => 'Jumlah pembayaran harus berupa angka.',
+            'amount.gt' => 'Jumlah pembayaran harus lebih dari nol.',
+            'method.required' => 'Silakan pilih metode pembayaran.',
+            'method.in' => 'Metode pembayaran tidak valid.',
+            'bank_name.required_if' => 'Silakan pilih bank untuk pembayaran transfer.',
+            'bank_name.in' => 'Pilihan bank tidak valid.',
+            'paid_at.required' => 'Tanggal pembayaran wajib diisi.',
+            'paid_at.date' => 'Format tanggal pembayaran tidak valid.',
+        ]);
 
-    $billing = $payment->billing;
+        $billing = $payment->billing;
 
-    if (!$billing) {
-        return back()
-            ->withInput()
-            ->withErrors([
-                'amount' => 'Tagihan pembayaran tidak ditemukan.',
+        if (!$billing) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'amount' => 'Tagihan pembayaran tidak ditemukan.',
+                ]);
+        }
+
+        $amount = round((float) $validated['amount'], 2);
+        $total = round((float) $billing->total_amount, 2);
+
+        if ($amount !== $total) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'amount' => 'Jumlah pembayaran harus sama dengan total tagihan.',
+                ]);
+        }
+
+        DB::transaction(function () use ($payment, $billing, $validated, $amount) {
+
+            $payment->update([
+                'amount' => $amount,
+                'method' => $validated['method'],
+
+                'bank_name' => $validated['method'] === 'transfer'
+                    ? ($validated['bank_name'] ?? null)
+                    : null,
+
+                'paid_at' => $validated['paid_at'],
             ]);
-    }
 
-    // Pastikan jumlah pembayaran sama dengan total tagihan.
-    $amount = number_format(
-        (float) $validated['amount'],
-        2,
-        '.',
-        ''
-    );
-
-    $total = number_format(
-        (float) $billing->total_amount,
-        2,
-        '.',
-        ''
-    );
-
-    if ($amount !== $total) {
-        return back()
-            ->withInput()
-            ->withErrors([
-                'amount' => 'Jumlah pembayaran harus sama dengan total tagihan.',
+            $billing->update([
+                'status' => 'paid',
             ]);
+        });
+
+        return redirect()
+            ->route('admin.payments.index')
+            ->with('success', 'Pembayaran berhasil diperbarui.');
     }
-
-    // Perbarui pembayaran dan status tagihan.
-    DB::transaction(function () use ($payment, $billing, $validated) {
-
-        $payment->update([
-            'amount' => $validated['amount'],
-
-            'method' => $validated['method'],
-
-            'bank_name' => $validated['method'] === 'transfer'
-                ? $validated['bank_name']
-                : null,
-
-            'paid_at' => $validated['paid_at'],
-        ]);
-
-        $billing->update([
-            'status' => 'paid',
-        ]);
-
-    });
-
-    return redirect()
-        ->route('admin.payments.index')
-        ->with('success', 'Pembayaran berhasil diperbarui.');
-}
-
-
 
     /**
      * Hapus pembayaran
      */
     public function destroy(Payment $payment)
     {
-        $billing = $payment->billing;
+        DB::transaction(function () use ($payment) {
 
-        $payment->delete();
+            $payment = Payment::whereKey($payment->id)
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        // Kembalikan status tagihan menjadi unpaid
-        $billing->update([
-            'status' => 'unpaid',
-        ]);
+            $billing = $payment->billing;
+
+            $payment->delete();
+
+            // Kembalikan status tagihan menjadi unpaid.
+            if ($billing) {
+                $billing->update([
+                    'status' => 'unpaid',
+                ]);
+            }
+        });
 
         return redirect()
             ->route('admin.payments.index')
-            ->with(
-                'success',
-                'Pembayaran berhasil dihapus.'
-            );
+            ->with('success', 'Pembayaran berhasil dihapus.');
     }
 }

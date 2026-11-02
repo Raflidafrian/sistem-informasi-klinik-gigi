@@ -1,4 +1,3 @@
-```blade
 <x-admin-layout>
 
     <x-slot name="title">
@@ -236,4 +235,3 @@
     </div>
 
 </x-admin-layout>
-```
