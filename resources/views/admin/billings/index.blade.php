@@ -36,6 +36,49 @@
 
         </div>
 
+        {{-- SEARCH TAGIHAN --}}
+        <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <form action="{{ route('admin.billings.index') }}" method="GET" class="flex flex-col gap-3 sm:flex-row">
+        <div class="relative flex-1">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
+            </div>
+            
+            <input
+                type="text"
+                name="search"
+                value="{{ $search ?? request('search') }}"
+                placeholder="Cari nama pasien atau nomor tagihan..."
+                class="w-full rounded-lg border border-slate-300 py-3 pl-10 pr-4 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+            </div>
+            
+            <div class="grid grid-cols-2 gap-2 sm:flex">
+                <button type="submit" class="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700">
+                    <i class="fa-solid fa-search mr-1"></i>
+                        Cari
+                    </button>
+                
+                <a href="{{ route('admin.billings.index') }}" class="rounded-lg border border-slate-300 bg-white px-5 py-3 text-center text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                    <i class="fa-solid fa-rotate-left mr-1"></i>
+                        Reset
+                </a>
+            </div>
+        </form>
+    
+        @if(!empty($search))
+        
+        <p class="mt-3 text-sm text-slate-500">
+            Hasil pencarian untuk:
+        <span class="font-semibold text-slate-700">
+            "{{ $search }}"
+        </span>
+        
+        — {{ $billings->count() }} tagihan ditemukan.
+        </p>
+
+    @endif
+
+</div>
 
         {{-- SUCCESS --}}
         @if(session('success'))
@@ -175,33 +218,47 @@
                             </tr>
 
                         @empty
-
-                            <tr>
-                                <td colspan="5" class="px-6 py-16 text-center">
-
-                                    <div class="mb-3 text-4xl">🧾</div>
-
-                                    <p class="text-sm text-slate-500">
-                                        Belum ada data tagihan.
-                                    </p>
-
-                                    <a href="{{ route('admin.billings.create') }}"
-                                       class="mt-4 inline-block font-semibold text-blue-600">
-                                        + Tambah Tagihan
-                                    </a>
-
-                                </td>
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
+                        
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center">
+                                
+                                @if(!empty($search))
+                                
+                                <div class="flex flex-col items-center">
+                                <i class="fa-solid fa-magnifying-glass-minus mb-3 text-4xl text-slate-300"></i>
+                                <h3 class="font-semibold text-slate-700">
+                                    Tagihan Tidak Ditemukan
+                                </h3>
+                                
+                                <p class="mt-2 text-sm text-slate-500">
+                                    Tagihan dengan kata kunci "{{ $search }}" tidak ditemukan.
+                                </p>
+                                
+                                <p class="mt-1 text-xs text-slate-400">
+                                    Silakan periksa kembali kata kunci pencarian Anda.
+                                </p>
+                                
+                                <a href="{{ route('admin.billings.index') }}" class="mt-4 font-semibold text-blue-600 hover:text-blue-700">
+                                    Reset Pencarian
+                                </a>
+                            </div>
+                        @else
+                            <div class="text-4xl mb-3">🧾</div>
+                            <p class="text-slate-500">
+                                Belum ada data tagihan.
+                            </p>
+                            
+                            <a href="{{ route('admin.billings.create') }}" class="mt-4 inline-block font-semibold text-blue-600">
+                                + Tambah Tagihan
+                            </a>
+                        @endif
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+</div>
 
 
         {{-- ====================================== --}}
@@ -342,27 +399,40 @@
                 </div>
 
             @empty
+            <div class="rounded-xl border border-slate-200 bg-white px-4 py-12 text-center shadow-sm">
+                
+                @if(!empty($search))
+                
+                <i class="fa-solid fa-magnifying-glass-minus mb-3 text-4xl text-slate-300"></i>
+                <h3 class="font-semibold text-slate-700">
+                    Tagihan Tidak Ditemukan
+                </h3>
+                
+                <p class="mt-2 text-sm text-slate-500">
+                    Tagihan dengan kata kunci "{{ $search }}" tidak ditemukan.
+                </p>
+                
+                <p class="mt-1 text-xs text-slate-400">
+                    Silakan periksa kembali kata kunci pencarian Anda.
+                </p>
+                
+                <a href="{{ route('admin.billings.index') }}" class="mt-4 inline-block font-semibold text-blue-600">
+                    Reset Pencarian
+                </a>
+            @else
+            
+            <div class="mb-3 text-4xl">🧾</div>
+            
+            <p class="text-sm text-slate-500">
+                Belum ada data tagihan.
+            </p>
 
-                <div class="rounded-xl border border-slate-200 bg-white
-                            px-4 py-12 text-center shadow-sm">
-
-                    <div class="mb-3 text-4xl">🧾</div>
-
-                    <p class="text-sm text-slate-500">
-                        Belum ada data tagihan.
-                    </p>
-
-                    <a href="{{ route('admin.billings.create') }}"
-                       class="mt-4 inline-block font-semibold text-blue-600">
-                        + Tambah Tagihan
-                    </a>
-
-                </div>
-
-            @endforelse
-
-        </div>
-
+            <a href="{{ route('admin.billings.create') }}" class="mt-4 inline-block font-semibold text-blue-600">
+                + Tambah Tagihan
+            </a>
+        @endif
     </div>
-
+@endforelse
+</div>
+</div>
 </x-admin-layout>

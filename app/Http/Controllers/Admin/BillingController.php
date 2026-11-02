@@ -17,20 +17,44 @@ class BillingController extends Controller
     /**
      * Daftar tagihan
      */
-    public function index()
-    {
-        $billings = Billing::with([
-            'patient.user',
-            'dentalRecord'
-        ])
-        ->latest()
-        ->get();
+    
+/**
+ * Daftar tagihan dan pencarian
+ */
+public function index(Request $request)
+{
+    $search = trim($request->input('search', ''));
 
-        return view(
-            'admin.billings.index',
-            compact('billings')
-        );
-    }
+    $billings = Billing::with([
+        'patient.user',
+        'dentalRecord'
+    ])
+    ->when($search !== '', function ($query) use ($search) {
+
+        $query->where(function ($q) use ($search) {
+
+            // Pencarian berdasarkan nomor tagihan
+            if (ctype_digit($search)) {
+                $q->where('id', $search);
+            }
+
+            // Pencarian berdasarkan nama pasien
+            $q->orWhereHas('patient.user', function ($userQuery) use ($search) {
+                $userQuery->where('name', 'LIKE', "%{$search}%");
+            });
+
+        });
+
+    })
+    ->latest()
+    ->get();
+
+    return view(
+        'admin.billings.index',
+        compact('billings', 'search')
+    );
+}
+
 
 
     /**
