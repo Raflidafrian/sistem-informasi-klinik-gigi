@@ -1,7 +1,6 @@
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -13,10 +12,8 @@
 </head>
 
 <body class="bg-slate-50 min-h-screen">
-
     <!-- NAVBAR -->
     <nav class="bg-white shadow-sm px-6 py-5">
-
         <div class="max-w-5xl mx-auto flex flex-wrap
                     items-center justify-between gap-4">
 
@@ -28,7 +25,6 @@
 
             <!-- MENU NAVBAR -->
             <div class="flex items-center gap-4">
-
                 <a href="{{ url('/') }}"
                    class="text-gray-600 hover:text-cyan-700
                           font-medium transition">
@@ -38,7 +34,6 @@
                 <!-- LOGOUT -->
                 <form method="POST"
                       action="{{ route('logout') }}">
-
                     @csrf
 
                     <button type="submit"
@@ -48,20 +43,14 @@
                                    transition">
                         Logout
                     </button>
-
                 </form>
-
             </div>
-
         </div>
-
     </nav>
 
     <!-- KONTEN UTAMA -->
     <main class="max-w-5xl mx-auto p-6">
-
         <div class="bg-white rounded-xl shadow p-8">
-
             <h2 class="text-2xl font-bold">
                 Selamat Datang,
                 {{ auth()->user()->name }}
@@ -73,7 +62,6 @@
 
             <!-- INFORMASI DASHBOARD -->
             <div class="mt-6 bg-cyan-50 p-5 rounded-lg">
-
                 <h3 class="font-semibold">
                     Dashboard Pasien
                 </h3>
@@ -82,12 +70,10 @@
                     Kelola appointment dan lihat
                     riwayat pemeriksaan gigi Anda.
                 </p>
-
             </div>
 
             <!-- TOMBOL APPOINTMENT -->
             <div class="mt-6 flex flex-wrap gap-3">
-
                 <a
                     href="{{ route('pasien.appointments.create') }}"
                     class="bg-cyan-700 hover:bg-cyan-800
@@ -105,12 +91,8 @@
                 >
                     Riwayat Appointment
                 </a>
-
             </div>
-
         </div>
-
     </main>
-
 </body>
 </html>

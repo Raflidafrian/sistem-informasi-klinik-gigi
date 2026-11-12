@@ -23,12 +23,10 @@
 
         </div>
 
-
         {{-- FORM --}}
         <form method="POST" action="{{ route('admin.schedules.store') }}" class="p-6">
 
             @csrf
-
 
             {{-- ERROR --}}
             @if ($errors->any())
@@ -49,7 +47,6 @@
                 </div>
 
             @endif
-
 
             {{-- DOKTER --}}
             <div class="mb-5">
@@ -87,7 +84,7 @@
                 </select>
 
             </div>
-            
+
             {{-- HARI --}}
             <div class="mb-5">
 
@@ -137,7 +134,6 @@
 
             </div>
 
-
             {{-- JAM MULAI --}}
             <div class="mb-5">
 
@@ -154,7 +150,6 @@
                     required>
 
             </div>
-
 
             {{-- JAM SELESAI --}}
             <div class="mb-6">
@@ -173,7 +168,6 @@
 
             </div>
 
-
             {{-- BUTTON --}}
             <div class="flex gap-3">
 
@@ -186,7 +180,6 @@
                     Kembali
 
                 </a>
-
 
                 <button
                     type="submit"

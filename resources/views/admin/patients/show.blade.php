@@ -1,4 +1,3 @@
-
 <x-admin-layout title="Detail Pasien" header="Detail Pasien">
 
     <div class="space-y-6">
@@ -9,6 +8,7 @@
                 <h1 class="text-2xl font-bold text-slate-900">
                     Detail Pasien
                 </h1>
+
                 <p class="mt-1 text-sm text-slate-500">
                     Informasi pasien dan riwayat pelayanan klinik.
                 </p>

@@ -110,7 +110,7 @@
                                 class="px-6 py-12 text-center text-gray-500">
 
                                 <div class="text-4xl mb-3">
-                                    💊
+                                    <i class="fa-solid fa-file-prescription"></i>
                                 </div>
 
                                 <p class="font-medium">

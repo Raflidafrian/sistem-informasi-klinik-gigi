@@ -1,4 +1,3 @@
-
 <x-doctor-layout>
     <x-slot name="title">Buat Resep Obat</x-slot>
     <x-slot name="header">Buat Resep Obat</x-slot>
@@ -169,7 +168,6 @@
         </form>
     </div>
 
-    
 {{-- Siapkan data PHP sebelum masuk ke JavaScript --}}
 @php
     $medicineOptions = $medicines

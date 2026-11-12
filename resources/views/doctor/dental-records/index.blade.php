@@ -1,4 +1,3 @@
-
 <x-doctor-layout>
 
     <x-slot name="title">

@@ -1,14 +1,10 @@
 <x-doctor-layout>
 
-
-
     <x-slot name="title">
 
         Rekam Medis & Odontogram
 
     </x-slot>
-
-
 
     <x-slot name="header">
 
@@ -16,13 +12,7 @@
 
     </x-slot>
 
-
-
-
-
     <div class="max-w-7xl mx-auto space-y-6">
-
-
 
         {{-- =====================================================
 
@@ -30,21 +20,15 @@
 
         ====================================================== --}}
 
-
-
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-
-
 
             <div class="flex items-center gap-3 mb-5">
 
                 <div class="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center text-xl">
 
-                    👤
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user preview-icon"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
 
                 </div>
-
-
 
                 <div>
 
@@ -53,8 +37,6 @@
                         Data Pasien
 
                     </h2>
-
-
 
                     <p class="text-sm text-gray-500">
 
@@ -66,13 +48,7 @@
 
             </div>
 
-
-
-
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-
 
                 <div>
 
@@ -82,8 +58,6 @@
 
                     </p>
 
-
-
                     <p class="mt-1 font-semibold text-gray-800">
 
                         {{ $appointment->patient->user->name ?? '-' }}
@@ -91,10 +65,6 @@
                     </p>
 
                 </div>
-
-
-
-
 
                 <div>
 
@@ -104,8 +74,6 @@
 
                     </p>
 
-
-
                     <p class="mt-1 font-semibold text-gray-800">
 
                         {{ $appointment->appointment_date ?? '-' }}
@@ -113,10 +81,6 @@
                     </p>
 
                 </div>
-
-
-
-
 
                 <div>
 
@@ -126,8 +90,6 @@
 
                     </p>
 
-
-
                     <p class="mt-1 font-semibold text-gray-800">
 
                         {{ $appointment->complaint ?? '-' }}
@@ -136,11 +98,7 @@
 
                 </div>
 
-
-
             </div>
-
-
 
         </div>
 
@@ -159,17 +117,11 @@
     </div>
 @endif
 
-
-
-
-
         {{-- =====================================================
 
              FORM
 
         ====================================================== --}}
-
-
 
         <form
 
@@ -181,11 +133,7 @@
 
         >
 
-
-
             @csrf
-
-
 
             <input
 
@@ -197,25 +145,15 @@
 
             >
 
-
-
-
-
             {{-- =================================================
 
                  DIAGNOSIS
 
             ================================================== --}}
 
-
-
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
 
-
-
                 <div class="mb-5">
-
-
 
                     <h2 class="text-lg font-bold text-gray-800">
 
@@ -223,29 +161,19 @@
 
                     </h2>
 
-
-
                     <p class="text-sm text-gray-500">
 
                         Masukkan hasil pemeriksaan pasien.
 
                     </p>
 
-
-
                 </div>
-
-
-
-
 
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
 
                     Diagnosis
 
                 </label>
-
-
 
                 <textarea
 
@@ -259,13 +187,7 @@
 
                 >{{ old('diagnosis') }}</textarea>
 
-
-
             </div>
-
-
-
-
 
             {{-- =================================================
 
@@ -273,15 +195,9 @@
 
             ================================================== --}}
 
-
-
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
 
-
-
                 <div class="mb-6">
-
-
 
                     <h2 class="text-xl font-bold text-gray-800">
 
@@ -289,21 +205,13 @@
 
                     </h2>
 
-
-
                     <p class="text-sm text-gray-500 mt-1">
 
                         Klik permukaan gigi untuk memilih bagian yang akan diperiksa.
 
                     </p>
 
-
-
                 </div>
-
-
-
-
 
                 {{-- =================================================
 
@@ -311,11 +219,7 @@
 
                 ================================================== --}}
 
-
-
                 <div class="flex flex-wrap gap-2 mb-6">
-
-
 
                     <span class="px-3 py-2 rounded-lg bg-green-50 text-green-700 text-xs font-semibold">
 
@@ -323,15 +227,11 @@
 
                     </span>
 
-
-
                     <span class="px-3 py-2 rounded-lg bg-red-50 text-red-700 text-xs font-semibold">
 
                         Karies
 
                     </span>
-
-
 
                     <span class="px-3 py-2 rounded-lg bg-yellow-50 text-yellow-700 text-xs font-semibold">
 
@@ -339,15 +239,11 @@
 
                     </span>
 
-
-
                     <span class="px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-xs font-semibold">
 
                         Hilang
 
                     </span>
-
-
 
                     <span class="px-3 py-2 rounded-lg bg-purple-50 text-purple-700 text-xs font-semibold">
 
@@ -355,29 +251,19 @@
 
                     </span>
 
-
-
                     <span class="px-3 py-2 rounded-lg bg-orange-50 text-orange-700 text-xs font-semibold">
 
                         Pulpitis
 
                     </span>
 
-
-
                 </div>
-
-
-
-
 
                 {{-- =================================================
 
                      SELECTED SURFACE
 
                 ================================================== --}}
-
-
 
                 <div
 
@@ -387,23 +273,15 @@
 
                 >
 
-
-
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-
-
                         <div>
-
-
 
                             <p class="text-xs text-blue-600 font-semibold uppercase">
 
                                 Permukaan Terpilih
 
                             </p>
-
-
 
                             <p
 
@@ -417,13 +295,7 @@
 
                             </p>
 
-
-
                         </div>
-
-
-
-
 
                         <div
 
@@ -432,8 +304,6 @@
                             class="flex flex-wrap gap-2"
 
                         >
-
-
 
                             <button
 
@@ -449,8 +319,6 @@
 
                             </button>
 
-
-
                             <button
 
                                 type="button"
@@ -464,8 +332,6 @@
                                 Karies
 
                             </button>
-
-
 
                             <button
 
@@ -481,8 +347,6 @@
 
                             </button>
 
-
-
                             <button
 
                                 type="button"
@@ -496,8 +360,6 @@
                                 Hilang
 
                             </button>
-
-
 
                             <button
 
@@ -513,8 +375,6 @@
 
                             </button>
 
-
-
                             <button
 
                                 type="button"
@@ -529,21 +389,11 @@
 
                             </button>
 
-
-
                         </div>
-
-
 
                     </div>
 
-
-
                 </div>
-
-
-
-
 
                 {{-- =================================================
 
@@ -551,23 +401,13 @@
 
                 ================================================== --}}
 
-
-
                 <div class="overflow-x-auto">
-
-
 
                     <div class="min-w-[1050px]">
 
-
-
                         {{-- RAHANG ATAS --}}
 
-
-
                         <div class="text-center mb-4">
-
-
 
                             <span class="inline-block px-4 py-2 rounded-lg bg-gray-100 text-gray-600 text-xs font-bold">
 
@@ -575,13 +415,7 @@
 
                             </span>
 
-
-
                         </div>
-
-
-
-
 
                         <div
 
@@ -591,11 +425,7 @@
 
                         >
 
-
-
                             {{-- Gigi 18 - 11 --}}
-
-
 
                             @foreach([
 
@@ -605,8 +435,6 @@
 
                             ] as $tooth)
 
-
-
                                 @php
 
                                     $isAnterior =
@@ -614,8 +442,6 @@
                                         in_array(substr($tooth, 1), ['1','2','3']);
 
                                 @endphp
-
-
 
                                 <div
 
@@ -627,21 +453,13 @@
 
                                 >
 
-
-
                                     <div class="text-center text-xs font-bold text-gray-600 mb-1">
 
                                         {{ $tooth }}
 
                                     </div>
 
-
-
-
-
                                     <div class="tooth-svg-container">
-
-
 
                                         <svg
 
@@ -653,11 +471,7 @@
 
                                         >
 
-
-
                                             {{-- MESIAL --}}
-
-
 
                                             <path
 
@@ -669,13 +483,7 @@
 
                                             />
 
-
-
-
-
                                             {{-- DISTAL --}}
-
-
 
                                             <path
 
@@ -687,13 +495,7 @@
 
                                             />
 
-
-
-
-
                                             {{-- BUCCAL / LABIAL --}}
-
-
 
                                             <path
 
@@ -705,13 +507,7 @@
 
                                             />
 
-
-
-
-
                                             {{-- LINGUAL --}}
-
-
 
                                             <path
 
@@ -723,13 +519,7 @@
 
                                             />
 
-
-
-
-
                                             {{-- OCCLUSAL / INCISAL --}}
-
-
 
                                             <path
 
@@ -741,41 +531,21 @@
 
                                             />
 
-
-
                                         </svg>
-
-
 
                                     </div>
 
-
-
                                 </div>
-
-
 
                             @endforeach
 
-
-
                         </div>
-
-
-
-
 
                         {{-- PEMISAH RAHANG --}}
 
-
-
                         <div class="flex items-center gap-4 my-8">
 
-
-
                             <div class="flex-1 border-t border-dashed border-gray-300"></div>
-
-
 
                             <span class="text-xs text-gray-400 font-semibold">
 
@@ -783,25 +553,13 @@
 
                             </span>
 
-
-
                             <div class="flex-1 border-t border-dashed border-gray-300"></div>
-
-
 
                         </div>
 
-
-
-
-
                         {{-- RAHANG BAWAH --}}
 
-
-
                         <div class="text-center mb-4">
-
-
 
                             <span class="inline-block px-4 py-2 rounded-lg bg-gray-100 text-gray-600 text-xs font-bold">
 
@@ -809,13 +567,7 @@
 
                             </span>
 
-
-
                         </div>
-
-
-
-
 
                         <div
 
@@ -825,8 +577,6 @@
 
                         >
 
-
-
                             @foreach([
 
                                 '48','47','46','45','44','43','42','41',
@@ -835,8 +585,6 @@
 
                             ] as $tooth)
 
-
-
                                 @php
 
                                     $isAnterior =
@@ -844,8 +592,6 @@
                                         in_array(substr($tooth, 1), ['1','2','3']);
 
                                 @endphp
-
-
 
                                 <div
 
@@ -857,21 +603,13 @@
 
                                 >
 
-
-
                                     <div class="text-center text-xs font-bold text-gray-600 mb-1">
 
                                         {{ $tooth }}
 
                                     </div>
 
-
-
-
-
                                     <div class="tooth-svg-container">
-
-
 
                                         <svg
 
@@ -883,8 +621,6 @@
 
                                         >
 
-
-
                                             <path
 
                                                 class="tooth-surface"
@@ -894,8 +630,6 @@
                                                 d="M10 20 L30 30 L30 70 L10 80 Z"
 
                                             />
-
-
 
                                             <path
 
@@ -907,8 +641,6 @@
 
                                             />
 
-
-
                                             <path
 
                                                 class="tooth-surface"
@@ -918,8 +650,6 @@
                                                 d="M10 20 L50 10 L90 20 L70 30 L30 30 Z"
 
                                             />
-
-
 
                                             <path
 
@@ -931,8 +661,6 @@
 
                                             />
 
-
-
                                             <path
 
                                                 class="tooth-surface"
@@ -943,37 +671,19 @@
 
                                             />
 
-
-
                                         </svg>
-
-
 
                                     </div>
 
-
-
                                 </div>
-
-
 
                             @endforeach
 
-
-
                         </div>
-
-
 
                     </div>
 
-
-
                 </div>
-
-
-
-
 
                 {{-- =================================================
 
@@ -981,13 +691,7 @@
 
                 ================================================== --}}
 
-
-
                 <div id="odontogramInputs"></div>
-
-
-
-
 
                 {{-- =================================================
 
@@ -995,19 +699,13 @@
 
                 ================================================== --}}
 
-
-
                 <div class="mt-8">
-
-
 
                     <h3 class="font-semibold text-gray-800 mb-3">
 
                         Ringkasan Kondisi Gigi
 
                     </h3>
-
-
 
                     <div
 
@@ -1017,8 +715,6 @@
 
                     >
 
-
-
                         <div class="p-4 rounded-xl bg-gray-50 border">
 
                             <p class="text-xs text-gray-500">
@@ -1026,8 +722,6 @@
                                 Permukaan diperiksa
 
                             </p>
-
-
 
                             <p
 
@@ -1043,10 +737,6 @@
 
                         </div>
 
-
-
-
-
                         <div class="p-4 rounded-xl bg-red-50 border border-red-100">
 
                             <p class="text-xs text-red-600">
@@ -1054,8 +744,6 @@
                                 Karies
 
                             </p>
-
-
 
                             <p
 
@@ -1071,10 +759,6 @@
 
                         </div>
 
-
-
-
-
                         <div class="p-4 rounded-xl bg-yellow-50 border border-yellow-100">
 
                             <p class="text-xs text-yellow-700">
@@ -1082,8 +766,6 @@
                                 Tambalan
 
                             </p>
-
-
 
                             <p
 
@@ -1099,10 +781,6 @@
 
                         </div>
 
-
-
-
-
                         <div class="p-4 rounded-xl bg-gray-100 border border-gray-200">
 
                             <p class="text-xs text-gray-600">
@@ -1110,8 +788,6 @@
                                 Hilang
 
                             </p>
-
-
 
                             <p
 
@@ -1127,21 +803,11 @@
 
                         </div>
 
-
-
                     </div>
-
-
 
                 </div>
 
-
-
             </div>
-
-
-
-
 
             {{-- =================================================
 
@@ -1149,11 +815,7 @@
 
             ================================================== --}}
 
-
-
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-
-
 
                 <h2 class="text-lg font-bold text-gray-800">
 
@@ -1161,15 +823,11 @@
 
                 </h2>
 
-
-
                 <p class="text-sm text-gray-500 mb-4">
 
                     Masukkan tindakan yang dilakukan dokter.
 
                 </p>
-
-
 
                 <textarea
 
@@ -1183,13 +841,7 @@
 
                 >{{ old('treatment') }}</textarea>
 
-
-
             </div>
-
-
-
-
 
             {{-- =================================================
 
@@ -1197,11 +849,7 @@
 
             ================================================== --}}
 
-
-
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-
-
 
                 <h2 class="text-lg font-bold text-gray-800">
 
@@ -1209,15 +857,11 @@
 
                 </h2>
 
-
-
                 <p class="text-sm text-gray-500 mb-4">
 
                     Catatan tambahan mengenai kondisi pasien.
 
                 </p>
-
-
 
                 <textarea
 
@@ -1231,13 +875,7 @@
 
                 >{{ old('notes') }}</textarea>
 
-
-
             </div>
-
-
-
-
 
             {{-- =================================================
 
@@ -1245,11 +883,7 @@
 
             ================================================== --}}
 
-
-
             <div class="flex flex-wrap justify-end gap-3">
-
-
 
                 <a
 
@@ -1263,10 +897,6 @@
 
                 </a>
 
-
-
-
-
                 <button
 
                     type="submit"
@@ -1275,25 +905,15 @@
 
                 >
 
-                    💾 Simpan Rekam Medis
+                    Simpan Rekam Medis
 
                 </button>
 
-
-
             </div>
-
-
 
         </form>
 
-
-
     </div>
-
-
-
-
 
     {{-- =========================================================
 
@@ -1301,11 +921,7 @@
 
     ========================================================== --}}
 
-
-
     <style>
-
-
 
         .tooth-wrapper {
 
@@ -1314,8 +930,6 @@
             flex-shrink: 0;
 
         }
-
-
 
         .tooth-svg-container {
 
@@ -1331,8 +945,6 @@
 
         }
 
-
-
         .tooth-svg {
 
             width: 58px;
@@ -1342,8 +954,6 @@
             overflow: visible;
 
         }
-
-
 
         .tooth-surface {
 
@@ -1359,8 +969,6 @@
 
         }
 
-
-
         .tooth-surface:hover {
 
             fill: #dbeafe;
@@ -1370,8 +978,6 @@
             stroke-width: 3;
 
         }
-
-
 
         .tooth-surface.selected {
 
@@ -1383,8 +989,6 @@
 
         }
 
-
-
         .tooth-surface.condition-sehat {
 
             fill: #dcfce7;
@@ -1392,8 +996,6 @@
             stroke: #16a34a;
 
         }
-
-
 
         .tooth-surface.condition-karies {
 
@@ -1403,8 +1005,6 @@
 
         }
 
-
-
         .tooth-surface.condition-tambalan {
 
             fill: #fef3c7;
@@ -1412,8 +1012,6 @@
             stroke: #d97706;
 
         }
-
-
 
         .tooth-surface.condition-hilang {
 
@@ -1423,8 +1021,6 @@
 
         }
 
-
-
         .tooth-surface.condition-mahkota {
 
             fill: #f3e8ff;
@@ -1432,8 +1028,6 @@
             stroke: #9333ea;
 
         }
-
-
 
         .tooth-surface.condition-pulpitis {
 
@@ -1443,13 +1037,7 @@
 
         }
 
-
-
     </style>
-
-
-
-
 
     {{-- =========================================================
 
@@ -1457,15 +1045,9 @@
 
     ========================================================== --}}
 
-
-
     <script>
 
-
-
         document.addEventListener('DOMContentLoaded', function () {
-
-
 
             /*
 
@@ -1477,19 +1059,11 @@
 
             */
 
-
-
             const odontogram = @json(old('odontogram_data', []));
-
-
 
             let selectedTooth = null;
 
             let selectedSurface = null;
-
-
-
-
 
             /*
 
@@ -1501,33 +1075,21 @@
 
             */
 
-
-
             const surfaces =
 
                 document.querySelectorAll('.tooth-surface');
-
-
 
             const wrappers =
 
                 document.querySelectorAll('.tooth-wrapper');
 
-
-
             const selectedSurfaceText =
 
                 document.getElementById('selectedSurfaceText');
 
-
-
             const odontogramInputs =
 
                 document.getElementById('odontogramInputs');
-
-
-
-
 
             /*
 
@@ -1539,11 +1101,7 @@
 
             */
 
-
-
             const conditions = {
-
-
 
                 sehat: {
 
@@ -1553,8 +1111,6 @@
 
                 },
 
-
-
                 karies: {
 
                     label: 'Karies',
@@ -1562,8 +1118,6 @@
                     className: 'condition-karies'
 
                 },
-
-
 
                 tambalan: {
 
@@ -1573,8 +1127,6 @@
 
                 },
 
-
-
                 hilang: {
 
                     label: 'Hilang',
@@ -1582,8 +1134,6 @@
                     className: 'condition-hilang'
 
                 },
-
-
 
                 mahkota: {
 
@@ -1593,8 +1143,6 @@
 
                 },
 
-
-
                 pulpitis: {
 
                     label: 'Pulpitis',
@@ -1603,13 +1151,7 @@
 
                 }
 
-
-
             };
-
-
-
-
 
             /*
 
@@ -1621,57 +1163,29 @@
 
             */
 
-
-
             function surfaceLabel(surface) {
-
-
 
                 const labels = {
 
-
-
                     mesial: 'Mesial',
-
-
 
                     distal: 'Distal',
 
-
-
                     occlusal: 'Oklusal',
-
-
 
                     incisal: 'Insisal',
 
-
-
                     buccal: 'Bukal',
-
-
 
                     labial: 'Labial',
 
-
-
                     lingual: 'Lingual'
-
-
 
                 };
 
-
-
                 return labels[surface] || surface;
 
-
-
             }
-
-
-
-
 
             /*
 
@@ -1683,67 +1197,33 @@
 
             */
 
-
-
             function selectSurface(surfaceElement) {
-
-
 
                 surfaces.forEach(function (surface) {
 
-
-
                     surface.classList.remove('selected');
-
-
 
                 });
 
-
-
-
-
                 surfaceElement.classList.add('selected');
-
-
-
-
 
                 const wrapper =
 
                     surfaceElement.closest('.tooth-wrapper');
 
-
-
-
-
                 selectedTooth =
 
                     wrapper.dataset.tooth;
-
-
-
-
 
                 selectedSurface =
 
                     surfaceElement.dataset.surface;
 
-
-
-
-
                 selectedSurfaceText.textContent =
 
                     `Gigi ${selectedTooth} — ${surfaceLabel(selectedSurface)}`;
 
-
-
             }
-
-
-
-
 
             /*
 
@@ -1755,8 +1235,6 @@
 
             */
 
-
-
             function createInput(
 
                 tooth,
@@ -1767,15 +1245,9 @@
 
             ) {
 
-
-
                 const name =
 
                     `odontogram_data[${tooth}][${surface}]`;
-
-
-
-
 
                 let input =
 
@@ -1785,47 +1257,23 @@
 
                     );
 
-
-
-
-
                 if (!input) {
-
-
 
                     input =
 
                         document.createElement('input');
 
-
-
                     input.type = 'hidden';
-
-
 
                     input.name = name;
 
-
-
                     odontogramInputs.appendChild(input);
-
-
 
                 }
 
-
-
-
-
                 input.value = condition;
 
-
-
             }
-
-
-
-
 
             /*
 
@@ -1837,11 +1285,7 @@
 
             */
 
-
-
             function setCondition(condition) {
-
-
 
                 if (
 
@@ -1851,35 +1295,21 @@
 
                 ) {
 
-
-
                     alert(
 
                         'Silakan pilih permukaan gigi terlebih dahulu.'
 
                     );
 
-
-
                     return;
 
-
-
                 }
-
-
-
-
 
                 if (!conditions[condition]) {
 
                     return;
 
                 }
-
-
-
-
 
                 /*
 
@@ -1891,29 +1321,15 @@
 
                 */
 
-
-
                 if (!odontogram[selectedTooth]) {
-
-
 
                     odontogram[selectedTooth] = {};
 
-
-
                 }
-
-
-
-
 
                 odontogram[selectedTooth][selectedSurface] =
 
                     condition;
-
-
-
-
 
                 /*
 
@@ -1925,8 +1341,6 @@
 
                 */
 
-
-
                 createInput(
 
                     selectedTooth,
@@ -1936,10 +1350,6 @@
                     condition
 
                 );
-
-
-
-
 
                 /*
 
@@ -1951,19 +1361,11 @@
 
                 */
 
-
-
                 surfaces.forEach(function (surface) {
-
-
 
                     const wrapper =
 
                         surface.closest('.tooth-wrapper');
-
-
-
-
 
                     if (
 
@@ -1971,21 +1373,15 @@
 
                         selectedTooth &&
 
-
-
                         surface.dataset.surface ===
 
                         selectedSurface
 
                     ) {
 
-
-
                         Object.values(conditions)
 
                             .forEach(function (item) {
-
-
 
                                 surface.classList.remove(
 
@@ -1993,13 +1389,7 @@
 
                                 );
 
-
-
                             });
-
-
-
-
 
                         surface.classList.add(
 
@@ -2007,27 +1397,13 @@
 
                         );
 
-
-
                     }
-
-
 
                 });
 
-
-
-
-
                 updateSummary();
 
-
-
             }
-
-
-
-
 
             /*
 
@@ -2039,11 +1415,7 @@
 
             */
 
-
-
             surfaces.forEach(function (surface) {
-
-
 
                 surface.addEventListener(
 
@@ -2051,23 +1423,13 @@
 
                     function () {
 
-
-
                         selectSurface(surface);
-
-
 
                     }
 
                 );
 
-
-
             });
-
-
-
-
 
             /*
 
@@ -2079,15 +1441,11 @@
 
             */
 
-
-
             document
 
                 .querySelectorAll('.condition-btn')
 
                 .forEach(function (button) {
-
-
 
                     button.addEventListener(
 
@@ -2095,27 +1453,17 @@
 
                         function () {
 
-
-
                             setCondition(
 
                                 button.dataset.condition
 
                             );
 
-
-
                         }
 
                     );
 
-
-
                 });
-
-
-
-
 
             /*
 
@@ -2127,47 +1475,25 @@
 
             */
 
-
-
             function updateSummary() {
-
-
 
                 let examined = 0;
 
-
-
                 let caries = 0;
-
-
 
                 let fillings = 0;
 
-
-
                 let missing = 0;
-
-
-
-
 
                 Object.values(odontogram)
 
                     .forEach(function (tooth) {
 
-
-
                         Object.values(tooth)
 
                             .forEach(function (condition) {
 
-
-
                                 examined++;
-
-
-
-
 
                                 if (
 
@@ -2175,17 +1501,9 @@
 
                                 ) {
 
-
-
                                     caries++;
 
-
-
                                 }
-
-
-
-
 
                                 if (
 
@@ -2193,17 +1511,9 @@
 
                                 ) {
 
-
-
                                     fillings++;
 
-
-
                                 }
-
-
-
-
 
                                 if (
 
@@ -2211,25 +1521,13 @@
 
                                 ) {
 
-
-
                                     missing++;
-
-
 
                                 }
 
-
-
                             });
 
-
-
                     });
-
-
-
-
 
                 document.getElementById(
 
@@ -2237,19 +1535,11 @@
 
                 ).textContent = examined;
 
-
-
-
-
                 document.getElementById(
 
                     'totalCaries'
 
                 ).textContent = caries;
-
-
-
-
 
                 document.getElementById(
 
@@ -2257,22 +1547,13 @@
 
                 ).textContent = fillings;
 
-
-
-
-
                 document.getElementById(
 
                     'totalMissing'
 
                 ).textContent = missing;
 
-
-
             }
-
-
-
 
             Object.entries(odontogram).forEach(([tooth, toothData]) => {
                 if (!toothData || typeof toothData !== 'object') return;
@@ -2290,10 +1571,6 @@
 
         });
 
-
-
     </script>
-
-
 
 </x-doctor-layout>

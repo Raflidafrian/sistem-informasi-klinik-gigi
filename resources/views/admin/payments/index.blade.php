@@ -1,3 +1,4 @@
+
 <x-admin-layout>
 
     <x-slot name="title">
@@ -37,7 +38,6 @@
 
         </div>
 
-
         {{-- SUCCESS --}}
         @if(session('success'))
 
@@ -50,7 +50,6 @@
             </div>
 
         @endif
-
 
         {{-- TABLE --}}
         <div class="bg-white rounded-xl shadow-sm border
@@ -204,7 +203,7 @@
                                     class="px-6 py-12 text-center">
 
                                     <div class="text-4xl mb-3">
-                                        💳
+
                                     </div>
 
                                     <p class="text-slate-500">

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,7 +90,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 13px 10px;
             border-bottom: 1px solid #e2e8f0;
         }
@@ -231,18 +233,30 @@
         {{-- HEADER KLINIK --}}
         <div class="header">
             <div>
-                <h1 class="clinic-name">DentalCare</h1>
-                <p class="muted">Klinik Gigi</p>
+                <h1 class="clinic-name">
+                    DentalCare
+                </h1>
+
+                <p class="muted">
+                    Klinik Gigi
+                </p>
+
                 <p class="muted">
                     Invoice resmi pembayaran layanan kesehatan gigi.
                 </p>
             </div>
 
             <div>
-                <h2 class="invoice-title">INVOICE</h2>
+                <h2 class="invoice-title">
+                    INVOICE
+                </h2>
+
                 <p class="text-right">
-                    <strong>#INV-{{ str_pad($billing->id, 5, '0', STR_PAD_LEFT) }}</strong>
+                    <strong>
+                        #INV-{{ str_pad($billing->id, 5, '0', STR_PAD_LEFT) }}
+                    </strong>
                 </p>
+
                 <p class="text-right muted">
                     {{ $billing->created_at?->format('d F Y') ?? '-' }}
                 </p>
@@ -251,19 +265,27 @@
 
         {{-- INFORMASI PASIEN --}}
         <div class="section">
-            <h3 class="section-title">Informasi Pasien</h3>
+            <h3 class="section-title">
+                Informasi Pasien
+            </h3>
 
             <div class="info-grid">
                 <div>
                     <div class="info-item">
-                        <div class="info-label">Nama Pasien</div>
+                        <div class="info-label">
+                            Nama Pasien
+                        </div>
+
                         <div class="info-value">
                             {{ $billing->patient?->user?->name ?? '-' }}
                         </div>
                     </div>
 
                     <div class="info-item">
-                        <div class="info-label">Email</div>
+                        <div class="info-label">
+                            Email
+                        </div>
+
                         <div class="info-value">
                             {{ $billing->patient?->user?->email ?? '-' }}
                         </div>
@@ -272,14 +294,20 @@
 
                 <div>
                     <div class="info-item">
-                        <div class="info-label">Nomor Rekam Medis</div>
+                        <div class="info-label">
+                            Nomor Rekam Medis
+                        </div>
+
                         <div class="info-value">
                             #{{ $billing->dental_record_id ?? '-' }}
                         </div>
                     </div>
 
                     <div class="info-item">
-                        <div class="info-label">Dokter Pemeriksa</div>
+                        <div class="info-label">
+                            Dokter Pemeriksa
+                        </div>
+
                         <div class="info-value">
                             {{ $billing->dentalRecord?->doctor?->user?->name ?? '-' }}
                         </div>
@@ -290,7 +318,9 @@
 
         {{-- RINCIAN TINDAKAN --}}
         <div class="section">
-            <h3 class="section-title">Rincian Tindakan Layanan</h3>
+            <h3 class="section-title">
+                Rincian Tindakan Layanan
+            </h3>
 
             <table>
                 <thead>
@@ -304,9 +334,11 @@
                 </thead>
 
                 <tbody>
-                    @forelse($billing->items as $index => $item)
+                    @forelse ($billing->items as $index => $item)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
+                            <td>
+                                {{ $index + 1 }}
+                            </td>
 
                             <td>
                                 {{ $item->treatment?->name ?? '-' }}
@@ -324,6 +356,7 @@
                                 Rp {{ number_format($item->subtotal, 0, ',', '.') }}
                             </td>
                         </tr>
+
                     @empty
                         <tr>
                             <td colspan="5" class="text-center">
@@ -337,7 +370,9 @@
 
         {{-- TOTAL DAN STATUS --}}
         <div class="total-box">
-            <div class="total-label">Total Pembayaran</div>
+            <div class="total-label">
+                Total Pembayaran
+            </div>
 
             <div class="total-amount">
                 Rp {{ number_format($billing->total_amount, 0, ',', '.') }}
@@ -346,24 +381,41 @@
             <div style="margin-top: 12px;">
                 Status Pembayaran:
 
-                @if($billing->status === 'paid')
-                    <span class="status paid">LUNAS</span>
-                @elseif($billing->status === 'unpaid')
-                    <span class="status unpaid">BELUM LUNAS</span>
+                @if ($billing->status === 'paid')
+                    <span class="status paid">
+                        LUNAS
+                    </span>
+
+                @elseif ($billing->status === 'unpaid')
+                    <span class="status unpaid">
+                        BELUM LUNAS
+                    </span>
+
                 @else
-                    <span class="status cancelled">DIBATALKAN</span>
+                    <span class="status cancelled">
+                        DIBATALKAN
+                    </span>
                 @endif
             </div>
         </div>
 
         {{-- FOOTER --}}
         <div class="footer">
-            <p><strong>DentalCare - Klinik Gigi</strong></p>
-            <p>Terima kasih telah mempercayakan perawatan gigi Anda kepada kami.</p>
-            <p>Invoice ini diterbitkan secara elektronik oleh sistem DentalCare.</p>
+            <p>
+                <strong>DentalCare - Klinik Gigi</strong>
+            </p>
+
+            <p>
+                Terima kasih telah mempercayakan perawatan gigi Anda kepada kami.
+            </p>
+
+            <p>
+                Invoice ini diterbitkan secara elektronik oleh sistem DentalCare.
+            </p>
         </div>
 
     </div>
 
 </body>
+
 </html>

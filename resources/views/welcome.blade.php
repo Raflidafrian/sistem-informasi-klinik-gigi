@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -94,135 +95,156 @@
         border-radius: 8px;
     }
 
-    /* ================= HERO ================= */
+/* ================= HERO ================= */
 
-    .hero {
-        min-height: 620px;
-        padding: 80px 7%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: linear-gradient(
-            135deg,
-            #f0fdfa 0%,
-            #ffffff 55%,
-            #ecfeff 100%
-        );
-    }
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 488px);
+    align-items: center;
+    gap: 45px;
 
-    .hero-content {
-        max-width: 580px;
-    }
+    width: 100%;
+    min-height: 530px;
+    padding: 55px 7%;
 
-    .badge {
-        display: inline-block;
-        background: #ccfbf1;
-        color: #0f766e;
-        padding: 9px 15px;
-        border-radius: 30px;
-        font-size: 13px;
-        font-weight: bold;
-        margin-bottom: 22px;
-    }
+    background: linear-gradient(
+        135deg,
+        #f0fdfa 0%,
+        #ffffff 55%,
+        #ecfeff 100%
+    );
 
-    .hero h1 {
-        font-size: 55px;
-        line-height: 1.12;
-        color: #0f172a;
-        margin-bottom: 22px;
-    }
+    box-sizing: border-box;
+}
 
-    .hero h1 span {
-        color: #0f766e;
-    }
+.hero-content {
+    width: 100%;
+    max-width: 580px;
+    min-width: 0;
+}
 
-    .hero p {
-        color: #64748b;
-        font-size: 17px;
-        line-height: 1.8;
-        margin-bottom: 30px;
-    }
+.badge {
+    display: inline-block;
+    background: #ccfbf1;
+    color: #0f766e;
+    padding: 9px 15px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 22px;
+}
 
-    .hero-buttons {
-        display: flex;
-        gap: 15px;
-    }
+.hero h1 {
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.1;
+    color: #0f172a;
+    margin-bottom: 22px;
+    overflow-wrap: break-word;
+}
 
-    .btn-primary {
-        background: #0f766e;
-        color: white;
-        padding: 14px 24px;
-        border-radius: 10px;
-        font-weight: bold;
-        display: inline-block;
-    }
+.hero h1 span {
+    color: #0f766e;
+}
 
-    .btn-primary:hover {
-        background: #115e59;
-    }
+.hero p {
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
 
-    .btn-secondary {
-        border: 1px solid #cbd5e1;
-        color: #334155;
-        padding: 14px 24px;
-        border-radius: 10px;
-        font-weight: bold;
-        display: inline-block;
-        background: white;
-    }
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
 
-    /* ================= HERO IMAGE ================= */
+.btn-primary {
+    background: #0f766e;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: inline-block;
+}
 
-    .hero-image {
-        width: 440px;
-        height: 440px;
-        border-radius: 35px;
-        background: linear-gradient(
-            135deg,
-            #ccfbf1,
-            #cffafe
-        );
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-    }
+.btn-primary:hover {
+    background: #115e59;
+}
 
-    .doctor-placeholder {
-        width: 330px;
-        height: 380px;
-        border-radius: 170px 170px 30px 30px;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 100px;
-        box-shadow: 0 20px 50px rgba(15,118,110,0.15);
-    }
+.btn-secondary {
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: inline-block;
+    background: white;
+}
 
-    /* ================= STATS ================= */
+/* ================= HERO IMAGE ================= */
 
-    .stats {
-        padding: 35px 7%;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        border-bottom: 1px solid #e2e8f0;
-    }
+.hero-image {
+    width: 100%;
+    max-width: 488px;
+    height: 423px;
 
-    .stat {
-        text-align: center;
-    }
+    justify-self: end;
 
-    .stat h3 {
-        font-size: 28px;
-        color: #0f766e;
-    }
+    background: linear-gradient(
+        135deg,
+        #ccfbf1,
+        #cffafe
+    );
 
-    .stat p {
-        color: #64748b;
-        margin-top: 5px;
-    }
+    border-radius: 35px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    display: block;
+    transform: scale(1.08);
+    transform-origin: center;
+}
+
+/* ================= STATS ================= */
+
+.stats {
+    padding: 35px 7%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat h3 {
+    font-size: 28px;
+    color: #0f766e;
+}
+
+.stat p {
+    color: #64748b;
+    margin-top: 5px;
+}
 
     /* ================= SERVICES ================= */
 
@@ -437,69 +459,198 @@
         font-size: 13px;
     }
 
-    /* ================= RESPONSIVE ================= */
+/* ================= RESPONSIVE ================= */
 
-    @media (max-width: 1000px) {
+/* TABLET */
 
-        .hero {
-            flex-direction: column;
-            text-align: center;
-            gap: 50px;
-        }
+@media (max-width: 1000px) {
 
-        .hero-buttons {
-            justify-content: center;
-        }
-
-        .services {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .about {
-            flex-direction: column;
-        }
-
-        .hero-image {
-            width: 350px;
-            height: 350px;
-        }
+    .hero {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 350px);
+        gap: 25px;
+        padding: 45px 5%;
+        min-height: 460px;
     }
 
-    @media (max-width: 700px) {
-
-        .nav-menu a:not(.btn-login):not(.btn-register) {
-            display: none;
-        }
-
-        .hero h1 {
-            font-size: 40px;
-        }
-
-        .stats {
-            grid-template-columns: 1fr;
-        }
-
-        .services {
-            grid-template-columns: 1fr;
-        }
-
-        .features {
-            grid-template-columns: 1fr;
-        }
-
-        .cta {
-            margin: 40px 5%;
-            padding: 40px 20px;
-        }
-
-        .cta h2 {
-            font-size: 28px;
-        }
-
-        .footer-content {
-            flex-direction: column;
-        }
+    .hero h1 {
+        font-size: 38px;
     }
+
+    .hero-image {
+        max-width: 350px;
+        height: 350px;
+    }
+
+    .services {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about {
+        gap: 35px;
+    }
+
+}
+
+/* TABLET KECIL DAN MOBILE */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        padding: 15px 5%;
+    }
+
+    .nav-menu {
+        gap: 15px;
+    }
+
+    .nav-menu a:not(.btn-login):not(.btn-register) {
+        display: none;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 35px;
+        padding: 45px 6%;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-image {
+        justify-self: center;
+        max-width: 420px;
+        height: 350px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
+    }
+
+    .services {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about {
+        flex-direction: column;
+        gap: 35px;
+    }
+
+    .about-image {
+        width: 100%;
+    }
+
+    .features {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-content {
+        flex-direction: column;
+    }
+
+}
+
+/* SMARTPHONE */
+
+@media (max-width: 480px) {
+
+    .navbar {
+        padding: 12px 5%;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .nav-menu {
+        gap: 10px;
+    }
+
+    .btn-login,
+    .btn-register {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .hero {
+        padding: 35px 20px;
+        gap: 30px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .hero-image {
+        max-width: 320px;
+        height: 280px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+        padding: 30px 5%;
+    }
+
+    .stat h3 {
+        font-size: 23px;
+    }
+
+    .section {
+        padding: 55px 5%;
+    }
+
+    .section-title h2 {
+        font-size: 28px;
+    }
+
+    .services {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .service-card {
+        padding: 24px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .cta {
+        margin: 40px 5%;
+        padding: 40px 20px;
+    }
+
+    .cta h2 {
+        font-size: 28px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+    }
+
+}
+
 </style>
 
 </head>
@@ -544,7 +695,6 @@
 
 </nav>
 
-
 <!-- ================= HERO ================= -->
 
 <section class="hero" id="home">
@@ -586,17 +736,17 @@
 
     </div>
 
-
     <div class="hero-image">
 
-        <div class="doctor-placeholder">
-            🧑‍⚕️
-        </div>
+    <img
+        src="{{ asset('storage/images/profil-welcome-dentalcare.png') }}"
+        alt="Ilustrasi Dokter Gigi DentalCare"
+    >
 
+</div>
     </div>
 
 </section>
-
 
 <!-- ================= STATS ================= -->
 
@@ -613,12 +763,11 @@
     </div>
 
     <div class="stat">
-        <h3>5+</h3>
+        <h3>2+</h3>
         <p>Tenaga Profesional</p>
     </div>
 
 </section>
-
 
 <!-- ================= SERVICES ================= -->
 
@@ -640,7 +789,6 @@
 
     </div>
 
-
     <div class="services">
 
         <div class="service-card">
@@ -660,7 +808,6 @@
 
         </div>
 
-
         <div class="service-card">
 
             <div class="service-icon">
@@ -678,7 +825,6 @@
 
         </div>
 
-
         <div class="service-card">
 
             <div class="service-icon">
@@ -695,7 +841,6 @@
             </p>
 
         </div>
-
 
         <div class="service-card">
 
@@ -717,7 +862,6 @@
     </div>
 
 </section>
-
 
 <!-- ================= ABOUT ================= -->
 
@@ -770,7 +914,6 @@
     </div>
 
 </section>
-
 
 <!-- ================= CTA ================= -->
 
@@ -831,7 +974,6 @@
 
 </section>
 
-
 <!-- ================= FOOTER ================= -->
 
 <footer id="kontak">
@@ -852,7 +994,6 @@
 
         </div>
 
-
         <div class="footer-contact">
 
             <h4>
@@ -870,7 +1011,6 @@
         </div>
 
     </div>
-
 
     <div class="copyright">
 

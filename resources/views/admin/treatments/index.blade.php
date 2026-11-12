@@ -1,4 +1,3 @@
-
 <x-admin-layout>
     <x-slot name="title">Tindakan Layanan</x-slot>
     <x-slot name="header">Tindakan Layanan</x-slot>
@@ -21,25 +20,35 @@
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3">
-                <button type="button"
-                        id="toggleCategorySearch"
-                        aria-expanded="false"
-                        class="inline-flex items-center justify-center gap-2 px-5 py-3
-                               bg-white border border-slate-300 text-slate-700
-                               rounded-lg hover:bg-slate-50 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         width="20" height="20" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2"
-                         stroke-linecap="round">
+                <button
+                    type="button"
+                    id="toggleCategorySearch"
+                    aria-expanded="false"
+                    class="inline-flex items-center justify-center gap-2 px-5 py-3
+                           bg-white border border-slate-300 text-slate-700
+                           rounded-lg hover:bg-slate-50 transition"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    >
                         <circle cx="11" cy="11" r="8"/>
                         <path d="m21 21-4.35-4.35"/>
                     </svg>
                     <span id="searchButtonText">Cari Kategori</span>
                 </button>
 
-                <a href="{{ route('admin.treatments.create') }}"
-                   class="inline-flex items-center justify-center gap-2 px-5 py-3
-                          bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                <a
+                    href="{{ route('admin.treatments.create') }}"
+                    class="inline-flex items-center justify-center gap-2 px-5 py-3
+                           bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                >
                     <span>＋</span> Tambah Tindakan Layanan
                 </a>
             </div>
@@ -63,31 +72,42 @@
         @endif
 
         {{-- PENCARIAN --}}
-        <div id="categorySearchPanel"
-             class="hidden bg-white rounded-xl border border-slate-200 shadow-sm p-5">
-            <label for="categorySearchInput"
-                   class="block text-sm font-semibold text-slate-700 mb-2">
+        <div
+            id="categorySearchPanel"
+            class="hidden bg-white rounded-xl border border-slate-200 shadow-sm p-5"
+        >
+            <label
+                for="categorySearchInput"
+                class="block text-sm font-semibold text-slate-700 mb-2"
+            >
                 Cari nama kategori
             </label>
 
             <div class="flex flex-col sm:flex-row gap-3">
-                <input type="search"
-                       id="categorySearchInput"
-                       placeholder="Contoh: Penambalan Gigi"
-                       autocomplete="off"
-                       class="flex-1 rounded-lg border border-slate-300 px-4 py-3
-                              focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none">
+                <input
+                    type="search"
+                    id="categorySearchInput"
+                    placeholder="Contoh: Penambalan Gigi"
+                    autocomplete="off"
+                    class="flex-1 rounded-lg border border-slate-300 px-4 py-3
+                           focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
+                >
 
-                <button type="button"
-                        id="resetCategorySearch"
-                        class="px-5 py-3 rounded-lg bg-slate-100 text-slate-700
-                               font-semibold hover:bg-slate-200 transition">
+                <button
+                    type="button"
+                    id="resetCategorySearch"
+                    class="px-5 py-3 rounded-lg bg-slate-100 text-slate-700
+                           font-semibold hover:bg-slate-200 transition"
+                >
                     Reset
                 </button>
             </div>
 
-            <p id="categorySearchResult" aria-live="polite"
-               class="text-sm text-slate-500 mt-3">
+            <p
+                id="categorySearchResult"
+                aria-live="polite"
+                class="text-sm text-slate-500 mt-3"
+            >
                 Ketik nama kategori untuk mencari.
             </p>
         </div>
@@ -104,15 +124,18 @@
             <div id="categoryList" class="divide-y divide-slate-200">
 
                 @forelse($groupedTreatments as $category => $items)
-                    <section class="category-group"
-                             data-category-group="{{ strtolower($category) }}">
+                    <section
+                        class="category-group"
+                        data-category-group="{{ strtolower($category) }}"
+                    >
 
                         {{-- JUDUL KATEGORI --}}
-                        <button type="button"
-                                class="category-toggle flex w-full items-center justify-between
-                                       gap-4 px-5 py-5 text-left hover:bg-blue-50 transition"
-                                aria-expanded="false">
-
+                        <button
+                            type="button"
+                            class="category-toggle flex w-full items-center justify-between
+                                   gap-4 px-5 py-5 text-left hover:bg-blue-50 transition"
+                            aria-expanded="false"
+                        >
                             <span class="font-semibold text-slate-800">
                                 {{ chr(65 + $loop->index) }}. {{ strtoupper($category) }}
                                 <span class="ml-2 text-sm font-normal text-slate-500">
@@ -120,11 +143,18 @@
                                 </span>
                             </span>
 
-                            <svg class="category-chevron shrink-0 transition-transform"
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 width="20" height="20" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
+                            <svg
+                                class="category-chevron shrink-0 transition-transform"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
                                 <path d="m6 9 6 6 6-6"/>
                             </svg>
                         </button>
@@ -192,21 +222,27 @@
 
                                                 <td class="px-5 py-4">
                                                     <div class="flex items-center justify-center gap-2">
-                                                        <a href="{{ route('admin.treatments.edit', $treatment) }}"
-                                                           class="px-3 py-2 rounded-lg bg-yellow-100 text-yellow-700
-                                                                  hover:bg-yellow-200 transition">
+                                                        <a
+                                                            href="{{ route('admin.treatments.edit', $treatment) }}"
+                                                            class="px-3 py-2 rounded-lg bg-yellow-100 text-yellow-700
+                                                                   hover:bg-yellow-200 transition"
+                                                        >
                                                             Edit
                                                         </a>
 
-                                                        <form method="POST"
-                                                              action="{{ route('admin.treatments.destroy', $treatment) }}"
-                                                              onsubmit="return confirm('Yakin ingin menghapus tindakan ini?');">
+                                                        <form
+                                                            method="POST"
+                                                            action="{{ route('admin.treatments.destroy', $treatment) }}"
+                                                            onsubmit="return confirm('Yakin ingin menghapus tindakan ini?');"
+                                                        >
                                                             @csrf
                                                             @method('DELETE')
 
-                                                            <button type="submit"
-                                                                    class="px-3 py-2 rounded-lg bg-red-100 text-red-700
-                                                                           hover:bg-red-200 transition">
+                                                            <button
+                                                                type="submit"
+                                                                class="px-3 py-2 rounded-lg bg-red-100 text-red-700
+                                                                       hover:bg-red-200 transition"
+                                                            >
                                                                 Hapus
                                                             </button>
                                                         </form>
@@ -222,8 +258,10 @@
                 @empty
                     <div class="px-5 py-12 text-center">
                         <p class="text-slate-500">Belum ada data tindakan layanan.</p>
-                        <a href="{{ route('admin.treatments.create') }}"
-                           class="inline-block mt-3 text-blue-600 font-semibold hover:text-blue-700">
+                        <a
+                            href="{{ route('admin.treatments.create') }}"
+                            class="inline-block mt-3 text-blue-600 font-semibold hover:text-blue-700"
+                        >
                             + Tambah Tindakan
                         </a>
                     </div>

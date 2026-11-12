@@ -17,26 +17,16 @@
                 </p>
             </div>
 
-
             {{-- ERROR --}}
             @if ($errors->any())
-
                 <div class="mb-6 bg-red-50 border border-red-200 text-red-700 rounded-lg p-4">
-
                     <ul class="list-disc list-inside text-sm">
-
                         @foreach ($errors->all() as $error)
-
                             <li>{{ $error }}</li>
-
                         @endforeach
-
                     </ul>
-
                 </div>
-
             @endif
-
 
             <form
                 method="POST"
@@ -46,10 +36,8 @@
 
                 @csrf
 
-
                 {{-- NAMA --}}
                 <div>
-
                     <label class="block font-medium text-gray-700 mb-2">
                         Nama Pasien
                     </label>
@@ -62,13 +50,10 @@
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         placeholder="Masukkan nama pasien"
                     >
-
                 </div>
-
 
                 {{-- EMAIL --}}
                 <div>
-
                     <label class="block font-medium text-gray-700 mb-2">
                         Email
                     </label>
@@ -81,13 +66,10 @@
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         placeholder="contoh@email.com"
                     >
-
                 </div>
-
 
                 {{-- NO HP --}}
                 <div>
-
                     <label class="block font-medium text-gray-700 mb-2">
                         No. HP
                     </label>
@@ -99,13 +81,10 @@
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         placeholder="08xxxxxxxxxx"
                     >
-
                 </div>
-
 
                 {{-- NIK --}}
                 <div>
-
                     <label class="block font-medium text-gray-700 mb-2">
                         NIK
                     </label>
@@ -117,32 +96,30 @@
                         maxlength="16"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         placeholder="Masukkan NIK 16 digit">
-
                 </div>
 
+                {{-- TEMPAT LAHIR --}}
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-2">
                         Tempat Lahir
                     </label>
-                    
-                    <input
-                    type="text"
-                    name="birth_place"
-                    value="{{ old('birth_place') }}"
-                    placeholder="Contoh: Jakarta"
-                    class="w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500">
-                    
-                    @error('birth_place')
-                    <p class="text-red-500 text-sm mt-1">
-                        {{ $message }}
-                    </p>
-                @enderror
-            </div>
 
+                    <input
+                        type="text"
+                        name="birth_place"
+                        value="{{ old('birth_place') }}"
+                        placeholder="Contoh: Jakarta"
+                        class="w-full border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500">
+
+                    @error('birth_place')
+                        <p class="text-red-500 text-sm mt-1">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
 
                 {{-- TANGGAL LAHIR --}}
                 <div>
-
                     <label class="block font-medium text-gray-700 mb-2">
                         Tanggal Lahir
                     </label>
@@ -153,13 +130,10 @@
                         value="{{ old('birth_date') }}"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     >
-
                 </div>
-
 
                 {{-- JENIS KELAMIN --}}
                 <div>
-
                     <label class="block font-medium text-gray-700 mb-2">
                         Jenis Kelamin
                     </label>
@@ -188,13 +162,10 @@
                         </option>
 
                     </select>
-
                 </div>
-
 
                 {{-- ALAMAT --}}
                 <div>
-
                     <label class="block font-medium text-gray-700 mb-2">
                         Alamat
                     </label>
@@ -205,13 +176,10 @@
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         placeholder="Masukkan alamat pasien"
                     >{{ old('address') }}</textarea>
-
                 </div>
-
 
                 {{-- BUTTON --}}
                 <div class="flex items-center gap-3 pt-4">
-
                     <a
                         href="{{ route('admin.patients.index') }}"
                         class="px-5 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold text-gray-700"
@@ -225,7 +193,6 @@
                     >
                         Simpan Pasien
                     </button>
-
                 </div>
 
             </form>

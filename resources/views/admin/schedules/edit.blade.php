@@ -8,7 +8,6 @@
         Edit Jadwal Praktik
     </x-slot>
 
-
     <div class="bg-white rounded-xl shadow-sm border border-gray-200">
 
         {{-- HEADER --}}
@@ -24,7 +23,6 @@
 
         </div>
 
-
         {{-- FORM --}}
         <form
             method="POST"
@@ -34,7 +32,6 @@
             @csrf
 
             @method('PUT')
-
 
             {{-- ERROR --}}
             @if ($errors->any())
@@ -55,7 +52,6 @@
                 </div>
 
             @endif
-
 
             {{-- DOKTER --}}
             <div class="mb-5">
@@ -150,7 +146,6 @@
 
             </div>
 
-
             {{-- JAM MULAI --}}
             <div class="mb-5">
 
@@ -168,7 +163,6 @@
 
             </div>
 
-
             {{-- JAM SELESAI --}}
             <div class="mb-5">
 
@@ -185,7 +179,6 @@
                     required>
 
             </div>
-
 
             {{-- STATUS --}}
             <div class="mb-6">
@@ -208,7 +201,6 @@
 
             </div>
 
-
             {{-- BUTTON --}}
             <div class="flex gap-3">
 
@@ -221,7 +213,6 @@
                     Kembali
 
                 </a>
-
 
                 <button
                     type="submit"

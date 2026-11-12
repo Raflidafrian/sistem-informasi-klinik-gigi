@@ -1,5 +1,5 @@
-
 <x-admin-layout>
+
     <div class="mx-auto max-w-4xl space-y-6">
 
         {{-- HEADER --}}
@@ -226,4 +226,5 @@
         </form>
 
     </div>
+
 </x-admin-layout>

@@ -15,7 +15,6 @@
 
             {{-- HEADER --}}
             <div class="px-8 py-6 border-b border-slate-200">
-
                 <h1 class="text-2xl font-bold text-slate-900">
                     Tambah Resep Obat Baru
                 </h1>
@@ -23,9 +22,7 @@
                 <p class="mt-1 text-sm text-slate-500">
                     Masukkan data resep obat dengan lengkap.
                 </p>
-
             </div>
-
 
             {{-- FORM --}}
             <form method="POST"
@@ -34,39 +31,27 @@
 
                 @csrf
 
-
                 {{-- ERROR --}}
                 @if($errors->any())
-
                     <div class="mb-6 bg-red-50 border border-red-200
                                 text-red-700 rounded-lg p-4">
 
                         <ul class="list-disc list-inside text-sm">
-
                             @foreach($errors->all() as $error)
-
                                 <li>{{ $error }}</li>
-
                             @endforeach
-
                         </ul>
 
                     </div>
-
                 @endif
-
 
                 <div class="space-y-6">
 
-
                     {{-- NAMA RESEP OBAT --}}
                     <div>
-
                         <label for="name"
                                class="block text-sm font-semibold text-slate-700 mb-2">
-
                             Nama Obat
-
                         </label>
 
                         <input
@@ -81,18 +66,13 @@
                                    focus:ring-2 focus:ring-blue-200
                                    outline-none"
                             required>
-
                     </div>
-
 
                     {{-- SATUAN --}}
                     <div>
-
                         <label for="unit"
                                class="block text-sm font-semibold text-slate-700 mb-2">
-
                             Satuan
-
                         </label>
 
                         <select
@@ -138,18 +118,13 @@
                             </option>
 
                         </select>
-
                     </div>
-
 
                     {{-- STOK --}}
                     <div>
-
                         <label for="stock"
                                class="block text-sm font-semibold text-slate-700 mb-2">
-
                             Stok
-
                         </label>
 
                         <input
@@ -165,12 +140,9 @@
                                    focus:ring-2 focus:ring-blue-200
                                    outline-none"
                             required>
-
                     </div>
 
-
                 </div>
-
 
                 {{-- BUTTON --}}
                 <div class="flex items-center gap-3 mt-8 pt-6
@@ -185,7 +157,6 @@
                         Kembali
 
                     </a>
-
 
                     <button
                         type="submit"

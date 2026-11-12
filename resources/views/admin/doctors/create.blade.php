@@ -4,7 +4,6 @@
         Tambah Dokter
     </x-slot>
 
-
     <div class="max-w-4xl">
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -13,17 +12,14 @@
                 Tambah Dokter Baru
             </h1>
 
-
             <form method="POST"
                   action="{{ route('admin.doctors.store') }}"
                   class="space-y-5">
 
                 @csrf
 
-
                 {{-- Nama --}}
                 <div>
-
                     <label class="block text-sm font-medium mb-2">
                         Nama Dokter
                     </label>
@@ -39,13 +35,10 @@
                     @error('name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
-
                 </div>
-
 
                 {{-- Email --}}
                 <div>
-
                     <label class="block text-sm font-medium mb-2">
                         Email
                     </label>
@@ -61,13 +54,10 @@
                     @error('email')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
-
                 </div>
-
 
                 {{-- No HP --}}
                 <div>
-
                     <label class="block text-sm font-medium mb-2">
                         No. HP
                     </label>
@@ -78,13 +68,12 @@
                         value="{{ old('phone') }}"
                         placeholder="08xxxxxxxxxx"
                         class="w-full border-gray-300 rounded-lg">
-
                 </div>
 
                 {{-- ALAMAT PRAKTIK --}}
                 <div>
                     <label class="block text-sm font-medium mb-2">
-                     Alamat Praktik
+                        Alamat Praktik
                     </label>
 
                     <textarea
@@ -99,11 +88,8 @@
                     @enderror
                 </div>
 
-
-
                 {{-- Spesialisasi --}}
                 <div>
-
                     <label class="block text-sm font-medium mb-2">
                         Spesialisasi
                     </label>
@@ -114,13 +100,10 @@
                         value="{{ old('specialization') }}"
                         placeholder="Contoh: Dokter Gigi Umum"
                         class="w-full border-gray-300 rounded-lg">
-
                 </div>
-
 
                 {{-- STR --}}
                 <div>
-
                     <label class="block text-sm font-medium mb-2">
                         Nomor Lisensi / STR
                     </label>
@@ -130,13 +113,10 @@
                         name="license_number"
                         value="{{ old('license_number') }}"
                         class="w-full border-gray-300 rounded-lg">
-
                 </div>
-
 
                 {{-- Bio --}}
                 <div>
-
                     <label class="block text-sm font-medium mb-2">
                         Bio
                     </label>
@@ -145,20 +125,16 @@
                         name="bio"
                         rows="4"
                         class="w-full border-gray-300 rounded-lg">{{ old('bio') }}</textarea>
-
                 </div>
-
 
                 {{-- Button --}}
                 <div class="flex gap-3 pt-4">
-
                     <a href="{{ route('admin.doctors.index') }}"
                        class="px-5 py-3 bg-gray-200 hover:bg-gray-300 rounded-lg font-semibold">
 
                         Kembali
 
                     </a>
-
 
                     <button
                         type="submit"
@@ -167,7 +143,6 @@
                         Simpan Dokter
 
                     </button>
-
                 </div>
 
             </form>

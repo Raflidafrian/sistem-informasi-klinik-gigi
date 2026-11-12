@@ -16,84 +16,75 @@
             </div>
 
             @if (auth()->user()->role !== 'demo')
-            <a href="{{ route('admin.patients.create') }}"
-                class="inline-flex items-center gap-2 px-5 py-3
-                       bg-blue-600 text-white rounded-lg
-                       hover:bg-blue-700 transition">
+                <a href="{{ route('admin.patients.create') }}"
+                   class="inline-flex items-center gap-2 px-5 py-3
+                          bg-blue-600 text-white rounded-lg
+                          hover:bg-blue-700 transition">
 
-                <span>+</span>
-                <span>Tambah Pasien</span>
-            </a>
-        @endif
+                    <span>+</span>
+                    <span>Tambah Pasien</span>
+
+                </a>
+            @endif
 
         </div>
 
-{{-- Pencarian pasien --}}
-<form method="GET" action="{{ route('admin.patients.index') }}"
-    class="flex flex-col sm:flex-row gap-3">
+        {{-- Pencarian pasien --}}
+        <form method="GET"
+              action="{{ route('admin.patients.index') }}"
+              class="flex flex-col sm:flex-row gap-3">
 
-    <input
-        type="text"
-        name="search"
-        value="{{ $search ?? request('search') }}"
-        placeholder="Cari nama pasien, contoh: Juh..."
-        class="w-full sm:max-w-md rounded-lg border border-slate-300
-               px-4 py-3 text-sm focus:border-blue-500
-               focus:ring-blue-500"
-    >
+            <input
+                type="text"
+                name="search"
+                value="{{ $search ?? request('search') }}"
+                placeholder="Cari nama pasien, contoh: Juh..."
+                class="w-full sm:max-w-md rounded-lg border border-slate-300
+                       px-4 py-3 text-sm focus:border-blue-500
+                       focus:ring-blue-500"
+            >
 
-    <button
-        type="submit"
-        class="px-5 py-3 rounded-lg bg-blue-600 text-white
-               hover:bg-blue-700 transition">
-        Cari Pasien
-    </button>
+            <button
+                type="submit"
+                class="px-5 py-3 rounded-lg bg-blue-600 text-white
+                       hover:bg-blue-700 transition">
+                Cari Pasien
+            </button>
 
-    @if (request('search'))
-        <a
-            href="{{ route('admin.patients.index') }}"
-            class="px-5 py-3 rounded-lg bg-slate-100 text-slate-700
-                   hover:bg-slate-200 transition text-center">
-            Reset
-        </a>
-    @endif
-</form>
+            @if (request('search'))
+                <a
+                    href="{{ route('admin.patients.index') }}"
+                    class="px-5 py-3 rounded-lg bg-slate-100 text-slate-700
+                           hover:bg-slate-200 transition text-center">
+                    Reset
+                </a>
+            @endif
 
-
+        </form>
 
         {{-- Pesan sukses --}}
         @if (session('success'))
-
             <div class="bg-green-100 border border-green-200
                         text-green-700 px-4 py-3 rounded-lg">
 
                 {{ session('success') }}
 
             </div>
-
         @endif
-
 
         {{-- Pesan error --}}
         @if ($errors->any())
-
             <div class="bg-red-100 border border-red-200
                         text-red-700 px-4 py-3 rounded-lg">
 
                 <ul class="list-disc ml-5">
-
                     @foreach ($errors->all() as $error)
-
                         <li>{{ $error }}</li>
-
                     @endforeach
-
                 </ul>
 
             </div>
-
         @endif
-
 
         {{-- Tabel pasien --}}
         <div class="bg-white rounded-xl shadow-sm border
@@ -104,9 +95,7 @@
                 <table class="w-full">
 
                     <thead class="bg-slate-50 border-b border-slate-200">
-
                         <tr>
-
                             <th class="px-6 py-4 text-left text-sm
                                        font-bold text-slate-700">
                                 No
@@ -133,12 +122,12 @@
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                        font-bold text-slate-700">
+                                       font-bold text-slate-700">
                                 Tempat Lahir
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                        font-bold text-slate-700">
+                                       font-bold text-slate-700">
                                 Tanggal Lahir
                             </th>
 
@@ -148,7 +137,7 @@
                             </th>
 
                             <th class="px-6 py-4 text-left text-sm
-                                        font-bold text-slate-700">
+                                       font-bold text-slate-700">
                                 Alamat
                             </th>
 
@@ -156,23 +145,17 @@
                                        font-bold text-slate-700">
                                 Aksi
                             </th>
-
                         </tr>
-
                     </thead>
-
 
                     <tbody class="divide-y divide-slate-100">
 
                         @forelse ($patients as $patient)
-
                             <tr class="hover:bg-slate-50 transition">
 
                                 {{-- No --}}
                                 <td class="px-6 py-4 text-sm text-slate-600">
-
                                     {{ $loop->iteration }}
-
                                 </td>
 
                                 {{-- Nama pasien menuju halaman detail --}}
@@ -180,52 +163,44 @@
                                     <a
                                         href="{{ route('admin.patients.show', $patient->id) }}"
                                         class="font-semibold text-blue-600 hover:text-blue-800
-                                            hover:underline transition"
+                                               hover:underline transition"
                                     >
                                         {{ $patient->user->name ?? '-' }}
-                                 </a>
+                                    </a>
                                 </td>
-
-
 
                                 {{-- Email --}}
                                 <td class="px-6 py-4 text-sm text-slate-600">
-
                                     {{ $patient->user->email ?? '-' }}
-
                                 </td>
-
 
                                 {{-- HP --}}
                                 <td class="px-6 py-4 text-sm text-slate-600">
-
                                     {{ $patient->user->phone ?? '-' }}
-
                                 </td>
-
 
                                 {{-- NIK --}}
                                 <td class="px-6 py-4 text-sm text-slate-600">
                                     {{ $patient->nik ?? '-' }}
                                 </td>
-                                
+
                                 {{-- Tempat Lahir --}}
                                 <td class="px-6 py-4 text-sm text-slate-600">
                                     {{ $patient->birth_place ?? '-' }}
                                 </td>
-                                
+
                                 {{-- Tanggal Lahir --}}
                                 <td class="px-6 py-4 text-sm text-slate-600">
                                     {{ $patient->birth_date ? \Carbon\Carbon::parse($patient->birth_date)->format('d-m-Y') : '-'}}
                                 </td>
-                                
+
                                 {{-- Jenis Kelamin --}}
                                 <td class="px-6 py-4 text-sm">
                                     @if ($patient->gender === 'male')
                                         <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700">
                                             Laki-laki
                                         </span>
-                                        
+
                                     @elseif ($patient->gender === 'female')
                                         <span class="px-3 py-1 rounded-full bg-pink-100 text-pink-700">
                                             Perempuan
@@ -234,67 +209,59 @@
                                         <span class="text-slate-400">
                                             -
                                         </span>
-                                @endif
-                            </td>
-                            
-                            {{-- Alamat --}}
-                            <td class="px-6 py-4 text-sm text-slate-600">
-                                {{ $patient->address ?? '-' }}
-                            </td>
+                                    @endif
+                                </td>
 
+                                {{-- Alamat --}}
+                                <td class="px-6 py-4 text-sm text-slate-600">
+                                    {{ $patient->address ?? '-' }}
+                                </td>
 
                                 {{-- Aksi --}}
                                 <td class="px-6 py-4">
-
                                     <div class="flex items-center
                                                 justify-center gap-2">
 
                                         {{-- Edit --}}
                                         @if (auth()->user()->role !== 'demo')
-                                            
+                                            <a href="{{ route('admin.patients.edit', $patient->id) }}"
+                                               class="px-3 py-2 rounded-lg
+                                                      bg-yellow-100 text-yellow-700
+                                                      hover:bg-yellow-200 transition">
 
-                                        <a href="{{ route('admin.patients.edit', $patient->id) }}"
-                                            class="px-3 py-2 rounded-lg
-                                                   bg-yellow-100 text-yellow-700
-                                                   hover:bg-yellow-200 transition">
+                                                Edit
 
-                                            Edit
-
-                                        </a>
-                                    @endif
-
+                                            </a>
+                                        @endif
 
                                         {{-- Hapus --}}
                                         @if (auth()->user()->role !== 'demo')
-                                        <form method="POST"
-                                            action="{{ route('admin.patients.destroy', $patient->id) }}"
-                                            onsubmit="return confirm('Yakin ingin menghapus pasien ini?')">
+                                            <form method="POST"
+                                                  action="{{ route('admin.patients.destroy', $patient->id) }}"
+                                                  onsubmit="return confirm('Yakin ingin menghapus pasien ini?')">
 
-                                            @csrf
-                                            @method('DELETE')
+                                                @csrf
+                                                @method('DELETE')
 
-                                            <button type="submit"
-                                                class="px-3 py-2 rounded-lg
-                                                       bg-red-100 text-red-700
-                                                       hover:bg-red-200 transition">
+                                                <button type="submit"
+                                                        class="px-3 py-2 rounded-lg
+                                                               bg-red-100 text-red-700
+                                                               hover:bg-red-200 transition">
 
-                                                Hapus
+                                                    Hapus
 
-                                            </button>
+                                                </button>
 
-                                        </form>
-                                    @endif
+                                            </form>
+                                        @endif
 
                                     </div>
-
                                 </td>
 
                             </tr>
 
                         @empty
-
                             <tr>
-
                                 <td colspan="10"
                                     class="px-6 py-12 text-center">
 
@@ -307,18 +274,16 @@
                                     </p>
 
                                     <a href="{{ route('admin.patients.create') }}"
-                                        class="inline-block mt-4
-                                               text-blue-600 hover:text-blue-700
-                                               font-medium">
+                                       class="inline-block mt-4
+                                              text-blue-600 hover:text-blue-700
+                                              font-medium">
 
                                         + Tambah Pasien
 
                                     </a>
 
                                 </td>
-
                             </tr>
-
                         @endforelse
 
                     </tbody>

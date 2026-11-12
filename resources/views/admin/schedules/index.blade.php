@@ -33,7 +33,6 @@
 
         </div>
 
-
         {{-- SUCCESS MESSAGE --}}
         @if(session('success'))
 
@@ -45,7 +44,6 @@
             </div>
 
         @endif
-
 
         {{-- TABLE --}}
         <div class="overflow-x-auto">
@@ -88,7 +86,6 @@
 
                 </thead>
 
-
                 <tbody class="divide-y divide-gray-100">
 
                     @forelse($schedules as $schedule)
@@ -129,7 +126,6 @@
 
                             </td>
 
-
                             <td class="px-6 py-4">
 
                                 {{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}
@@ -137,7 +133,6 @@
                                 {{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}
 
                             </td>
-
 
                             <td class="px-6 py-4">
 
@@ -171,7 +166,6 @@
                                 </div>
                             </td>
 
-
                             <td class="px-6 py-4">
 
                                 <div class="flex items-center gap-2">
@@ -184,7 +178,6 @@
                                         Edit
 
                                     </a>
-
 
                                     <form method="POST"
                                           action="{{ route('admin.schedules.destroy', $schedule) }}"
@@ -218,7 +211,6 @@
                                 class="px-6 py-12 text-center text-gray-500">
 
                                 <div class="text-4xl mb-3">
-                                    🗓️
                                 </div>
 
                                 <p>

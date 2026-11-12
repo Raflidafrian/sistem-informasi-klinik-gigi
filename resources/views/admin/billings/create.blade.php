@@ -13,11 +13,9 @@
             </p>
         </div>
 
-
         {{-- ERROR VALIDATION --}}
         @if ($errors->any())
             <div class="mb-6 rounded-lg bg-red-50 border border-red-200 p-4">
-
                 <div class="font-semibold text-red-700 mb-2">
                     Terdapat kesalahan:
                 </div>
@@ -27,10 +25,8 @@
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-
             </div>
         @endif
-
 
         {{-- FORM --}}
         <form
@@ -38,13 +34,10 @@
             action="{{ route('admin.billings.store') }}"
             class="space-y-6"
         >
-
             @csrf
-
 
             {{-- PASIEN --}}
             <div>
-
                 <label
                     for="patient_id"
                     class="block text-sm font-semibold text-gray-700 mb-2"
@@ -58,33 +51,27 @@
                     required
                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 >
-
                     <option value="">
                         -- Pilih Pasien --
                     </option>
 
                     @foreach ($patients as $patient)
-
                         <option
                             value="{{ $patient->id }}"
                             {{ old('patient_id') == $patient->id ? 'selected' : '' }}
                         >
                             {{ $patient->user->name }}
+
                             @if ($patient->nik)
                                 - NIK: {{ $patient->nik }}
                             @endif
                         </option>
-
                     @endforeach
-
                 </select>
-
             </div>
-
 
             {{-- REKAM MEDIS --}}
             <div>
-
                 <label
                     for="dental_record_id"
                     class="block text-sm font-semibold text-gray-700 mb-2"
@@ -98,13 +85,11 @@
                     required
                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 >
-
                     <option value="">
                         -- Pilih Rekam Medis --
                     </option>
 
                     @foreach ($dentalRecords as $record)
-
                         <option
                             value="{{ $record->id }}"
                             {{ old('dental_record_id') == $record->id ? 'selected' : '' }}
@@ -117,17 +102,12 @@
                                 - {{ $record->diagnosis }}
                             @endif
                         </option>
-
                     @endforeach
-
                 </select>
-
             </div>
-
 
             {{-- TINDAKAN --}}
             <div>
-
                 <label
                     for="treatment_id"
                     class="block text-sm font-semibold text-gray-700 mb-2"
@@ -141,13 +121,11 @@
                     required
                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 >
-
                     <option value="">
                         -- Pilih Tindakan --
                     </option>
 
                     @foreach ($treatments as $treatment)
-
                         <option
                             value="{{ $treatment->id }}"
                             data-price="{{ $treatment->price }}"
@@ -156,17 +134,12 @@
                             {{ $treatment->name }}
                             - Rp {{ number_format($treatment->price, 0, ',', '.') }}
                         </option>
-
                     @endforeach
-
                 </select>
-
             </div>
-
 
             {{-- JUMLAH --}}
             <div>
-
                 <label
                     for="quantity"
                     class="block text-sm font-semibold text-gray-700 mb-2"
@@ -183,15 +156,11 @@
                     required
                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 >
-
             </div>
-
 
             {{-- TOTAL --}}
             <div class="bg-blue-50 border border-blue-100 rounded-xl p-5">
-
                 <div class="flex items-center justify-between">
-
                     <span class="text-gray-600 font-medium">
                         Total Tagihan
                     </span>
@@ -202,15 +171,11 @@
                     >
                         Rp 0
                     </span>
-
                 </div>
-
             </div>
-
 
             {{-- STATUS --}}
             <div>
-
                 <label
                     for="status"
                     class="block text-sm font-semibold text-gray-700 mb-2"
@@ -223,23 +188,18 @@
                     id="status"
                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 >
-
                     <option value="unpaid">
                         Belum Dibayar
                     </option>
-
                 </select>
 
                 <p class="mt-2 text-sm text-gray-500">
                     Tagihan baru secara otomatis dibuat dengan status belum dibayar.
                 </p>
-
             </div>
-
 
             {{-- BUTTON --}}
             <div class="flex items-center gap-3 pt-4">
-
                 <a
                     href="{{ route('admin.billings.index') }}"
                     class="px-5 py-3 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition"
@@ -253,17 +213,13 @@
                 >
                     Simpan Tagihan
                 </button>
-
             </div>
 
         </form>
-
     </div>
-
 
     {{-- HITUNG TOTAL --}}
     <script>
-
         const treatmentSelect =
             document.getElementById('treatment_id');
 
@@ -273,9 +229,7 @@
         const totalDisplay =
             document.getElementById('total-display');
 
-
         function calculateTotal() {
-
             const selectedOption =
                 treatmentSelect.options[
                     treatmentSelect.selectedIndex
@@ -292,28 +246,22 @@
             const total =
                 price * quantity;
 
-
             totalDisplay.textContent =
                 'Rp ' +
                 total.toLocaleString('id-ID');
-
         }
-
 
         treatmentSelect.addEventListener(
             'change',
             calculateTotal
         );
 
-
         quantityInput.addEventListener(
             'input',
             calculateTotal
         );
 
-
         calculateTotal();
-
     </script>
 
 </x-admin-layout>

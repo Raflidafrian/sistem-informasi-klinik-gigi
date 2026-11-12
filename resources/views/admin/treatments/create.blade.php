@@ -1,5 +1,5 @@
-
 <x-admin-layout>
+
     <x-slot name="title">
         Tambah Tindakan Layanan
     </x-slot>
@@ -21,10 +21,12 @@
     @endphp
 
     <div class="max-w-4xl">
+
         <div class="mb-6">
             <h1 class="text-2xl font-bold text-slate-900">
                 Tambah Tindakan Layanan
             </h1>
+
             <p class="text-sm text-slate-500 mt-1">
                 Tambahkan kategori, nama tindakan, deskripsi, dan rentang tarif
                 sesuai daftar harga praktik dokter gigi.
@@ -47,7 +49,9 @@
         @endif
 
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-8">
+
             <form method="POST" action="{{ route('admin.treatments.store') }}">
+
                 @csrf
 
                 {{-- KATEGORI --}}
@@ -71,6 +75,7 @@
                                 {{ chr(65 + $loop->index) }}. {{ $category }}
                             </option>
                         @endforeach
+
                     </select>
 
                     <p class="text-xs text-slate-500 mt-2">
@@ -183,7 +188,11 @@
                         Simpan Tarif
                     </button>
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </x-admin-layout>

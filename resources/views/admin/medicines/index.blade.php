@@ -35,19 +35,15 @@
 
         </div>
 
-
         {{-- SUCCESS --}}
         @if(session('success'))
-
             <div class="bg-green-50 border border-green-200
                         text-green-700 px-5 py-4 rounded-lg">
 
                 {{ session('success') }}
 
             </div>
-
         @endif
-
 
         {{-- TABLE --}}
         <div class="bg-white rounded-xl border border-slate-200
@@ -58,9 +54,7 @@
                 <table class="w-full">
 
                     <thead class="bg-slate-50 border-b">
-
                         <tr>
-
                             <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
                                 No
                             </th>
@@ -84,15 +78,12 @@
                             <th class="px-6 py-4 text-center text-sm font-bold text-slate-700">
                                 Aksi
                             </th>
-
                         </tr>
-
                     </thead>
 
                     <tbody class="divide-y divide-slate-100">
 
                         @forelse($medicines as $medicine)
-
                             <tr class="hover:bg-slate-50">
 
                                 <td class="px-6 py-4 text-sm">
@@ -100,11 +91,9 @@
                                 </td>
 
                                 <td class="px-6 py-4">
-
                                     <span class="font-semibold">
                                         {{ $medicine->name }}
                                     </span>
-
                                 </td>
 
                                 <td class="px-6 py-4 text-sm text-slate-600">
@@ -112,17 +101,13 @@
                                 </td>
 
                                 <td class="px-6 py-4">
-
                                     <span class="font-semibold">
                                         {{ $medicine->stock }}
                                     </span>
-
                                 </td>
 
                                 <td class="px-6 py-4 text-center">
-
                                     @if($medicine->is_active)
-
                                         <span class="inline-flex px-3 py-1
                                                      rounded-full text-xs font-semibold
                                                      bg-green-100 text-green-700">
@@ -130,9 +115,7 @@
                                             Aktif
 
                                         </span>
-
                                     @else
-
                                         <span class="inline-flex px-3 py-1
                                                      rounded-full text-xs font-semibold
                                                      bg-red-100 text-red-700">
@@ -140,13 +123,10 @@
                                             Tidak Aktif
 
                                         </span>
-
                                     @endif
-
                                 </td>
 
                                 <td class="px-6 py-4">
-
                                     <div class="flex items-center justify-center gap-2">
 
                                         {{-- EDIT --}}
@@ -158,7 +138,6 @@
                                             Edit
 
                                         </a>
-
 
                                         {{-- HAPUS --}}
                                         <form method="POST"
@@ -180,15 +159,11 @@
                                         </form>
 
                                     </div>
-
                                 </td>
 
                             </tr>
-
                         @empty
-
                             <tr>
-
                                 <td colspan="6" class="px-6 py-16 text-center">
 
                                     <div class="text-5xl mb-4">
@@ -207,9 +182,7 @@
                                     </a>
 
                                 </td>
-
                             </tr>
-
                         @endforelse
 
                     </tbody>

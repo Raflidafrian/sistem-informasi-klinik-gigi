@@ -22,20 +22,16 @@
                 </p>
             </div>
 
-
             {{-- ERROR VALIDASI --}}
             @if ($errors->any())
                 <div class="mb-6 bg-red-50 border border-red-200 text-red-700 rounded-lg p-4">
-
                     <ul class="list-disc list-inside text-sm">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
-
                 </div>
             @endif
-
 
             {{-- FORM --}}
             <form method="POST"
@@ -44,10 +40,8 @@
                 @csrf
                 @method('PUT')
 
-
                 {{-- NAMA --}}
                 <div class="mb-5">
-
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Nama Dokter
                     </label>
@@ -59,13 +53,10 @@
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         required
                     >
-
                 </div>
-
 
                 {{-- EMAIL --}}
                 <div class="mb-5">
-
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Email
                     </label>
@@ -77,13 +68,10 @@
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                         required
                     >
-
                 </div>
-
 
                 {{-- NO HP --}}
                 <div class="mb-5">
-
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         No. HP
                     </label>
@@ -94,7 +82,6 @@
                         value="{{ old('phone', $doctor->user->phone) }}"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     >
-
                 </div>
 
                 {{-- ALAMAT PRAKTIK --}}
@@ -107,7 +94,7 @@
                         name="practice_address"
                         rows="3"
                         placeholder="Masukkan alamat tempat praktik dokter"
-                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     >{{ old('practice_address', $doctor->practice_address) }}</textarea>
 
                     @error('practice_address')
@@ -115,11 +102,8 @@
                     @enderror
                 </div>
 
-
-
                 {{-- SPESIALISASI --}}
                 <div class="mb-5">
-
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Spesialisasi
                     </label>
@@ -130,13 +114,10 @@
                         value="{{ old('specialization', $doctor->specialization) }}"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     >
-
                 </div>
-
 
                 {{-- LISENSI --}}
                 <div class="mb-5">
-
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Nomor Lisensi / STR
                     </label>
@@ -147,13 +128,10 @@
                         value="{{ old('license_number', $doctor->license_number) }}"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     >
-
                 </div>
-
 
                 {{-- BIO --}}
                 <div class="mb-5">
-
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Bio
                     </label>
@@ -163,13 +141,10 @@
                         rows="4"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     >{{ old('bio', $doctor->bio) }}</textarea>
-
                 </div>
-
 
                 {{-- STATUS --}}
                 <div class="mb-6">
-
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Status Dokter
                     </label>
@@ -178,7 +153,6 @@
                         name="is_active"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     >
-
                         <option value="1"
                             {{ old('is_active', $doctor->is_active) ? 'selected' : '' }}>
                             Aktif
@@ -188,15 +162,11 @@
                             {{ !old('is_active', $doctor->is_active) ? 'selected' : '' }}>
                             Tidak Aktif
                         </option>
-
                     </select>
-
                 </div>
-
 
                 {{-- BUTTON --}}
                 <div class="flex items-center gap-3">
-
                     <a
                         href="{{ route('admin.doctors.index') }}"
                         class="px-5 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
@@ -210,7 +180,6 @@
                     >
                         Simpan Perubahan
                     </button>
-
                 </div>
 
             </form>
