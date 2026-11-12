@@ -283,7 +283,7 @@
                                         class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium"
                                     >
 
-                                        🩺 Periksa
+                                        Periksa
 
                                     </a>
 
@@ -294,7 +294,7 @@
                                         class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition"
                                     >
                                         
-                                        📋 Lihat Rekam Medis
+                                        Lihat Rekam Medis
                                     </a>
 
                                 @elseif($appointment->status === 'pending')
@@ -325,7 +325,6 @@
                             >
 
                                 <div class="text-5xl mb-4">
-                                    👥
                                 </div>
 
                                 <p class="text-slate-500">
