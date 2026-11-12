@@ -1,3 +1,4 @@
+
 <x-admin-layout>
 
     <x-slot name="title">
@@ -8,7 +9,7 @@
         Rekam Medis
     </x-slot>
 
-    <div>
+    <div class="w-full min-w-0">
 
         {{-- HEADER --}}
         <div class="flex items-center justify-between mb-6">
@@ -24,98 +25,102 @@
         </div>
 
         {{-- TABLE --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
 
-            <table class="w-full">
+            {{-- RESPONSIVE TABLE WRAPPER --}}
+            <div class="w-full overflow-x-auto rounded-xl">
 
-                <thead class="bg-gray-50 border-b">
-                    <tr>
-                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
-                            No
-                        </th>
+                <table class="w-full min-w-[900px] border-collapse">
 
-                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
-                            Pasien
-                        </th>
-
-                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
-                            Dokter
-                        </th>
-
-                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
-                            Tanggal
-                        </th>
-
-                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
-                            Diagnosis
-                        </th>
-
-                        <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
-                            Tindakan
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody class="divide-y divide-gray-200">
-
-                    @forelse ($records as $record)
-                        <tr class="hover:bg-gray-50">
-
-                            <td class="px-6 py-4">
-                                {{ $loop->iteration }}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <div class="font-semibold">
-                                    {{ $record->patient->user->name ?? '-' }}
-                                </div>
-
-                                <div class="text-sm text-gray-500">
-                                    {{ $record->patient->nik ?? '-' }}
-                                </div>
-                            </td>
-
-                            <td class="px-6 py-4">
-                                {{ $record->doctor->user->name ?? '-' }}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                {{ $record->appointment?->appointment_date
-                                    ? \Carbon\Carbon::parse(
-                                        $record->appointment->appointment_date
-                                    )->format('d/m/Y')
-                                    : '-' }}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                {{ $record->diagnosis ?: '-' }}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                {{ $record->treatment ?: '-' }}
-                            </td>
-
-                        </tr>
-                    @empty
+                    <thead class="bg-gray-50 border-b">
                         <tr>
-                            <td
-                                colspan="6"
-                                class="px-6 py-12 text-center">
+                            <th class="px-6 py-4 text-left text-sm font-bold text-slate-700 whitespace-nowrap">
+                                No
+                            </th>
 
-                                <div class="text-4xl mb-3">
-                                    📋
-                                </div>
+                            <th class="px-6 py-4 text-left text-sm font-bold text-slate-700 whitespace-nowrap">
+                                Pasien
+                            </th>
 
-                                <p class="text-gray-500">
-                                    Belum ada rekam medis.
-                                </p>
+                            <th class="px-6 py-4 text-left text-sm font-bold text-slate-700 whitespace-nowrap">
+                                Dokter
+                            </th>
 
-                            </td>
+                            <th class="px-6 py-4 text-left text-sm font-bold text-slate-700 whitespace-nowrap">
+                                Tanggal
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
+                                Diagnosis
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-sm font-bold text-slate-700">
+                                Tindakan
+                            </th>
                         </tr>
-                    @endforelse
+                    </thead>
 
-                </tbody>
-            </table>
+                    <tbody class="divide-y divide-gray-200">
+
+                        @forelse ($records as $record)
+                            <tr class="hover:bg-gray-50">
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $loop->iteration }}
+                                </td>
+
+                                <td class="px-6 py-4 min-w-[180px]">
+                                    <div class="font-semibold">
+                                        {{ $record->patient->user->name ?? '-' }}
+                                    </div>
+
+                                    <div class="text-sm text-gray-500">
+                                        {{ $record->patient->nik ?? '-' }}
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $record->doctor->user->name ?? '-' }}
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $record->appointment?->appointment_date
+                                        ? \Carbon\Carbon::parse(
+                                            $record->appointment->appointment_date
+                                        )->format('d/m/Y')
+                                        : '-' }}
+                                </td>
+
+                                <td class="px-6 py-4 min-w-[180px]">
+                                    {{ $record->diagnosis ?: '-' }}
+                                </td>
+
+                                <td class="px-6 py-4 min-w-[200px]">
+                                    {{ $record->treatment ?: '-' }}
+                                </td>
+
+                            </tr>
+                        @empty
+                            <tr>
+                                <td
+                                    colspan="6"
+                                    class="px-6 py-12 text-center">
+
+                                    <div class="text-4xl mb-3">
+                                    </div>
+
+                                    <p class="text-gray-500">
+                                        Belum ada rekam medis.
+                                    </p>
+
+                                </td>
+                            </tr>
+                        @endforelse
+
+                    </tbody>
+                </table>
+
+            </div>
 
         </div>
 
