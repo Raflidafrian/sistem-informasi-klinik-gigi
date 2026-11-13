@@ -226,13 +226,16 @@
 .stats {
     padding: 35px 7%;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
     border-bottom: 1px solid #e2e8f0;
     background: #ffffff;
+    align-items: center;
+    justify-items: center;
 }
 
 .stat {
+    width: 100%;
     text-align: center;
 }
 
@@ -538,7 +541,7 @@
     }
 
     .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 25px;
     }
 
@@ -607,8 +610,9 @@
     }
 
     .stats {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         padding: 30px 5%;
+        gap: 20px;
     }
 
     .stat h3 {
